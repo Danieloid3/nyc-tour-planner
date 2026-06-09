@@ -24,7 +24,7 @@ export function LocationWidget({ userLocation, targetPlace, onCenter, onTargetCl
       {distance !== null && targetPlace && (
         <button 
           onClick={() => onTargetClick?.(targetPlace)}
-          className="pointer-events-auto w-[200px] animate-fade-in-up rounded-2xl border border-border/50 bg-card/85 p-3 shadow-lg backdrop-blur-xl transition hover:bg-card/95 active:scale-95 text-left"
+          className="pointer-events-auto w-[200px] animate-fade-in-up rounded-2xl border border-border/50 bg-card p-3 shadow-xl transition hover:bg-muted active:scale-95 text-left"
         >
           <div className="flex items-center gap-2 mb-1.5">
             <span className="grid h-6 w-6 place-items-center rounded-full bg-primary/10 text-primary">
@@ -45,7 +45,7 @@ export function LocationWidget({ userLocation, targetPlace, onCenter, onTargetCl
       <button
         onClick={onCenter}
         disabled={userLocation.loading || !!userLocation.error}
-        className="pointer-events-auto grid h-12 w-12 place-items-center rounded-full border border-border/50 bg-card/85 text-foreground shadow-lg backdrop-blur-xl transition hover:bg-card active:scale-90 disabled:opacity-50"
+        className="pointer-events-auto grid h-12 w-12 place-items-center rounded-full border border-border/50 bg-card text-foreground shadow-xl transition hover:bg-muted active:scale-90 disabled:opacity-50"
         aria-label="Mi ubicación"
       >
         {userLocation.loading ? (

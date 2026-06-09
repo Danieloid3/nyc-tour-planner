@@ -45,9 +45,11 @@ function placeIcon(p: (typeof allPlaces)[number], opts: { active?: boolean; dimm
     ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>` 
     : `<span style="font-weight:bold; font-size:16px;">${p.order}</span>`;
 
+  const label = `<div class="marker-label">${p.name}</div>`;
+
   return L.divIcon({
     className: "",
-    html: `<div class="${cls}" style="background:${opts.visited ? '#16a34a' : p.dayColor}">${content}</div>`,
+    html: `<div class="${cls}" style="background:${opts.visited ? '#16a34a' : p.dayColor}">${content}</div>${label}`,
     iconSize: [34, 34],
     iconAnchor: [17, 34],
     popupAnchor: [0, -34],
@@ -87,6 +89,16 @@ export default function TravelMap({
       attributionControl: true,
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
+    // Toggle labels when zoomed in closely (zoom >= 15)
+    map.on('zoomend', () => {
+      if (map.getZoom() >= 15) {
+        containerRef.current?.classList.add('show-labels');
+      } else {
+        containerRef.current?.classList.remove('show-labels');
+      }
+    });
+
     mapRef.current = map;
     tileRef.current = L.tileLayer(TILE[theme], {
       maxZoom: 19,
@@ -189,7 +201,7 @@ export default function TravelMap({
       const visited = visitedIds.has(p.id);
       const m = L.marker([p.lat, p.lng], { icon: placeIcon(p, { active, dimmed, visited }), zIndexOffset: active ? 1000 : 0 });
       m.on("click", () => onSelectRef.current(p));
-      m.bindTooltip(`${p.order}. ${p.name}`, { direction: "top", offset: [0, -32] });
+      // No bindTooltip needed anymore since we embedded the label in the icon HTML
       target.addLayer(m as unknown as L.Layer);
     };
 

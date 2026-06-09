@@ -91,7 +91,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
     <>
       <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm transition-all" />
+        <Drawer.Overlay className="fixed inset-0 z-[9998] bg-black/60 transition-all" />
         <Drawer.Content 
           onInteractOutside={(e) => {
             if (fullscreenIndex !== null || closingFullscreenRef.current) {
@@ -249,7 +249,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           </div>
 
           {/* Bottom Actions Area */}
-          <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 pt-4 pb-6 backdrop-blur-xl">
+          <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-background p-4 pt-4 pb-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
             
             <a
               href={googleMapsNavigationLink(place, origin)}
