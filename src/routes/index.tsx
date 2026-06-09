@@ -44,17 +44,25 @@ function Index() {
   const [selectedDayId, setSelectedDayId] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<(Place & { dayId: string }) | null>(null);
   const [showRoutes, setShowRoutes] = useState(false);
-  const [search, setSearch] = useState("");
+  const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set());
   const [mapInstance, setMapInstance] = useState<any>(null);
 
   const userLocation = useGeolocation();
   const progress = useProgress();
 
-  const searchMatchIds = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return null;
-    return new Set(allPlaces.filter((p) => p.name.toLowerCase().includes(q)).map((p) => p.id));
-  }, [search]);
+  const filterMatchIds = useMemo(() => {
+    if (activeCategories.size === 0) return null;
+    return new Set(allPlaces.filter((p) => activeCategories.has(p.category)).map((p) => p.id));
+  }, [activeCategories]);
+
+  const toggleCategory = (cat: string) => {
+    setActiveCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) next.delete(cat);
+      else next.add(cat);
+      return next;
+    });
+  };
 
   const toggleDay = (id: string) =>
     setActiveDayIds((prev) => {
@@ -144,8 +152,8 @@ function Index() {
               >
                 <div className="flex h-[70vh] max-h-[600px] flex-col overflow-hidden p-5">
                   <Sidebar
-                    search={search}
-                    onSearch={setSearch}
+                    activeCategories={activeCategories}
+                    onToggleCategory={toggleCategory}
                     activeDayIds={activeDayIds}
                     onToggleDay={toggleDay}
                     selectedDayId={selectedDayId}
@@ -198,7 +206,7 @@ function Index() {
 
       {/* Main Content Area */}
       <main className="relative flex-1 w-full overflow-hidden">
-        {view === "map" ? (
+        {view === "map" && (
           <>
             <MapView
               theme={theme}
@@ -206,7 +214,7 @@ function Index() {
               selectedDayId={selectedDayId}
               selectedPlaceId={selectedPlace?.id ?? null}
               showRoutes={showRoutes}
-              searchMatchIds={searchMatchIds}
+              searchMatchIds={filterMatchIds}
               userLocation={userLocation}
               visitedIds={progress.visitedIds}
               onMapInstance={setMapInstance}

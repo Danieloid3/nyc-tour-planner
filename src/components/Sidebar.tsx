@@ -1,10 +1,11 @@
-import { Search, Eye, EyeOff, Route, RotateCcw } from "lucide-react";
-import { days } from "@/data/itinerary";
+import { Eye, EyeOff, Route, RotateCcw } from "lucide-react";
+import { days, CATEGORY_LABELS, type Category } from "@/data/itinerary";
+import { CATEGORY_META } from "@/lib/categories";
 import { StatsBar } from "./StatsBar";
 
 interface Props {
-  search: string;
-  onSearch: (v: string) => void;
+  activeCategories: Set<string>;
+  onToggleCategory: (cat: string) => void;
   activeDayIds: Set<string>;
   onToggleDay: (id: string) => void;
   selectedDayId: string | null;
@@ -16,8 +17,8 @@ interface Props {
 }
 
 export function Sidebar({
-  search,
-  onSearch,
+  activeCategories,
+  onToggleCategory,
   activeDayIds,
   onToggleDay,
   selectedDayId,
@@ -30,14 +31,27 @@ export function Sidebar({
   return (
     <div className="flex h-full flex-col gap-4 overflow-hidden">
       <div className="space-y-3">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            value={search}
-            onChange={(e) => onSearch(e.target.value)}
-            placeholder="Buscar lugar…"
-            className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
-          />
+        <div className="flex w-full gap-2 overflow-x-auto pb-2 snap-x thin-scroll">
+          {(Object.keys(CATEGORY_LABELS) as Category[]).map((cat) => {
+            const active = activeCategories.has(cat);
+            const meta = CATEGORY_META[cat];
+            const Icon = meta?.icon;
+            if (!Icon) return null;
+            return (
+              <button
+                key={cat}
+                onClick={() => onToggleCategory(cat)}
+                className={`snap-center shrink-0 flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition active:scale-95 ${
+                  active 
+                    ? "border-primary bg-primary/10 text-primary shadow-sm" 
+                    : "border-border bg-background text-muted-foreground hover:bg-secondary hover:text-foreground"
+                }`}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {CATEGORY_LABELS[cat]}
+              </button>
+            );
+          })}
         </div>
         <StatsBar selectedDayId={selectedDayId} />
       </div>
