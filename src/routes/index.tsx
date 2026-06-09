@@ -238,6 +238,7 @@ function Index() {
               userLocation={userLocation} 
               targetPlace={targetPlace} 
               onCenter={centerOnUser} 
+              onTargetClick={(p) => selectPlace({ ...p, dayId: selectedDayId! })}
             />
             {/* PlaceDetail is now a Vaul Drawer that handles its own portals and overlay */}
             <PlaceDetail 

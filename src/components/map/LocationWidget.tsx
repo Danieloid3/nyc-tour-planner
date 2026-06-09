@@ -7,9 +7,10 @@ interface Props {
   userLocation: GeolocationState;
   targetPlace: Place | null;
   onCenter: () => void;
+  onTargetClick?: (place: Place) => void;
 }
 
-export function LocationWidget({ userLocation, targetPlace, onCenter }: Props) {
+export function LocationWidget({ userLocation, targetPlace, onCenter, onTargetClick }: Props) {
   // If we have a target place and a valid user location, calculate distance
   const distance =
     userLocation.lat && userLocation.lng && targetPlace
@@ -21,7 +22,10 @@ export function LocationWidget({ userLocation, targetPlace, onCenter }: Props) {
       
       {/* Target Distance Panel */}
       {distance !== null && targetPlace && (
-        <div className="pointer-events-auto w-[200px] animate-fade-in-up rounded-2xl border border-border/50 bg-background/85 p-3 shadow-lg backdrop-blur-xl">
+        <button 
+          onClick={() => onTargetClick?.(targetPlace)}
+          className="pointer-events-auto w-[200px] animate-fade-in-up rounded-2xl border border-border/50 bg-background/85 p-3 shadow-lg backdrop-blur-xl transition hover:bg-background/95 active:scale-95 text-left"
+        >
           <div className="flex items-center gap-2 mb-1.5">
             <span className="grid h-6 w-6 place-items-center rounded-full bg-primary/10 text-primary">
               <MapPin className="h-3.5 w-3.5" />
@@ -34,7 +38,7 @@ export function LocationWidget({ userLocation, targetPlace, onCenter }: Props) {
             </span>
             <span>{walkingTime(distance)}</span>
           </div>
-        </div>
+        </button>
       )}
 
       {/* Center on User Button */}
