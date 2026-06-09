@@ -150,8 +150,6 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                       </div>
                     </div>
                   </div>
-                </div>
-                
                 <div 
                   className={`pl-8 sm:pl-12 pr-2 sm:pr-4 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[2000px] pb-4 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
                 >
