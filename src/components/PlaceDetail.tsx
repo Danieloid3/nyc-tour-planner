@@ -110,7 +110,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
             </div>
 
             <div className="space-y-6 px-6 pt-4">
-              <p className="text-[15px] leading-relaxed text-foreground/90 font-medium">{place.description}</p>
+              <p className="text-[16px] leading-relaxed text-foreground/90 font-medium">{place.description}</p>
 
               {galleryImages.length > 0 && (
                 <div className="w-full">
@@ -152,7 +152,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                   <h3 className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground">
                     <Utensils className="h-4 w-4" /> Comida
                   </h3>
-                  <p className="text-[14px] text-foreground/90 leading-relaxed font-medium">{place.food}</p>
+                  <p className="text-[15px] text-foreground/90 leading-relaxed font-medium">{place.food}</p>
                 </div>
               )}
 
@@ -194,7 +194,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                   <h3 className="mb-2 flex items-center gap-2 text-[13px] font-black uppercase tracking-widest text-primary">
                     <Lightbulb className="h-4 w-4" /> ¿Sabías que...?
                   </h3>
-                  <p className="text-[14px] text-foreground/90 leading-relaxed font-medium italic">{place.curiosity}</p>
+                  <p className="text-[16px] text-foreground/90 leading-relaxed font-medium italic">{place.curiosity}</p>
                 </div>
               )}
             </div>
@@ -222,24 +222,24 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
               )}
             </button>
 
-            <div className="grid grid-cols-2 gap-3">
-            <a
-              href={googleMapsLink(place)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border-2 border-border bg-background px-2 sm:px-4 text-sm font-bold text-foreground transition hover:bg-secondary active:scale-[0.98]"
-            >
-              <MapPin className="h-4 w-4" /> Google Maps
-            </a>
-            <a
-              href={googleMapsNavigationLink(place, origin)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-2 sm:px-4 text-sm font-bold text-primary-foreground shadow-lg transition hover:opacity-90 active:scale-[0.98]"
-            >
-              <Navigation className="h-4 w-4" /> Iniciar ruta
-            </a>
-          </div>
+            <div className="flex flex-col gap-3">
+              <a
+                href={googleMapsNavigationLink(place, origin)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-4 text-[16px] font-black text-primary-foreground shadow-lg transition hover:opacity-90 active:scale-[0.98]"
+              >
+                <Navigation className="h-6 w-6" /> LLEVARME HASTA AQUÍ
+              </a>
+              <a
+                href={googleMapsLink(place)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-border bg-background px-4 text-sm font-bold text-foreground transition hover:bg-secondary active:scale-[0.98]"
+              >
+                <MapPin className="h-4 w-4" /> Ver en Google Maps
+              </a>
+            </div>
           </div>
         </Drawer.Content>
       </Drawer.Portal>

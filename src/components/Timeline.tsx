@@ -74,7 +74,7 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                       isSelected ? "" :
                       isDayCompleted ? "border-primary/50 opacity-80" : "border-border"
                     }`}
-                    style={isSelected ? {
+                    style={(isSelected || isExpanded) ? {
                       borderColor: t.color,
                       boxShadow: `0 0 0 2px ${t.color}40`,
                       backgroundImage: `linear-gradient(${t.color}15, ${t.color}15)`
@@ -101,7 +101,7 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                         <ChevronDown className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
                       </div>
                     </div>
-                    <p className={`mt-2 text-sm text-foreground/80 ${isExpanded ? "" : "line-clamp-2"}`}>{t.description}</p>
+                    <p className={`mt-2 text-[15px] leading-relaxed text-foreground/85 ${isExpanded ? "" : "line-clamp-2"}`}>{t.description}</p>
                     {isExpanded && t.pace && (
                       <div className="mt-3 animate-fade-in-up rounded-xl bg-accent/30 p-3 border border-accent/50 text-[13px] text-foreground/90 font-medium flex gap-2 items-start shadow-sm">
                         <Lightbulb className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
@@ -125,14 +125,25 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                           );
                         })}
                       </div>
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary/80 bg-primary/10 px-2 py-0.5 rounded-full">
-                        {dayVisitedCount} / {dayTotal} completados
-                      </span>
                       {dist > 0 && (
-                        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                          <Clock className="h-3.5 w-3.5" /> {formatDistance(dist)} · {walkingTime(dist)}
+                        <span className="inline-flex items-center gap-1 text-[13px] font-medium text-muted-foreground">
+                          <Clock className="h-4 w-4" /> {formatDistance(dist)} · {walkingTime(dist)}
                         </span>
                       )}
+                    </div>
+                    
+                    {/* Progress Bar */}
+                    <div className="mt-4 pt-3 border-t border-border/50">
+                      <div className="flex justify-between items-center text-xs font-bold mb-1.5">
+                        <span className="text-muted-foreground uppercase tracking-wider">Progreso</span>
+                        <span style={{ color: t.color }}>{dayVisitedCount} de {dayTotal} lugares</span>
+                      </div>
+                      <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                        <div 
+                          className="h-full transition-all duration-700 ease-out" 
+                          style={{ width: `${(dayVisitedCount / dayTotal) * 100}%`, backgroundColor: t.color }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </button>
