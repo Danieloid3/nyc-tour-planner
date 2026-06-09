@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Drawer } from "vaul";
-import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle, Lightbulb, X } from "lucide-react";
+import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle, Lightbulb, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { days, CATEGORY_LABELS, type Place } from "@/data/itinerary";
 import { CATEGORY_META } from "@/lib/categories";
 import { googleMapsLink, googleMapsNavigationLink, haversine, formatDistance, walkingTime, transitTime } from "@/lib/geo";
@@ -289,29 +289,39 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
 
 // Subcomponent for the full-screen image carousel
 function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initialIndex: number, onClose: () => void }) {
-  const scrollRef = React.useRef<HTMLDivElement>(null);
-  
-  React.useEffect(() => {
-    if (scrollRef.current) {
-      const el = scrollRef.current;
-      // Use setTimeout to ensure DOM is fully rendered before scrolling
-      setTimeout(() => {
-        el.scrollLeft = el.clientWidth * initialIndex;
-      }, 10);
-    }
-  }, [initialIndex]);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  const next = () => setCurrentIndex(i => Math.min(i + 1, images.length - 1));
+  const prev = () => setCurrentIndex(i => Math.max(i - 1, 0));
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.stopPropagation();
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.stopPropagation();
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const distance = touchStart - touchEnd;
+    
+    // Swipe left (next image)
+    if (distance > 50) next();
+    // Swipe right (prev image)
+    if (distance < -50) prev();
+    
+    setTouchStart(null);
+  };
 
   return (
     <div 
       className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
       onClick={onClose}
-      onPointerDown={(e) => e.stopPropagation()}
-      onTouchStart={(e) => e.stopPropagation()}
-      onTouchMove={(e) => e.stopPropagation()}
     >
       <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10 bg-gradient-to-b from-black/50 to-transparent pb-8 pointer-events-none">
         <div className="px-4 py-2 text-white/80 font-black text-xs tracking-widest uppercase bg-black/30 rounded-full backdrop-blur-md pointer-events-auto">
-          Galería
+          {currentIndex + 1} / {images.length}
         </div>
         <button 
           className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
@@ -322,20 +332,37 @@ function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initi
       </div>
       
       <div 
-        ref={scrollRef}
-        className="flex-1 flex overflow-x-auto snap-x snap-mandatory thin-scroll" 
+        className="flex-1 flex items-center justify-center p-4 relative"
         onClick={(e) => e.stopPropagation()}
-        style={{ scrollBehavior: 'smooth' }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={(e) => e.stopPropagation()}
+        onPointerDown={(e) => e.stopPropagation()}
       >
-        {images.map((img, i) => (
-          <div key={i} className="flex-none w-full h-full flex items-center justify-center p-2 snap-center shrink-0">
-            <img 
-              src={img.url} 
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" 
-              alt={`Fullscreen view ${i + 1}`}
-            />
-          </div>
-        ))}
+        {currentIndex > 0 && (
+          <button 
+            className="absolute left-4 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-20 shadow-lg"
+            onClick={(e) => { e.stopPropagation(); prev(); }}
+          >
+            <ChevronLeft className="w-8 h-8" />
+          </button>
+        )}
+        
+        <img 
+          key={currentIndex} // forces re-animation when index changes
+          src={images[currentIndex].url} 
+          className="max-w-full max-h-[90vh] object-contain shadow-2xl animate-in fade-in zoom-in-95 duration-200" 
+          alt={`Fullscreen view ${currentIndex + 1}`}
+        />
+        
+        {currentIndex < images.length - 1 && (
+          <button 
+            className="absolute right-4 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-20 shadow-lg"
+            onClick={(e) => { e.stopPropagation(); next(); }}
+          >
+            <ChevronRight className="w-8 h-8" />
+          </button>
+        )}
       </div>
     </div>
   );

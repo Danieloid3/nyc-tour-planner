@@ -33,8 +33,8 @@ export function usePlaceImages(placeName: string | undefined) {
         // Query Wikimedia Commons for "New York [Place Name]"
         const query = encodeURIComponent(`New York ${placeName}`);
         // gsrnamespace=6 means "File:" namespace. We fetch up to 8 images to have enough after deduplication.
-        // prop=imageinfo&iiprop=url|sha1 gets the URL, 400px thumbnail, and SHA1 hash for deduplication.
-        const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|sha1&iiurlwidth=400&format=json&origin=*`;
+        // prop=imageinfo&iiprop=url|sha1 gets the URL, 1024px thumbnail, and SHA1 hash for deduplication.
+        const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|sha1&iiurlwidth=1024&format=json&origin=*`;
         
         const res = await fetch(url);
         const data = await res.json();
@@ -59,8 +59,8 @@ export function usePlaceImages(placeName: string | undefined) {
           if (imageInfo?.thumburl && imageInfo?.sha1 && !uniqueHashes.has(imageInfo.sha1)) {
             uniqueHashes.add(imageInfo.sha1);
             results.push({
-              url: imageInfo.url, // Original full size
-              thumb: imageInfo.thumburl, // 800px width
+              url: imageInfo.thumburl, // Use the 1024px version for fullscreen to ensure extremely fast loading!
+              thumb: imageInfo.thumburl, // Use 1024px width for thumbnail too
               title: page.title.replace('File:', '').replace(/\.[^/.]+$/, ''), // Clean title
             });
             // Stop once we have 4 good unique images
