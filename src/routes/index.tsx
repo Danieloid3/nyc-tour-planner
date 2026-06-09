@@ -12,6 +12,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { useProgress } from "@/hooks/use-progress";
 import { WeatherWidget } from "@/components/WeatherWidget";
+import Onboarding from "@/components/Onboarding";
 import { haversine } from "@/lib/geo";
 
 export const Route = createFileRoute("/")({
@@ -116,6 +117,7 @@ function Index() {
 
   return (
     <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-background">
+      <Onboarding />
       {/* Floating Top Bar */}
       <header className="absolute left-4 right-4 top-4 z-[1000] flex items-center justify-between gap-3 pointer-events-none">
         

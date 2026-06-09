@@ -213,6 +213,22 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
             );
           })}
         </div>
+
+        {/* Reset Progress Button */}
+        {progress.visitedIds.size > 0 && (
+          <div className="mt-10 mb-8 flex justify-center animate-fade-in">
+            <button
+              onClick={() => {
+                if (window.confirm("¿Seguro que quieres borrar todo tu progreso y volver a empezar? Esto no se puede deshacer.")) {
+                  progress.clearAll();
+                }
+              }}
+              className="text-xs font-bold text-destructive/80 hover:text-destructive hover:bg-destructive/10 px-5 py-2.5 rounded-full transition-all active:scale-95 border border-transparent hover:border-destructive/20"
+            >
+              Reiniciar todo el progreso
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

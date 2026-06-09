@@ -62,11 +62,16 @@ export function useProgress() {
     }
   }, [visitedIds]);
 
+  const clearAll = useCallback(() => {
+    setVisitedIds(new Set());
+  }, []);
+
   return {
     visitedIds,
     togglePlace,
     markVisited,
     unmarkVisited,
     isVisited,
+    clearAll,
   };
 }
