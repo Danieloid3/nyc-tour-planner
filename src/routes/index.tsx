@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Map as MapIcon, ListOrdered, Moon, Sun, Compass, SlidersHorizontal } from "lucide-react";
 import { allPlaces, days, type Place } from "@/data/itinerary";
 import { useTheme } from "@/hooks/use-theme";
@@ -81,9 +81,30 @@ function Index() {
     }
   };
 
-  const selectPlace = (p: Place & { dayId: string }) => {
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      if (selectedPlace) {
+        setSelectedPlace(null);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedPlace]);
+
+  const selectPlace = (p: Place & { dayId: string } | null) => {
+    if (p && !selectedPlace) {
+      window.history.pushState({ placeDrawer: true }, '');
+    }
     setSelectedPlace(p);
-    setView("map");
+    if (p) setView("map");
+  };
+
+  const closePlace = () => {
+    if (window.history.state?.placeDrawer) {
+      window.history.back();
+    } else {
+      setSelectedPlace(null);
+    }
   };
 
   const centerOnUser = () => {
@@ -213,7 +234,7 @@ function Index() {
             {/* PlaceDetail is now a Vaul Drawer that handles its own portals and overlay */}
             <PlaceDetail 
               place={selectedPlace} 
-              onClose={() => setSelectedPlace(null)} 
+              onClose={closePlace} 
               onFocusDay={focusDay} 
               userLocation={userLocation}
               progress={progress}
