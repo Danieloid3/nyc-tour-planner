@@ -290,34 +290,42 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
 // Subcomponent for the full-screen image carousel
 function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initialIndex: number, onClose: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState<number>(0);
 
   const next = () => setCurrentIndex(i => Math.min(i + 1, images.length - 1));
   const prev = () => setCurrentIndex(i => Math.max(i - 1, 0));
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     e.stopPropagation();
-    setTouchStart(e.targetTouches[0].clientX);
+    setDragStart(e.clientX);
+    setDragOffset(0);
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     e.stopPropagation();
-    if (touchStart === null) return;
-    const touchEnd = e.changedTouches[0].clientX;
-    const distance = touchStart - touchEnd;
+    if (dragStart !== null) {
+      setDragOffset(e.clientX - dragStart);
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    e.stopPropagation();
+    if (dragStart === null) return;
     
     // Swipe left (next image)
-    if (distance > 50) next();
+    if (dragOffset < -50) next();
     // Swipe right (prev image)
-    if (distance < -50) prev();
+    if (dragOffset > 50) prev();
     
-    setTouchStart(null);
+    setDragStart(null);
+    setDragOffset(0);
   };
 
   return (
     <div 
       className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
-      onClick={onClose}
+      onPointerDown={(e) => { e.stopPropagation(); onClose(); }}
     >
       <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10 bg-gradient-to-b from-black/50 to-transparent pb-8 pointer-events-none">
         <div className="px-4 py-2 text-white/80 font-black text-xs tracking-widest uppercase bg-black/30 rounded-full backdrop-blur-md pointer-events-auto">
@@ -325,24 +333,23 @@ function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initi
         </div>
         <button 
           className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
-          onClick={(e) => { e.stopPropagation(); onClose(); }}
+          onPointerDown={(e) => { e.stopPropagation(); onClose(); }}
         >
           <X className="h-6 w-6" />
         </button>
       </div>
       
       <div 
-        className="flex-1 flex items-center justify-center p-4 relative"
-        onClick={(e) => e.stopPropagation()}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchMove={(e) => e.stopPropagation()}
-        onPointerDown={(e) => e.stopPropagation()}
+        className="flex-1 flex items-center justify-center p-4 relative overflow-hidden"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
       >
         {currentIndex > 0 && (
           <button 
             className="absolute left-4 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-20 shadow-lg"
-            onClick={(e) => { e.stopPropagation(); prev(); }}
+            onPointerDown={(e) => { e.stopPropagation(); prev(); }}
           >
             <ChevronLeft className="w-8 h-8" />
           </button>
@@ -351,14 +358,16 @@ function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initi
         <img 
           key={currentIndex} // forces re-animation when index changes
           src={images[currentIndex].url} 
-          className="max-w-full max-h-[90vh] object-contain shadow-2xl animate-in fade-in zoom-in-95 duration-200" 
+          className="max-w-full max-h-[90vh] object-contain shadow-2xl transition-transform duration-200" 
+          style={{ transform: dragStart !== null ? `translateX(${dragOffset}px)` : 'translateX(0px)', transition: dragStart !== null ? 'none' : 'transform 0.2s ease-out' }}
           alt={`Fullscreen view ${currentIndex + 1}`}
+          draggable={false}
         />
         
         {currentIndex < images.length - 1 && (
           <button 
             className="absolute right-4 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-20 shadow-lg"
-            onClick={(e) => { e.stopPropagation(); next(); }}
+            onPointerDown={(e) => { e.stopPropagation(); next(); }}
           >
             <ChevronRight className="w-8 h-8" />
           </button>
