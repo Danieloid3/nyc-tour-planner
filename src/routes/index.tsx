@@ -112,7 +112,7 @@ function Index() {
             className="grid h-9 w-9 place-items-center rounded-lg border border-border text-foreground transition hover:bg-secondary"
             aria-label="Cambiar tema"
           >
-            {theme === "dark" ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
         </div>
       </header>
