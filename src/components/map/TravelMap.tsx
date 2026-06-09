@@ -129,6 +129,7 @@ export default function TravelMap({
     // Which places are visible
     const visible = allPlaces.filter((p) => {
       if (focus) return p.tourId === focus;
+      if (searchMatchIds) return true; // show all, dim non-matches
       return activeTourIds.has(p.tourId);
     });
 
