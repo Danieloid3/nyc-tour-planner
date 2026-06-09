@@ -18,12 +18,12 @@ interface Props {
 
 export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress }: Props) {
   const isOpen = !!place;
-  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
   const { images, loading } = usePlaceImages(place?.name);
 
   // Clear fullscreen image when place changes or closes
   React.useEffect(() => {
-    setFullscreenImage(null);
+    setFullscreenIndex(null);
   }, [place?.id]);
 
   if (!place) {
@@ -68,7 +68,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           {/* Header background with image */}
           <div 
             className="absolute top-0 left-0 right-0 h-[220px] transition-all duration-500 bg-muted cursor-pointer"
-            onClick={() => mainImage && setFullscreenImage(mainImage.url)}
+            onClick={() => mainImage && setFullscreenIndex(0)}
             style={{ 
               backgroundImage: mainImage ? `url(${mainImage.thumb})` : `linear-gradient(180deg, ${day.color}30, transparent)`,
               backgroundSize: 'cover',
@@ -130,7 +130,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                     {galleryImages.map((img, i) => (
                       <div 
                         key={i} 
-                        onClick={() => setFullscreenImage(img.url)}
+                        onClick={() => setFullscreenIndex(i + 1)}
                         className="snap-center shrink-0 w-[140px] h-[100px] overflow-hidden rounded-2xl bg-muted shadow-sm relative group cursor-pointer"
                       >
                         <img 
@@ -256,30 +256,68 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
       </Drawer.Portal>
     </Drawer.Root>
 
-      {/* Fullscreen Image Viewer Modal */}
-      {fullscreenImage && (
-        <div 
-          className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
-          onClick={() => setFullscreenImage(null)}
-        >
-          <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-10 bg-gradient-to-b from-black/50 to-transparent pb-8">
-            <button 
-              className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95"
-              onClick={(e) => { e.stopPropagation(); setFullscreenImage(null); }}
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          <div className="flex-1 flex items-center justify-center p-2">
-            <img 
-              src={fullscreenImage} 
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in fade-in zoom-in-95 duration-300" 
-              alt="Fullscreen view"
-              onClick={(e) => e.stopPropagation()} 
-            />
-          </div>
-        </div>
+      {/* Fullscreen Image Viewer Carousel */}
+      {fullscreenIndex !== null && images.length > 0 && (
+        <ImageCarousel 
+          images={images} 
+          initialIndex={fullscreenIndex} 
+          onClose={() => setFullscreenIndex(null)} 
+        />
       )}
     </>
+  );
+}
+
+// Subcomponent for the full-screen image carousel
+function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initialIndex: number, onClose: () => void }) {
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      const el = scrollRef.current;
+      // Use setTimeout to ensure DOM is fully rendered before scrolling
+      setTimeout(() => {
+        el.scrollLeft = el.clientWidth * initialIndex;
+      }, 10);
+    }
+  }, [initialIndex]);
+
+  return (
+    <div 
+      className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
+      onClick={onClose}
+      onPointerDown={(e) => e.stopPropagation()}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
+    >
+      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10 bg-gradient-to-b from-black/50 to-transparent pb-8 pointer-events-none">
+        <div className="px-4 py-2 text-white/80 font-black text-xs tracking-widest uppercase bg-black/30 rounded-full backdrop-blur-md pointer-events-auto">
+          Galería
+        </div>
+        <button 
+          className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
+        >
+          <X className="h-6 w-6" />
+        </button>
+      </div>
+      
+      <div 
+        ref={scrollRef}
+        className="flex-1 flex overflow-x-auto snap-x snap-mandatory thin-scroll" 
+        onClick={(e) => e.stopPropagation()}
+        style={{ scrollBehavior: 'smooth' }}
+      >
+        {images.map((img, i) => (
+          <div key={i} className="flex-none w-full h-full flex items-center justify-center p-2 snap-center shrink-0">
+            <img 
+              src={img.url} 
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+              alt={`Fullscreen view ${i + 1}`}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
