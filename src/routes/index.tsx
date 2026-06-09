@@ -206,7 +206,7 @@ function Index() {
 
       {/* Main Content Area */}
       <main className="relative flex-1 w-full overflow-hidden">
-        {view === "map" && (
+        {view === "map" ? (
           <>
             <MapView
               theme={theme}
