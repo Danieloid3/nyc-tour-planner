@@ -32,7 +32,7 @@ export function PlaceDetail({ place, onClose, onFocusTour }: Props) {
         <div className="flex items-center gap-2">
           <span
             className="grid h-10 w-10 place-items-center rounded-xl text-white shadow"
-            style={{ background: place.tourColor ?? tour.color }}
+            style={{ background: tour.color }}
           >
             <Icon className="h-5 w-5" />
           </span>
