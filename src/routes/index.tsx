@@ -157,9 +157,7 @@ function Index() {
           
           {/* Left Side: Logo & Title inside a glass pill */}
           <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-border/50 bg-card/85 px-2 sm:px-3 py-1.5 sm:py-2 shadow-sm backdrop-blur-xl">
-            <span className="grid h-7 w-7 sm:h-8 sm:w-8 place-items-center rounded-lg sm:rounded-xl bg-primary text-primary-foreground shadow">
-              <Compass className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            </span>
+            <img src="/pwa-192x192.png" className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl shadow object-cover" alt="Wander Logo" />
             <div className="pr-1 leading-tight">
               <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">Wander</h1>
               <p className="hidden text-[10px] font-semibold text-muted-foreground sm:block">12 días de viaje</p>
