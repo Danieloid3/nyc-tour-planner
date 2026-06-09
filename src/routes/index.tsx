@@ -82,29 +82,16 @@ function Index() {
   };
 
   useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash !== '#place' && selectedPlace) {
-        setSelectedPlace(null);
-      }
-    };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [selectedPlace]);
+    // Removed unstable history listeners to prevent router conflicts
+  }, []);
 
   const selectPlace = (p: Place & { dayId: string } | null) => {
-    if (p && !selectedPlace && window.location.hash !== '#place') {
-      window.location.hash = 'place';
-    }
     setSelectedPlace(p);
     if (p) setView("map");
   };
 
   const closePlace = () => {
-    if (window.location.hash === '#place') {
-      window.history.back();
-    } else {
-      setSelectedPlace(null);
-    }
+    setSelectedPlace(null);
   };
 
   const centerOnUser = () => {
@@ -243,7 +230,12 @@ function Index() {
         ) : (
           <div className="h-full w-full overflow-y-auto thin-scroll pt-24 px-4 pb-12">
              <div className="mx-auto max-w-4xl">
-               <Timeline onSelectDay={(id) => focusDay(id)} progress={progress} selectedDayId={selectedDayId} />
+               <Timeline 
+                 onSelectDay={(id) => focusDay(id)} 
+                 onSelectPlace={selectPlace}
+                 progress={progress} 
+                 selectedDayId={selectedDayId} 
+               />
              </div>
           </div>
         )}

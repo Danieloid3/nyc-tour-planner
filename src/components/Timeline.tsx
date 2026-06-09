@@ -7,11 +7,12 @@ import type { useProgress } from "@/hooks/use-progress";
 
 interface Props {
   onSelectDay: (dayId: string) => void;
+  onSelectPlace?: (place: Place & { dayId: string }) => void;
   progress: ReturnType<typeof useProgress>;
   selectedDayId: string | null;
 }
 
-export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
+export function Timeline({ onSelectDay, onSelectPlace, progress, selectedDayId }: Props) {
   const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set()); // All days collapsed by default
 
   const toggleExpanded = (id: string) => {
@@ -180,8 +181,11 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                         </div>
                         
                         {/* Content column (Right) */}
-                        <div className="flex-1 pb-5">
-                          <h4 className={`text-[15px] font-bold leading-tight ${visited ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
+                        <div 
+                          className="flex-1 pb-5 cursor-pointer"
+                          onClick={() => onSelectPlace?.({ ...p, dayId: t.id })}
+                        >
+                          <h4 className={`text-[15px] font-bold leading-tight ${visited ? 'line-through text-muted-foreground' : 'text-foreground hover:text-primary transition-colors'}`}>
                             {p.order}. {p.name}
                           </h4>
                           <p className="text-[13px] text-muted-foreground flex items-center gap-1.5 mt-1 font-medium">
