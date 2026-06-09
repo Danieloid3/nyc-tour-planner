@@ -11,7 +11,7 @@ if (fs.existsSync(jsonPath)) {
 const itineraryPath = path.join(process.cwd(), 'src', 'data', 'itinerary.ts');
 const code = fs.readFileSync(itineraryPath, 'utf8');
 
-const nameRegex = /name:\s*["']([^"']+)["']/g;
+const nameRegex = /name:\s*"([^"]+)"/g;
 const placeNames = [];
 let match;
 while ((match = nameRegex.exec(code)) !== null) {
