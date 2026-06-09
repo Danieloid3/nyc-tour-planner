@@ -78,7 +78,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
 
           <div className="relative z-10 mx-auto mt-3 mb-2 h-1.5 w-12 flex-shrink-0 rounded-full bg-white/40 shadow-sm" />
           
-          <div className="flex-1 overflow-y-auto thin-scroll pb-36">
+          <div className="flex-1 overflow-y-auto thin-scroll pb-56">
             <div className="relative px-6 pt-16 pb-5">
               <div className="flex items-start gap-4">
                 <span
@@ -201,43 +201,40 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           </div>
 
           {/* Bottom Actions Area */}
-          <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-background/80 p-4 pt-3 pb-6 backdrop-blur-xl">
+          <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 pt-4 pb-6 backdrop-blur-xl">
             
-            <button
-              onClick={() => progress.togglePlace(place.id)}
-              className={`mb-3 flex w-full h-12 items-center justify-center gap-2 rounded-2xl font-bold shadow transition active:scale-95 ${
-                progress.isVisited(place.id) 
-                  ? "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-2 border-transparent" 
-                  : "bg-background text-foreground border-2 border-primary hover:bg-primary/10"
-              }`}
+            <a
+              href={googleMapsNavigationLink(place, origin)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mb-3 inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-4 text-[16px] font-black text-primary-foreground shadow-lg transition hover:opacity-90 active:scale-[0.98]"
             >
-              {progress.isVisited(place.id) ? (
-                <>
-                  <CheckCircle2 className="h-5 w-5 text-primary" /> Marcado como visitado
-                </>
-              ) : (
-                <>
-                  <Circle className="h-5 w-5 text-primary" /> Marcar como visitado
-                </>
-              )}
-            </button>
+              <Navigation className="h-6 w-6" /> LLEVARME HASTA AQUÍ
+            </a>
 
-            <div className="flex flex-col gap-3">
-              <a
-                href={googleMapsNavigationLink(place, origin)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-4 text-[16px] font-black text-primary-foreground shadow-lg transition hover:opacity-90 active:scale-[0.98]"
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => progress.togglePlace(place.id)}
+                className={`flex h-12 w-full items-center justify-center gap-2 rounded-2xl font-bold shadow-sm transition active:scale-95 text-[14px] ${
+                  progress.isVisited(place.id) 
+                    ? "bg-secondary text-secondary-foreground border-2 border-transparent" 
+                    : "bg-background text-foreground border-2 border-primary"
+                }`}
               >
-                <Navigation className="h-6 w-6" /> LLEVARME HASTA AQUÍ
-              </a>
+                {progress.isVisited(place.id) ? (
+                  <><CheckCircle2 className="h-4 w-4 text-primary" /> Visitado</>
+                ) : (
+                  <><Circle className="h-4 w-4 text-primary" /> Marcar</>
+                )}
+              </button>
+              
               <a
                 href={googleMapsLink(place)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-border bg-background px-4 text-sm font-bold text-foreground transition hover:bg-secondary active:scale-[0.98]"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-border bg-background px-2 text-[14px] font-bold text-foreground transition hover:bg-secondary active:scale-[0.98]"
               >
-                <MapPin className="h-4 w-4" /> Ver en Google Maps
+                <MapPin className="h-4 w-4" /> Ver mapa
               </a>
             </div>
           </div>
