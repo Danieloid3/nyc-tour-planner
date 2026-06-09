@@ -133,12 +133,10 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      import("virtual:pwa-register")
-        .then(({ registerSW }) => {
-          registerSW({ immediate: true });
-        })
-        .catch(console.error);
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").catch(console.error);
+      });
     }
   }, []);
 
