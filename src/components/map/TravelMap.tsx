@@ -83,9 +83,10 @@ export default function TravelMap({
     const map = L.map(containerRef.current, {
       center: MANHATTAN,
       zoom: 13,
-      zoomControl: true,
+      zoomControl: false,
       attributionControl: true,
     });
+    L.control.zoom({ position: 'bottomleft' }).addTo(map);
     mapRef.current = map;
     tileRef.current = L.tileLayer(TILE[theme], {
       maxZoom: 19,

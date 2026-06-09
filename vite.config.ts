@@ -39,7 +39,10 @@ export default defineConfig({
         ]
       },
       workbox: {
-        navigateFallback: null,
+        navigateFallback: '/',
+        additionalManifestEntries: [
+          { url: '/', revision: `${Date.now()}` }
+        ],
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json}'],
         runtimeCaching: [
           {

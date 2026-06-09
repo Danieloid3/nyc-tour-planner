@@ -137,9 +137,10 @@ function Index() {
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content
-                className="z-[2000] w-[calc(100vw-24px)] sm:w-[380px] origin-top-right animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 overflow-hidden rounded-[28px] border border-border bg-background/95 shadow-2xl backdrop-blur-2xl mr-3 sm:mr-4 mt-2"
-                align="end"
+                className="z-[2000] w-[calc(100vw-32px)] sm:w-[380px] origin-top animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 overflow-hidden rounded-[28px] border border-border bg-background/95 shadow-2xl backdrop-blur-2xl mt-2"
+                align="center"
                 sideOffset={5}
+                collisionPadding={16}
               >
                 <div className="flex h-[70vh] max-h-[600px] flex-col overflow-hidden p-5">
                   <Sidebar
