@@ -61,7 +61,7 @@ export const days: DayPlan[] = [
     subtitle: "Primera impresión de Nueva York",
     color: "#ef4444",
     description:
-      "Reúne muchos de los iconos más famosos. Ideal como primer o segundo día porque deja a todo el grupo situado mentalmente en Manhattan.",
+      "El objetivo de hoy es sumergirse en la magia clásica de Nueva York. Pasearán por el corazón de Manhattan, maravillándose con sus rascacielos más emblemáticos, la Quinta Avenida y las luces de Times Square.",
     pace: "Este día incluye mucho asfalto. Tómense su tiempo en Bryant Park para descansar las piernas antes de seguir hacia la Quinta Avenida.",
     places: [
       { id: "grand-central", name: "Grand Central Terminal", category: "estacion", lat: 40.752726, lng: -73.977229, order: 1, description: "Entrad sin prisa y disfrutad del edificio como una atracción en sí misma. Conecta con las líneas 4, 5, 6, 7 y Shuttle.", seeWhat: ["Gran vestíbulo", "Techo astronómico", "Vanderbilt Hall"], food: "Desayuno rápido o parada técnica en Vanderbilt Hall.", curiosity: "El techo estrellado del vestíbulo principal está pintado al revés. Cornelius Vanderbilt afirmó que era a propósito para verlo 'desde la perspectiva de Dios'." },
@@ -85,7 +85,7 @@ export const days: DayPlan[] = [
     subtitle: "9/11, Oculus y distrito financiero",
     color: "#f97316",
     description:
-      "Un día muy completo pero muy lógico: casi todo queda enlazado caminando. Mezcla arquitectura, historia y vistas al agua.",
+      "Hoy viajarán a los orígenes de la ciudad. El objetivo es explorar el Distrito Financiero, caminar entre calles históricas y presentar sus respetos en el imponente y emotivo Memorial del 11 de Septiembre.",
     pace: "Día con mucha historia y muy plano. Si sienten cansancio, pueden omitir el interior del museo y disfrutar solo de las vistas exteriores y Wall Street.",
     places: [
       { id: "fulton-st", name: "Fulton Street", category: "estacion", lat: 40.709913, lng: -74.007846, order: 1, description: "Punto de llegada desde Grand Central con las líneas 4 o 5.", curiosity: "La estación de metro Fulton Center tiene un tragaluz gigante llamado 'Sky Reflector-Net' compuesto por 952 paneles de aluminio que bajan la luz solar hasta las vías." },
@@ -109,7 +109,7 @@ export const days: DayPlan[] = [
     subtitle: "Battery Park y Bowling Green",
     color: "#eab308",
     description:
-      "De los tours más agradecidos para un grupo familiar: da sensación de hacer mucho con poco esfuerzo. El ferry es gratuito y ofrece una de las mejores vistas de la Estatua de la Libertad.",
+      "Un día marítimo con un objetivo claro: saludar a la Estatua de la Libertad. Disfrutarán de la brisa del puerto y de las mejores vistas panorámicas del sur de Manhattan desde el agua.",
     pace: "Un día muy relajado. El viaje en ferry les permitirá descansar sentados y abrigados mientras disfrutan de la Estatua de la Libertad.",
     places: [
       { id: "bowling-green", name: "Bowling Green", category: "parque", lat: 40.704708, lng: -74.013844, order: 1, description: "Parada de metro y pequeño parque histórico, punto de inicio del recorrido.", curiosity: "Es el parque público más antiguo de Nueva York. La leyenda dice que aquí los holandeses 'compraron' la isla de Manhattan a los nativos por bienes valorados en 24 dólares." },
@@ -125,7 +125,7 @@ export const days: DayPlan[] = [
     subtitle: "Puente, Chinatown y Little Italy",
     color: "#84cc16",
     description:
-      "Uno de los días más fotogénicos y variados. La clave es el orden correcto para evitar repetir puente y llegar a comer con calma.",
+      "El reto de hoy es cruzar el legendario Puente de Brooklyn a pie. Después, disfrutarán del encanto de DUMBO y se perderán por las pintorescas y vibrantes calles de Chinatown y SoHo.",
     pace: "Cruzar el puente es precioso pero puede cansar. Háganlo a su ritmo, parando a tomar fotos, y aprovechen el metro para regresar desde DUMBO.",
     places: [
       { id: "brooklyn-bridge", name: "Puente de Brooklyn", category: "monumento", lat: 40.706086, lng: -73.996864, order: 1, description: "Cruzar andando sin prisa: lo bonito es parar, mirar y hacer fotos.", seeWhat: ["Skyline de Manhattan", "Arcos de piedra"], curiosity: "Fue el puente colgante más largo del mundo al inaugurarse. Para demostrar que era seguro, el famoso showman P.T. Barnum lo cruzó con 21 elefantes en 1884." },
@@ -146,7 +146,7 @@ export const days: DayPlan[] = [
     subtitle: "Relajado, zoo y toque de series",
     color: "#22c55e",
     description:
-      "Este día debe sentirse como descanso activo. Central Park es enorme: conviene escoger bien el tramo y no intentar verlo todo.",
+      "Día de contrastes. Comenzarán respirando aire puro en el inmenso Central Park, visitarán la zona de los museos de historia natural y terminarán paseando por las tranquilas calles residenciales del West Village.",
     pace: "Central Park es inmenso. No intenten caminarlo entero; la idea es dar un paseo tranquilo por el sur y sentarse en las bancas a ver la vida pasar.",
     places: [
       { id: "the-pond", name: "The Pond", category: "parque", lat: 40.766500, lng: -73.974000, order: 1, description: "Entrada por la zona sur del parque, cerca de 5th Avenue.", curiosity: "Este estanque es famoso porque en invierno es el hogar favorito de los patos y, en la novela 'El guardián entre el centeno', el protagonista se obsesiona preguntándose a dónde van cuando se congela." },
@@ -169,7 +169,7 @@ export const days: DayPlan[] = [
     subtitle: "Teleférico y Upper East Side",
     color: "#14b8a6",
     description:
-      "Puede quedar muy bonito y descansado. El teleférico ofrece vistas estupendas del East River y es una experiencia corta y diferente.",
+      "El objetivo es ver la ciudad desde otra perspectiva. Sobrevolarán el río en el teleférico hacia Roosevelt Island para disfrutar de una mañana pacífica, antes de volver al elegante Upper East Side.",
     pace: "Un escape tranquilo del ruido de Manhattan. El recorrido es corto y llano, ideal para una mañana relajada antes de ir de compras o almorzar.",
     places: [
       { id: "roosevelt-tram", name: "Roosevelt Island Tramway", category: "atraccion", lat: 40.761400, lng: -73.963900, order: 1, description: "Subid al teleférico en 59th Street / 2nd Avenue.", seeWhat: ["Vistas del East River", "Puente de Queensboro"], curiosity: "El viaje dura solo 3 minutos. Cada cabina puede llevar hasta a 110 personas y llega a elevarse casi 80 metros sobre el nivel del East River." },
@@ -187,7 +187,7 @@ export const days: DayPlan[] = [
     subtitle: "The Met o MoMA, no los dos a fondo",
     color: "#06b6d4",
     description:
-      "Elegir un museo protagonista por día y, si queda energía, añadir otro muy breve o solo el exterior.",
+      "Día dedicado al arte y la cultura. Recorrerán la famosa 'Milla de los Museos', pudiendo admirar desde arquitectura única hasta algunas de las obras de arte más importantes de la historia.",
     pace: "Los museos aquí son gigantescos. Elijan solo las dos o tres salas que más les interesen en el mapa del museo para no agotar las piernas.",
     places: [
       { id: "the-met", name: "The Met", category: "museo", lat: 40.779437, lng: -73.963244, order: 1, description: "Uno de los grandes imprescindibles: un gran museo con piezas muy reconocibles y visita elegante. Sobre la Museum Mile.", seeWhat: ["Templo de Dendur", "Galerías europeas", "Terraza con vistas"], food: "Cafetería dentro o almuerzo cerca.", curiosity: "Dentro del Met se encuentra el Templo de Dendur, un templo egipcio real del año 15 a.C. regalado a EE.UU. para evitar que quedara hundido por la presa de Asuán en el Nilo." },
@@ -203,7 +203,7 @@ export const days: DayPlan[] = [
     subtitle: "Chelsea Market, Little Island y Hudson Yards",
     color: "#3b82f6",
     description:
-      "Una de las zonas más agradables y actuales de Manhattan. Combina muy bien paseo, comida y miradores sin la locura de Midtown.",
+      "Hoy conocerán la cara más vanguardista de la ciudad. El plan es disfrutar del Chelsea Market, pasear por los jardines elevados del High Line y sorprenderse con la arquitectura de Hudson Yards.",
     pace: "El High Line tiene muchísimas banquitas. Si sienten que la caminata es larga, siéntense a disfrutar de los jardines y las vistas sin prisa.",
     places: [
       { id: "chelsea-market", name: "Chelsea Market", category: "restaurante", lat: 40.742400, lng: -74.006100, order: 2, description: "Perfecto para desayunar tarde o comer pronto.", seeWhat: ["Mercado gastronómico", "Puestos artesanales"], food: "Donde mejor funciona el tour: comer bien sin restaurante formal.", curiosity: "Este edificio era la fábrica original de Nabisco. Exactamente en este lugar es donde se inventaron, hornearon y probaron las primeras galletas Oreo en 1912." },
@@ -221,7 +221,7 @@ export const days: DayPlan[] = [
     subtitle: "Misa góspel y comida soul",
     color: "#8b5cf6",
     description:
-      "Una Nueva York distinta, menos de postal y más de barrio con identidad. Si os interesa, mejor en domingo para la misa góspel.",
+      "El objetivo es sentir el alma de Harlem. Se sumergirán en su rica herencia cultural, disfrutarán de la profunda emotividad de una auténtica misa góspel y probarán la reconfortante comida sureña.",
     pace: "Un día para disfrutar de la música y la comida sin estrés. La misa góspel es una experiencia inmersiva donde estarán sentados la mayor parte del tiempo.",
     places: [
       { id: "harlem", name: "Harlem", category: "barrio", lat: 40.811600, lng: -73.946500, order: 2, description: "Subir por la mañana en metro y pasear por sus calles clásicas.", seeWhat: ["Brownstones", "Arquitectura residencial"], curiosity: "Durante la Prohibición (los años 20), Harlem tenía cientos de clubes clandestinos, como el famoso Cotton Club, donde actuaban leyendas del jazz mientras que el alcohol fluía en secreto." },
@@ -237,7 +237,7 @@ export const days: DayPlan[] = [
     subtitle: "Opciones realistas con transporte público",
     color: "#ec4899",
     description:
-      "Separar tres categorías: compras urbanas en Manhattan, outlet fácil y outlet grande pero cansado. Así evitáis trayectos larguísimos.",
+      "¡Día de compras! Ya sea buscando grandes marcas o recuerdos en las tiendas más famosas de la ciudad, hoy el objetivo es encontrar esos detalles perfectos a su propio ritmo.",
     pace: "Ir de compras agota rápido. Prioricen una o dos tiendas específicas y hagan varias 'paradas técnicas' para tomar café y descansar.",
     places: [
       { id: "herald-square", name: "Herald Square", category: "compras", lat: 40.750500, lng: -73.987900, order: 1, description: "Centro comercial urbano en pleno Midtown.", curiosity: "La plaza lleva el nombre de un periódico extinto (el New York Herald). Su reloj central cuenta con búhos mecánicos con ojos que brillan intermitentemente." },
@@ -254,7 +254,7 @@ export const days: DayPlan[] = [
     subtitle: "Playa, casa, piscina y respiro",
     color: "#64748b",
     description:
-      "No es relleno: es esencial para que Nueva York no os pase factura. Evitad el error de intentar hacer Manhattan todos los días.",
+      "Día de descanso estratégico. El objetivo hoy es no tener prisa, disfrutar de la tranquilidad de Stamford, pasear por la costa y recargar las pilas tras la intensidad de Manhattan.",
     pace: "Día libre para recargar baterías. Un paseo lento por la costa o simplemente descansar es fundamental para recuperar energía.",
     places: [
       { id: "stamford-station", name: "Stamford Train Station", category: "estacion", lat: 41.046900, lng: -73.542000, order: 1, description: "Base del viaje. El tren a Grand Central tarda unos 55–60 minutos.", seeWhat: ["Metro-North New Haven Line"], curiosity: "Es la estación más concurrida de la red ferroviaria Metro-North fuera de la ciudad de Nueva York. Conecta la tranquilidad de Connecticut con la locura de Manhattan en solo una hora." },
@@ -269,7 +269,7 @@ export const days: DayPlan[] = [
     subtitle: "Excursión económica en bus",
     color: "#0ea5e9",
     description:
-      "Niágara en bus nocturno y volver el mismo día es una paliza, pero reduce gasto. Concentrarse en el lado estadounidense, miradores gratuitos.",
+      "Una expedición hacia la naturaleza. El gran objetivo es escuchar el rugido y sentir la bruma de las majestuosas Cataratas del Niágara, una de las maravillas naturales del continente.",
     pace: "Una excursión que requiere algo de viaje. Aprovechen el transporte para dormir y caminen únicamente por los miradores principales de las cataratas.",
     places: [
       { id: "niagara-park", name: "Niagara Falls State Park", category: "parque", lat: 43.082800, lng: -79.065300, order: 1, description: "El acceso a miradores y zona exterior es gratuito. Se pagan atracciones concretas.", seeWhat: ["Miradores exteriores", "Observation Tower"], curiosity: "Es el parque estatal más antiguo de todos los Estados Unidos. Fue fundado en 1885 para proteger las cataratas de la explotación comercial masiva y la industrialización." },
