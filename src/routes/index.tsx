@@ -47,6 +47,10 @@ function Index() {
   const [showRoutes, setShowRoutes] = useState(false);
   const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set());
   const [mapInstance, setMapInstance] = useState<any>(null);
+  
+  const [onboardingDone, setOnboardingDone] = useState(() => {
+    return typeof window !== 'undefined' ? localStorage.getItem('nyc-onboarding-seen') === 'true' : true;
+  });
 
   const userLocation = useGeolocation();
   const progress = useProgress();
@@ -146,7 +150,7 @@ function Index() {
 
   return (
     <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-background">
-      <Onboarding />
+      <Onboarding onComplete={() => setOnboardingDone(true)} />
       {/* Floating Top Bar */}
       <header className="absolute left-4 right-4 top-4 z-[1000] flex items-center justify-between gap-3 pointer-events-none">
         
@@ -264,22 +268,24 @@ function Index() {
       </main>
 
       {/* Floating Action Button for View Toggle */}
-      <div className="pointer-events-none fixed bottom-8 left-0 right-0 z-[1500] flex justify-center">
-        <button
-          onClick={() => setView(view === "map" ? "timeline" : "map")}
-          className="pointer-events-auto flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background shadow-2xl transition hover:scale-105 active:scale-95"
-        >
-          {view === "map" ? (
-            <>
-              <ListOrdered className="h-4 w-4" /> Mostrar lista
-            </>
-          ) : (
-            <>
-              <MapIcon className="h-4 w-4" /> Mostrar mapa
-            </>
-          )}
-        </button>
-      </div>
+      {onboardingDone && (
+        <div className="pointer-events-none fixed bottom-8 left-0 right-0 z-[1500] flex justify-center">
+          <button
+            onClick={() => setView(view === "map" ? "timeline" : "map")}
+            className="pointer-events-auto flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background shadow-2xl transition hover:scale-105 active:scale-95"
+          >
+            {view === "map" ? (
+              <>
+                <ListOrdered className="h-4 w-4" /> Mostrar lista
+              </>
+            ) : (
+              <>
+                <MapIcon className="h-4 w-4" /> Mostrar mapa
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

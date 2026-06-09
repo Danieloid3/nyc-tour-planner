@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Map, List, Navigation, Heart, CheckCircle2 } from 'lucide-react';
 
-export default function Onboarding() {
+export default function Onboarding({ onComplete }: { onComplete?: () => void }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -20,6 +20,7 @@ export default function Onboarding() {
     setTimeout(() => {
       localStorage.setItem('nyc-onboarding-seen', 'true');
       setIsVisible(false);
+      onComplete?.();
     }, 400); // Wait for fade out animation
   };
 
