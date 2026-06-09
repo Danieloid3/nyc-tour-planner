@@ -68,9 +68,8 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
             return (
               <div key={t.id} className="relative flex gap-4" style={{ animationDelay: `${i * 40}ms` }}>
                 <div className="flex-1">
-                  <button
-                    onClick={() => toggleExpanded(t.id)}
-                    className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl bg-card ${
+                  <div
+                    className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition bg-card ${
                       isSelected ? "" :
                       isDayCompleted ? "border-primary/50 opacity-80" : "border-border"
                     }`}
@@ -81,7 +80,7 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                     } : undefined}
                   >
                   <div className="h-1.5 w-full" style={{ background: t.color }} />
-                  <div className="p-4">
+                  <div onClick={() => toggleExpanded(t.id)} className="p-4 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <h3 className="text-lg font-bold leading-tight text-foreground flex items-center gap-2">
@@ -151,10 +150,10 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                       </div>
                     </div>
                   </div>
-                </button>
+                </div>
                 
                 <div 
-                  className={`pl-8 sm:pl-12 pr-2 sm:pr-4 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[2000px] mt-2 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
+                  className={`pl-8 sm:pl-12 pr-2 sm:pr-4 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[2000px] pb-4 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
                 >
                   <div className="relative border-l-2 border-border/50 ml-3.5 sm:ml-4 pl-6 sm:pl-8 pb-4">
                     {[...t.places].sort((a, b) => a.order - b.order).map((p, idx, arr) => {
@@ -201,6 +200,7 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                     );
                   })}
                   </div>
+                </div>
                 </div>
                 </div>
               </div>
