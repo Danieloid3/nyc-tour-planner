@@ -1,18 +1,22 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet.markercluster";
-import { tours, allPlaces, type Place } from "@/data/itinerary";
-import { CATEGORY_META } from "@/lib/categories";
+import "leaflet-polylinedecorator";
+import { days, allPlaces, type Place } from "@/data/itinerary";
 import type { Theme } from "@/hooks/use-theme";
+import type { GeolocationState } from "@/hooks/use-geolocation";
 
 interface TravelMapProps {
   theme: Theme;
-  activeTourIds: Set<string>;
-  selectedTourId: string | null;
+  activeDayIds: Set<string>;
+  selectedDayId: string | null;
   selectedPlaceId: string | null;
   showRoutes: boolean;
   searchMatchIds: Set<string> | null;
-  onSelectPlace: (place: Place & { tourId: string }) => void;
+  userLocation?: GeolocationState;
+  visitedIds: Set<string>;
+  onMapInstance?: (map: L.Map) => void;
+  onSelectPlace: (place: Place & { dayId: string }) => void;
 }
 
 const TILE = {
@@ -32,14 +36,18 @@ function bearing(a: Place, b: Place): number {
   return (toDeg(Math.atan2(y, x)) + 360) % 360;
 }
 
-function placeIcon(p: (typeof allPlaces)[number], opts: { active?: boolean; dimmed?: boolean }) {
-  const meta = CATEGORY_META[p.category];
-  const cls = ["travel-marker", opts.active ? "active" : "", opts.dimmed ? "dimmed" : ""]
+function placeIcon(p: (typeof allPlaces)[number], opts: { active?: boolean; dimmed?: boolean; visited?: boolean }) {
+  const cls = ["travel-marker", opts.active ? "active" : "", opts.dimmed ? "dimmed" : "", opts.visited ? "visited" : ""]
     .filter(Boolean)
     .join(" ");
+  
+  const content = opts.visited 
+    ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>` 
+    : `<span style="font-weight:bold; font-size:16px;">${p.order}</span>`;
+
   return L.divIcon({
     className: "",
-    html: `<div class="${cls}" style="background:${p.tourColor}"><span>${meta.emoji}</span></div>`,
+    html: `<div class="${cls}" style="background:${opts.visited ? '#16a34a' : p.dayColor}">${content}</div>`,
     iconSize: [34, 34],
     iconAnchor: [17, 34],
     popupAnchor: [0, -34],
@@ -48,11 +56,14 @@ function placeIcon(p: (typeof allPlaces)[number], opts: { active?: boolean; dimm
 
 export default function TravelMap({
   theme,
-  activeTourIds,
-  selectedTourId,
+  activeDayIds,
+  selectedDayId,
   selectedPlaceId,
   showRoutes,
   searchMatchIds,
+  userLocation,
+  visitedIds,
+  onMapInstance,
   onSelectPlace,
 }: TravelMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,6 +72,8 @@ export default function TravelMap({
   const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
   const plainLayerRef = useRef<L.LayerGroup | null>(null);
   const routeLayerRef = useRef<L.LayerGroup | null>(null);
+  const userMarkerRef = useRef<L.CircleMarker | null>(null);
+  const userAccuracyRef = useRef<L.Circle | null>(null);
   const onSelectRef = useRef(onSelectPlace);
   onSelectRef.current = onSelectPlace;
 
@@ -93,6 +106,7 @@ export default function TravelMap({
       },
     });
     map.addLayer(clusterRef.current);
+    if (onMapInstance) onMapInstance(map);
     return () => {
       map.remove();
       mapRef.current = null;
@@ -112,6 +126,41 @@ export default function TravelMap({
     tileRef.current.bringToBack();
   }, [theme]);
 
+  // user location marker
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !userLocation?.lat || !userLocation?.lng) return;
+    
+    const latlng: L.LatLngTuple = [userLocation.lat, userLocation.lng];
+    
+    if (!userMarkerRef.current) {
+      userAccuracyRef.current = L.circle(latlng, {
+        radius: userLocation.accuracy || 20,
+        color: '#2563eb',
+        fillColor: '#3b82f6',
+        fillOpacity: 0.15,
+        weight: 1,
+        interactive: false
+      }).addTo(map);
+
+      userMarkerRef.current = L.circleMarker(latlng, {
+        radius: 7,
+        color: 'white',
+        fillColor: '#2563eb',
+        fillOpacity: 1,
+        weight: 2,
+        zIndexOffset: 2000,
+        interactive: false
+      }).addTo(map);
+    } else {
+      userMarkerRef.current.setLatLng(latlng);
+      if (userAccuracyRef.current) {
+        userAccuracyRef.current.setLatLng(latlng);
+        userAccuracyRef.current.setRadius(userLocation.accuracy || 20);
+      }
+    }
+  }, [userLocation?.lat, userLocation?.lng, userLocation?.accuracy]);
+
   // render markers + routes whenever state changes
   useEffect(() => {
     const map = mapRef.current;
@@ -124,56 +173,57 @@ export default function TravelMap({
     plain.clearLayers();
     routes.clearLayers();
 
-    const focus = selectedTourId;
+    const focus = selectedDayId;
 
     // Which places are visible
     const visible = allPlaces.filter((p) => {
-      if (focus) return p.tourId === focus;
+      if (focus) return p.dayId === focus;
       if (searchMatchIds) return true; // show all, dim non-matches
-      return activeTourIds.has(p.tourId);
+      return activeDayIds.has(p.dayId);
     });
 
     const addMarker = (p: (typeof allPlaces)[number], target: L.LayerGroup | L.MarkerClusterGroup) => {
       const dimmed = !!searchMatchIds && !searchMatchIds.has(p.id);
       const active = selectedPlaceId === p.id;
-      const m = L.marker([p.lat, p.lng], { icon: placeIcon(p, { active, dimmed }), zIndexOffset: active ? 1000 : 0 });
+      const visited = visitedIds.has(p.id);
+      const m = L.marker([p.lat, p.lng], { icon: placeIcon(p, { active, dimmed, visited }), zIndexOffset: active ? 1000 : 0 });
       m.on("click", () => onSelectRef.current(p));
       m.bindTooltip(`${p.order}. ${p.name}`, { direction: "top", offset: [0, -32] });
       target.addLayer(m as unknown as L.Layer);
     };
 
     if (focus) {
-      // focus mode: plain markers + route for the selected tour
-      const tour = tours.find((t) => t.id === focus)!;
-      const ordered = [...tour.places].sort((a, b) => a.order - b.order);
+      // focus mode: plain markers + route for the selected day
+      const day = days.find((t) => t.id === focus)!;
+      const ordered = [...day.places].sort((a, b) => a.order - b.order);
       visible.forEach((p) => addMarker(p, plain));
       const latlngs = ordered.map((p) => [p.lat, p.lng]) as L.LatLngTuple[];
-      L.polyline(latlngs, { color: tour.color, weight: 4, opacity: 0.9, dashArray: "1 0" }).addTo(routes);
-      // arrows at midpoints
-      for (let i = 0; i < ordered.length - 1; i++) {
-        const a = ordered[i];
-        const b = ordered[i + 1];
-        const mid: L.LatLngTuple = [(a.lat + b.lat) / 2, (a.lng + b.lng) / 2];
-        const ang = bearing(a, b) - 90;
-        L.marker(mid, {
-          interactive: false,
-          icon: L.divIcon({
-            className: "",
-            html: `<div style="color:${tour.color};font-size:18px;transform:rotate(${ang}deg);text-shadow:0 0 3px rgba(0,0,0,.4)">➤</div>`,
-            iconSize: [18, 18],
-            iconAnchor: [9, 9],
-          }),
-        }).addTo(routes);
-      }
+      const pline = L.polyline(latlngs, { color: day.color, weight: 4, opacity: 0.9, dashArray: "1 0" }).addTo(routes);
+      
+      // Vector arrows using polyline decorator
+      L.polylineDecorator(pline, {
+        patterns: [
+          {
+            offset: '10%',
+            repeat: '100px',
+            symbol: L.Symbol.arrowHead({
+              pixelSize: 14,
+              polygon: true,
+              pathOptions: { stroke: true, weight: 2, color: day.color, fillOpacity: 1, fillColor: '#ffffff' }
+            })
+          }
+        ]
+      }).addTo(routes);
+
       if (latlngs.length) {
         map.flyToBounds(L.latLngBounds(latlngs).pad(0.25), { duration: 0.6, maxZoom: 15 });
       }
     } else {
-      // overview: clustered markers for active tours
+      // overview: clustered markers for active days
       visible.forEach((p) => addMarker(p, cluster));
       if (showRoutes) {
-        tours
-          .filter((t) => activeTourIds.has(t.id))
+        days
+          .filter((t) => activeDayIds.has(t.id))
           .forEach((t) => {
             const ordered = [...t.places].sort((a, b) => a.order - b.order);
             const latlngs = ordered.map((p) => [p.lat, p.lng]) as L.LatLngTuple[];
@@ -181,7 +231,7 @@ export default function TravelMap({
           });
       }
     }
-  }, [activeTourIds, selectedTourId, selectedPlaceId, showRoutes, searchMatchIds]);
+  }, [activeDayIds, selectedDayId, selectedPlaceId, showRoutes, searchMatchIds, visitedIds]);
 
   // pan to selected place
   useEffect(() => {
@@ -191,11 +241,11 @@ export default function TravelMap({
     if (p) map.flyTo([p.lat, p.lng], Math.max(map.getZoom(), 15), { duration: 0.6 });
   }, [selectedPlaceId]);
 
-  // reset view when deselecting tour
+  // reset view when deselecting day
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || selectedTourId) return;
-    const visible = allPlaces.filter((p) => activeTourIds.has(p.tourId));
+    if (!map || selectedDayId) return;
+    const visible = allPlaces.filter((p) => activeDayIds.has(p.dayId));
     if (visible.length === 0) {
       map.flyTo(MANHATTAN, 13, { duration: 0.5 });
       return;
@@ -203,7 +253,7 @@ export default function TravelMap({
     const b = L.latLngBounds(visible.map((p) => [p.lat, p.lng] as L.LatLngTuple));
     map.flyToBounds(b.pad(0.15), { duration: 0.5, maxZoom: 13 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTourId]);
+  }, [selectedDayId]);
 
   return <div ref={containerRef} className="h-full w-full" />;
 }

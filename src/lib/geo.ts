@@ -27,8 +27,31 @@ export function walkingTime(meters: number): string {
   return `${h} h ${m} min`;
 }
 
+export function transitTime(meters: number): string {
+  // Rough estimate: ~400m per min (subway) + 10 mins overhead (walking/waiting)
+  if (meters < 800) return "No recomendado";
+  const minutes = Math.round(meters / 400) + 10;
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return `${h} h ${m} min`;
+}
+
 export function googleMapsLink(place: { lat: number; lng: number; name: string }): string {
+  // Abre el pin del lugar
   return `https://www.google.com/maps/search/?api=1&query=${place.lat},${place.lng}`;
+}
+
+export function googleMapsNavigationLink(
+  dest: { lat: number; lng: number },
+  origin?: { lat: number; lng: number } | null
+): string {
+  const destStr = `${dest.lat},${dest.lng}`;
+  let url = `https://www.google.com/maps/dir/?api=1&destination=${destStr}`;
+  if (origin) {
+    url += `&origin=${origin.lat},${origin.lng}`;
+  }
+  return url;
 }
 
 export function googleMapsRouteLink(places: Place[]): string {
@@ -42,7 +65,7 @@ export function googleMapsRouteLink(places: Place[]): string {
   return url;
 }
 
-export function tourTotalDistance(places: Place[]): number {
+export function dayTotalDistance(places: Place[]): number {
   let total = 0;
   for (let i = 0; i < places.length - 1; i++) total += haversine(places[i], places[i + 1]);
   return total;

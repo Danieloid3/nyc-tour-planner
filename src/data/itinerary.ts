@@ -27,7 +27,7 @@ export interface Place {
   food?: string;
 }
 
-export interface Tour {
+export interface DayPlan {
   id: string;
   number: number;
   title: string;
@@ -52,9 +52,9 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   atraccion: "Atracción",
 };
 
-export const tours: Tour[] = [
+export const days: DayPlan[] = [
   {
-    id: "tour-1",
+    id: "day-1",
     number: 1,
     title: "Midtown clásico",
     subtitle: "Primera impresión de Nueva York",
@@ -78,7 +78,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-2",
+    id: "day-2",
     number: 2,
     title: "Lower Manhattan",
     subtitle: "9/11, Oculus y distrito financiero",
@@ -102,7 +102,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-3",
+    id: "day-3",
     number: 3,
     title: "Staten Island Ferry",
     subtitle: "Battery Park y Bowling Green",
@@ -118,7 +118,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-4",
+    id: "day-4",
     number: 4,
     title: "Brooklyn + DUMBO",
     subtitle: "Puente, Chinatown y Little Italy",
@@ -139,7 +139,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-5",
+    id: "day-5",
     number: 5,
     title: "Central Park",
     subtitle: "Relajado, zoo y toque de series",
@@ -162,7 +162,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-6",
+    id: "day-6",
     number: 6,
     title: "Roosevelt Island",
     subtitle: "Teleférico y Upper East Side",
@@ -180,7 +180,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-7",
+    id: "day-7",
     number: 7,
     title: "Museos",
     subtitle: "The Met o MoMA, no los dos a fondo",
@@ -196,7 +196,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-8",
+    id: "day-8",
     number: 8,
     title: "High Line + Chelsea",
     subtitle: "Chelsea Market, Little Island y Hudson Yards",
@@ -214,7 +214,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-9",
+    id: "day-9",
     number: 9,
     title: "Harlem",
     subtitle: "Misa góspel y comida soul",
@@ -230,7 +230,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-10",
+    id: "day-10",
     number: 10,
     title: "Compras",
     subtitle: "Opciones realistas con transporte público",
@@ -247,7 +247,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-11",
+    id: "day-11",
     number: 11,
     title: "Stamford",
     subtitle: "Playa, casa, piscina y respiro",
@@ -262,7 +262,7 @@ export const tours: Tour[] = [
     ],
   },
   {
-    id: "tour-12",
+    id: "day-12",
     number: 12,
     title: "Niagara Falls",
     subtitle: "Excursión económica en bus",
@@ -279,7 +279,7 @@ export const tours: Tour[] = [
   },
 ];
 
-export const allPlaces: (Place & { tourId: string; tourTitle: string; tourColor: string })[] =
-  tours.flatMap((t) =>
-    t.places.map((p) => ({ ...p, tourId: t.id, tourTitle: `Tour ${t.number}: ${t.title}`, tourColor: t.color })),
+export const allPlaces: (Place & { dayId: string; dayTitle: string; dayColor: string })[] =
+  days.flatMap((d) =>
+    d.places.map((p) => ({ ...p, dayId: d.id, dayTitle: `Día ${d.number}: ${d.title}`, dayColor: d.color })),
   );

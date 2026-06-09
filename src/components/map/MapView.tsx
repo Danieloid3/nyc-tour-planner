@@ -1,15 +1,18 @@
 import { useEffect, useState, type ComponentType } from "react";
 import type { Place } from "@/data/itinerary";
 import type { Theme } from "@/hooks/use-theme";
+import type { GeolocationState } from "@/hooks/use-geolocation";
 
 interface Props {
   theme: Theme;
-  activeTourIds: Set<string>;
-  selectedTourId: string | null;
+  activeDayIds: Set<string>;
+  selectedDayId: string | null;
   selectedPlaceId: string | null;
   showRoutes: boolean;
   searchMatchIds: Set<string> | null;
-  onSelectPlace: (place: Place & { tourId: string }) => void;
+  userLocation?: GeolocationState;
+  onMapInstance?: (map: any) => void;
+  onSelectPlace: (place: Place & { dayId: string }) => void;
 }
 
 export default function MapView(props: Props) {

@@ -1,14 +1,14 @@
 import { Search, Eye, EyeOff, Route, RotateCcw } from "lucide-react";
-import { tours } from "@/data/itinerary";
+import { days } from "@/data/itinerary";
 import { StatsBar } from "./StatsBar";
 
 interface Props {
   search: string;
   onSearch: (v: string) => void;
-  activeTourIds: Set<string>;
-  onToggleTour: (id: string) => void;
-  selectedTourId: string | null;
-  onFocusTour: (id: string | null) => void;
+  activeDayIds: Set<string>;
+  onToggleDay: (id: string) => void;
+  selectedDayId: string | null;
+  onFocusDay: (id: string | null) => void;
   showRoutes: boolean;
   onToggleRoutes: () => void;
   onShowAll: () => void;
@@ -18,10 +18,10 @@ interface Props {
 export function Sidebar({
   search,
   onSearch,
-  activeTourIds,
-  onToggleTour,
-  selectedTourId,
-  onFocusTour,
+  activeDayIds,
+  onToggleDay,
+  selectedDayId,
+  onFocusDay,
   showRoutes,
   onToggleRoutes,
   onShowAll,
@@ -39,7 +39,7 @@ export function Sidebar({
             className="w-full rounded-xl border border-border bg-background py-2.5 pl-9 pr-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
         </div>
-        <StatsBar />
+        <StatsBar selectedDayId={selectedDayId} />
       </div>
 
       <div className="flex items-center gap-2">
@@ -67,19 +67,19 @@ export function Sidebar({
         </button>
       </div>
 
-      {selectedTourId && (
+      {selectedDayId && (
         <button
-          onClick={() => onFocusTour(null)}
+          onClick={() => onFocusDay(null)}
           className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-secondary px-3 py-2 text-xs font-semibold text-secondary-foreground transition hover:bg-secondary/70"
         >
-          <RotateCcw className="h-3.5 w-3.5" /> Ver todos los tours
+          <RotateCcw className="h-3.5 w-3.5" /> Ver todos los días
         </button>
       )}
 
       <div className="thin-scroll -mr-2 flex-1 space-y-2 overflow-y-auto pr-2">
-        {tours.map((t) => {
-          const active = activeTourIds.has(t.id);
-          const focused = selectedTourId === t.id;
+        {days.map((t) => {
+          const active = activeDayIds.has(t.id);
+          const focused = selectedDayId === t.id;
           return (
             <div
               key={t.id}
@@ -90,7 +90,7 @@ export function Sidebar({
             >
               <div className="flex items-start gap-2.5">
                 <button
-                  onClick={() => onToggleTour(t.id)}
+                  onClick={() => onToggleDay(t.id)}
                   className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border-2 transition"
                   style={{
                     borderColor: t.color,
@@ -104,10 +104,10 @@ export function Sidebar({
                     </svg>
                   )}
                 </button>
-                <button onClick={() => onFocusTour(focused ? null : t.id)} className="min-w-0 flex-1 text-left">
+                <button onClick={() => onFocusDay(focused ? null : t.id)} className="min-w-0 flex-1 text-left">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold" style={{ color: t.color }}>
-                      Tour {t.number}
+                      Día {t.number}
                     </span>
                     <span className="rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground">
                       {t.places.length} lugares

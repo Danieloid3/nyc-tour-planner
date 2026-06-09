@@ -1,12 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Map as MapIcon, ListOrdered, Moon, Sun, Menu, Compass } from "lucide-react";
-import { allPlaces, tours, type Place } from "@/data/itinerary";
+import { Map as MapIcon, ListOrdered, Moon, Sun, Compass, SlidersHorizontal } from "lucide-react";
+import { allPlaces, days, type Place } from "@/data/itinerary";
 import { useTheme } from "@/hooks/use-theme";
 import MapView from "@/components/map/MapView";
 import { Sidebar } from "@/components/Sidebar";
 import { Timeline } from "@/components/Timeline";
 import { PlaceDetail } from "@/components/PlaceDetail";
+import { LocationWidget } from "@/components/map/LocationWidget";
+import * as Popover from "@radix-ui/react-popover";
+import { useGeolocation } from "@/hooks/use-geolocation";
+import { useProgress } from "@/hooks/use-progress";
+import { WeatherWidget } from "@/components/WeatherWidget";
+import { haversine } from "@/lib/geo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -15,29 +21,32 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Mapa interactivo del itinerario familiar de Nueva York y Stamford: 12 tours, miradores, museos, parques y rutas a pie.",
+          "Mapa interactivo del itinerario familiar de Nueva York y Stamford: 12 días, miradores, museos, parques y rutas a pie.",
       },
       { property: "og:title", content: "Mapa de Viaje · Nueva York Familiar" },
       {
         property: "og:description",
-        content: "Explora 12 tours por Nueva York con rutas, miradores, museos y comida recomendada.",
+        content: "Explora 12 días de itinerario por Nueva York con rutas, miradores, museos y comida recomendada.",
       },
     ],
   }),
   component: Index,
 });
 
-const ALL_TOUR_IDS = new Set(tours.map((t) => t.id));
+const ALL_DAY_IDS = new Set(days.map((t) => t.id));
 
 function Index() {
   const { theme, toggle } = useTheme();
   const [view, setView] = useState<"map" | "timeline">("map");
-  const [activeTourIds, setActiveTourIds] = useState<Set<string>>(new Set(ALL_TOUR_IDS));
-  const [selectedTourId, setSelectedTourId] = useState<string | null>(null);
-  const [selectedPlace, setSelectedPlace] = useState<(Place & { tourId: string }) | null>(null);
+  const [activeDayIds, setActiveDayIds] = useState<Set<string>>(new Set(ALL_DAY_IDS));
+  const [selectedDayId, setSelectedDayId] = useState<string | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<(Place & { dayId: string }) | null>(null);
   const [showRoutes, setShowRoutes] = useState(false);
   const [search, setSearch] = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mapInstance, setMapInstance] = useState<any>(null);
+
+  const userLocation = useGeolocation();
+  const progress = useProgress();
 
   const searchMatchIds = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -45,130 +54,184 @@ function Index() {
     return new Set(allPlaces.filter((p) => p.name.toLowerCase().includes(q)).map((p) => p.id));
   }, [search]);
 
-  const toggleTour = (id: string) =>
-    setActiveTourIds((prev) => {
+  const toggleDay = (id: string) =>
+    setActiveDayIds((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
       return next;
     });
 
-  const focusTour = (id: string | null) => {
-    setSelectedTourId(id);
+  const focusDay = (id: string | null) => {
+    setSelectedDayId(id);
     if (id) {
-      setActiveTourIds((prev) => new Set(prev).add(id));
+      setActiveDayIds((prev) => new Set(prev).add(id));
       setView("map");
-      setSidebarOpen(false);
     }
   };
 
-  const selectPlace = (p: Place & { tourId: string }) => {
+  const selectPlace = (p: Place & { dayId: string }) => {
     setSelectedPlace(p);
     setView("map");
   };
 
+  const centerOnUser = () => {
+    if (mapInstance && userLocation.lat && userLocation.lng) {
+      mapInstance.flyTo([userLocation.lat, userLocation.lng], 16, { duration: 0.8 });
+    }
+  };
+
+  const targetPlace = useMemo(() => {
+    if (selectedPlace) return selectedPlace;
+    if (selectedDayId && userLocation.lat && userLocation.lng) {
+      const day = days.find((d) => d.id === selectedDayId);
+      if (day) {
+        let closest = null;
+        let minDist = Infinity;
+        for (const p of day.places) {
+          const dist = haversine(
+            { lat: userLocation.lat, lng: userLocation.lng },
+            p
+          );
+          if (dist < minDist) {
+            minDist = dist;
+            closest = p;
+          }
+        }
+        return closest;
+      }
+    }
+    return null;
+  }, [selectedPlace, selectedDayId, userLocation.lat, userLocation.lng]);
+
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-background">
-      {/* Top bar */}
-      <header className="z-30 flex items-center justify-between gap-3 border-b border-border bg-card px-3 py-2.5 sm:px-4">
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={() => setSidebarOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center rounded-lg border border-border text-foreground transition hover:bg-secondary lg:hidden"
-            aria-label="Menú"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow">
-            <Compass className="h-5 w-5" />
+    <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-background">
+      {/* Floating Top Bar */}
+      <header className="absolute left-4 right-4 top-4 z-[1000] flex items-center justify-between gap-3 pointer-events-none">
+        
+        {/* Left Side: Logo & Title inside a glass pill */}
+        <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-border/50 bg-background/85 px-2 sm:px-3 py-1.5 sm:py-2 shadow-sm backdrop-blur-xl">
+          <span className="grid h-7 w-7 sm:h-8 sm:w-8 place-items-center rounded-lg sm:rounded-xl bg-primary text-primary-foreground shadow">
+            <Compass className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </span>
-          <div className="leading-tight">
-            <h1 className="text-sm font-extrabold tracking-tight text-foreground sm:text-base">Nueva York Familiar</h1>
-            <p className="hidden text-xs text-muted-foreground sm:block">Mapa de viaje interactivo · 12 tours</p>
+          <div className="pr-1 leading-tight">
+            <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">NYC Familiar</h1>
+            <p className="hidden text-[10px] font-semibold text-muted-foreground sm:block">12 días de viaje</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex rounded-xl border border-border bg-background p-0.5">
+        {/* Right Side: Tools inside glass pills */}
+        <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2">
+          
+          <Popover.Root>
+            <Popover.Trigger asChild>
+              <button
+                className="flex items-center gap-2 rounded-xl sm:rounded-2xl border border-border/50 bg-background/85 px-2.5 py-2 sm:px-3 sm:py-2.5 text-sm font-bold shadow-sm backdrop-blur-xl transition hover:bg-background active:scale-95"
+                aria-label="Filtros y Días"
+              >
+                <SlidersHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
+                <span className="hidden sm:inline">Días y Filtros</span>
+              </button>
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Content
+                className="z-[2000] w-[calc(100vw-24px)] sm:w-[380px] origin-top-right animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 overflow-hidden rounded-[28px] border border-border bg-background/95 shadow-2xl backdrop-blur-2xl mr-3 sm:mr-4 mt-2"
+                align="end"
+                sideOffset={5}
+              >
+                <div className="flex h-[70vh] max-h-[600px] flex-col overflow-hidden p-5">
+                  <Sidebar
+                    search={search}
+                    onSearch={setSearch}
+                    activeDayIds={activeDayIds}
+                    onToggleDay={toggleDay}
+                    selectedDayId={selectedDayId}
+                    onFocusDay={focusDay}
+                    showRoutes={showRoutes}
+                    onToggleRoutes={() => setShowRoutes((v) => !v)}
+                    onShowAll={() => setActiveDayIds(new Set(ALL_DAY_IDS))}
+                    onHideAll={() => {
+                      setActiveDayIds(new Set());
+                      setSelectedDayId(null);
+                    }}
+                  />
+                </div>
+              </Popover.Content>
+            </Popover.Portal>
+          </Popover.Root>
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex rounded-xl sm:rounded-2xl border border-border/50 bg-background/85 p-1 shadow-sm backdrop-blur-xl">
+              <button
+                onClick={() => setView("map")}
+                className={`grid h-7 w-7 sm:h-8 sm:w-auto place-items-center sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold transition ${
+                  view === "map" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <MapIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-1.5 inline-block" /> <span className="hidden sm:inline">Mapa</span>
+              </button>
+              <button
+                onClick={() => setView("timeline")}
+                className={`grid h-7 w-7 sm:h-8 sm:w-auto place-items-center sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold transition ${
+                  view === "timeline" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <ListOrdered className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-1.5 inline-block" /> <span className="hidden sm:inline">Lista</span>
+              </button>
+            </div>
+
+            <WeatherWidget />
+
             <button
-              onClick={() => setView("map")}
-              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition sm:px-3 ${
-                view === "map" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-              }`}
+              onClick={toggle}
+              className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-xl sm:rounded-2xl border border-border/50 bg-background/85 text-foreground shadow-sm backdrop-blur-xl transition hover:bg-background active:scale-95"
+              aria-label="Cambiar tema"
             >
-              <MapIcon className="h-4 w-4" /> <span className="hidden sm:inline">Mapa</span>
-            </button>
-            <button
-              onClick={() => setView("timeline")}
-              className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition sm:px-3 ${
-                view === "timeline" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <ListOrdered className="h-4 w-4" /> <span className="hidden sm:inline">Timeline</span>
+              {theme === "dark" ? <Sun className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
             </button>
           </div>
-          <button
-            onClick={toggle}
-            className="grid h-9 w-9 place-items-center rounded-lg border border-border text-foreground transition hover:bg-secondary"
-            aria-label="Cambiar tema"
-          >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
         </div>
       </header>
 
-      <div className="relative flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <aside
-          className={`absolute inset-y-0 left-0 z-20 w-[300px] border-r border-border bg-sidebar p-4 transition-transform duration-300 lg:static lg:translate-x-0 ${
-            sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
-          }`}
-        >
-          <Sidebar
-            search={search}
-            onSearch={setSearch}
-            activeTourIds={activeTourIds}
-            onToggleTour={toggleTour}
-            selectedTourId={selectedTourId}
-            onFocusTour={focusTour}
-            showRoutes={showRoutes}
-            onToggleRoutes={() => setShowRoutes((v) => !v)}
-            onShowAll={() => setActiveTourIds(new Set(ALL_TOUR_IDS))}
-            onHideAll={() => {
-              setActiveTourIds(new Set());
-              setSelectedTourId(null);
-            }}
-          />
-        </aside>
-
-        {sidebarOpen && (
-          <div className="absolute inset-0 z-10 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+      {/* Main Content Area */}
+      <main className="relative flex-1 w-full overflow-hidden">
+        {view === "map" ? (
+          <>
+            <MapView
+              theme={theme}
+              activeDayIds={activeDayIds}
+              selectedDayId={selectedDayId}
+              selectedPlaceId={selectedPlace?.id ?? null}
+              showRoutes={showRoutes}
+              searchMatchIds={searchMatchIds}
+              userLocation={userLocation}
+              visitedIds={progress.visitedIds}
+              onMapInstance={setMapInstance}
+              onSelectPlace={selectPlace}
+            />
+            {/* Location Tracking Widget */}
+            <LocationWidget 
+              userLocation={userLocation} 
+              targetPlace={targetPlace} 
+              onCenter={centerOnUser} 
+            />
+            {/* PlaceDetail is now a Vaul Drawer that handles its own portals and overlay */}
+            <PlaceDetail 
+              place={selectedPlace} 
+              onClose={() => setSelectedPlace(null)} 
+              onFocusDay={focusDay} 
+              userLocation={userLocation}
+              progress={progress}
+            />
+          </>
+        ) : (
+          <div className="h-full w-full overflow-y-auto thin-scroll pt-24 px-4 pb-12">
+             <div className="mx-auto max-w-4xl">
+               <Timeline onSelectDay={(id) => focusDay(id)} progress={progress} />
+             </div>
+          </div>
         )}
-
-        {/* Main */}
-        <main className="relative flex-1 overflow-hidden">
-          {view === "map" ? (
-            <>
-              <MapView
-                theme={theme}
-                activeTourIds={activeTourIds}
-                selectedTourId={selectedTourId}
-                selectedPlaceId={selectedPlace?.id ?? null}
-                showRoutes={showRoutes}
-                searchMatchIds={searchMatchIds}
-                onSelectPlace={selectPlace}
-              />
-              {selectedPlace && (
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center p-3 sm:inset-auto sm:right-4 sm:top-4 sm:bottom-4 sm:items-stretch sm:p-0">
-                  <PlaceDetail place={selectedPlace} onClose={() => setSelectedPlace(null)} onFocusTour={focusTour} />
-                </div>
-              )}
-            </>
-          ) : (
-            <Timeline onSelectTour={(id) => focusTour(id)} />
-          )}
-        </main>
-      </div>
+      </main>
     </div>
   );
 }
