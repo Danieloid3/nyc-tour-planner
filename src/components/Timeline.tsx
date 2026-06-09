@@ -144,7 +144,7 @@ export function Timeline({ onSelectDay, onSelectPlace, progress, selectedDayId }
                       onClick={(e) => { e.stopPropagation(); onSelectDay(t.id); }}
                     >
                       <div 
-                        className="flex w-full h-12 items-center justify-center gap-2 rounded-xl text-[15px] font-black text-white shadow-md transition hover:opacity-90 active:scale-95 backdrop-blur-md"
+                        className="flex w-full h-12 items-center justify-center gap-2 rounded-xl text-[15px] font-black text-white shadow-md transition hover:opacity-90 active:scale-95"
                         style={{ backgroundColor: t.color + "e6" }}
                       >
                         <MapIcon className="h-5 w-5" /> VER RUTA EN EL MAPA

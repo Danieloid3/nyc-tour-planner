@@ -62,7 +62,7 @@ export function LocationWidget({ userLocation, targetPlace, onCenter, onTargetCl
 
       {/* Error Message Tooltip (Optional, just a small alert if needed) */}
       {userLocation.error && (
-        <div className="pointer-events-auto rounded-lg bg-destructive/10 px-2 py-1 text-[10px] font-bold text-destructive backdrop-blur-md">
+        <div className="pointer-events-auto rounded-lg bg-destructive/10 px-2 py-1 text-[10px] font-bold text-destructive">
           {userLocation.error}
         </div>
       )}

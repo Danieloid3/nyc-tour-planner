@@ -98,7 +98,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
               e.preventDefault();
             }
           }}
-          className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden"
+          className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden will-change-transform"
         >
           {/* Header background with image */}
           <div 
@@ -255,7 +255,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
               href={googleMapsNavigationLink(place, origin)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-3 inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl px-4 text-[16px] font-black shadow-lg transition hover:opacity-90 active:scale-[0.98] text-white backdrop-blur-md"
+              className="mb-3 inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl px-4 text-[16px] font-black shadow-lg transition hover:opacity-90 active:scale-[0.98] text-white"
               style={{ backgroundColor: day.color + "e6" }}
             >
               <Navigation className="h-6 w-6" /> LLEVARME HASTA AQUÍ
@@ -306,7 +306,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
 function SingleImageViewer({ image, onClose }: { image: any, onClose: () => void }) {
   return (
     <div 
-      className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
+      className="fixed inset-0 z-[10000] flex flex-col bg-black/95 animate-fade-in"
       onClick={(e) => { e.stopPropagation(); onClose(); }}
     >
       <div className="absolute top-6 right-6 z-10">

@@ -34,7 +34,7 @@ export function WeatherWidget() {
 
   if (isLoading) {
     return (
-      <div className="flex h-9 sm:h-10 items-center justify-center rounded-xl sm:rounded-2xl bg-card/85 px-2.5 sm:px-3 backdrop-blur-xl border border-border/50 shadow-sm">
+      <div className="flex h-9 sm:h-10 items-center justify-center rounded-xl sm:rounded-2xl bg-card px-2.5 sm:px-3 border border-border/50 shadow-sm">
         <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin text-muted-foreground" />
       </div>
     );
@@ -49,7 +49,7 @@ export function WeatherWidget() {
 
   return (
     <div 
-      className="flex h-9 sm:h-10 items-center gap-1.5 rounded-xl sm:rounded-2xl bg-card/85 px-2.5 sm:px-3 backdrop-blur-xl border border-border/50 shadow-sm transition-colors hover:bg-card"
+      className="flex h-9 sm:h-10 items-center gap-1.5 rounded-xl sm:rounded-2xl bg-card px-2.5 sm:px-3 border border-border/50 shadow-sm transition-colors hover:bg-card"
       title="Clima en Nueva York"
     >
       <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-foreground/80" />

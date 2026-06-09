@@ -90,9 +90,9 @@ export default function TravelMap({
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    // Toggle labels when zoomed in closely (zoom >= 15)
+    // Toggle labels when zoomed in closely (zoom >= 14)
     map.on('zoomend', () => {
-      if (map.getZoom() >= 15) {
+      if (map.getZoom() >= 14) {
         containerRef.current?.classList.add('show-labels');
       } else {
         containerRef.current?.classList.remove('show-labels');
@@ -229,7 +229,7 @@ export default function TravelMap({
       }).addTo(routes);
 
       if (latlngs.length) {
-        map.flyToBounds(L.latLngBounds(latlngs).pad(0.25), { duration: 0.6, maxZoom: 15 });
+        map.flyToBounds(L.latLngBounds(latlngs).pad(0.25), { duration: 0.4, maxZoom: 15 });
       }
     } else {
       // overview: clustered markers for active days
@@ -254,7 +254,7 @@ export default function TravelMap({
     if (p) {
       setTimeout(() => {
         if (mapRef.current) {
-          mapRef.current.flyTo([p.lat, p.lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.6 });
+          mapRef.current.flyTo([p.lat, p.lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.4 });
         }
       }, 300); // Wait for the drawer animation to mostly finish
     }
@@ -266,11 +266,11 @@ export default function TravelMap({
     if (!map || selectedDayId) return;
     const visible = allPlaces.filter((p) => activeDayIds.has(p.dayId));
     if (visible.length === 0) {
-      map.flyTo(MANHATTAN, 13, { duration: 0.5 });
+      map.flyTo(MANHATTAN, 13, { duration: 0.4 });
       return;
     }
     const b = L.latLngBounds(visible.map((p) => [p.lat, p.lng] as L.LatLngTuple));
-    map.flyToBounds(b.pad(0.15), { duration: 0.5, maxZoom: 13 });
+    map.flyToBounds(b.pad(0.15), { duration: 0.4, maxZoom: 13 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDayId]);
 

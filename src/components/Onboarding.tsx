@@ -26,7 +26,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 transition-opacity duration-400 ${isClosing ? 'opacity-0' : 'opacity-100 animate-fade-in'}`}>
-      <div className="absolute inset-0 bg-background/40 backdrop-blur-xl" />
+      <div className="absolute inset-0 bg-background/95" />
       
       <div className="relative w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-card p-8 text-center shadow-2xl border border-border animate-fade-in-up">
         

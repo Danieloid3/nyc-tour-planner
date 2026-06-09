@@ -156,7 +156,7 @@ function Index() {
         <header className="absolute left-4 right-4 top-4 z-[1000] flex items-center justify-between gap-3 pointer-events-none">
           
           {/* Left Side: Logo & Title inside a glass pill */}
-          <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-border/50 bg-card/85 px-2 sm:px-3 py-1.5 sm:py-2 shadow-sm backdrop-blur-xl">
+          <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-border/50 bg-card px-2 sm:px-3 py-1.5 sm:py-2 shadow-sm">
             <img src="/pwa-192x192.png" className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl shadow object-cover" alt="Wander Logo" />
             <div className="pr-1 leading-tight">
               <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">Wander</h1>
@@ -170,7 +170,7 @@ function Index() {
             <Popover.Root>
               <Popover.Trigger asChild>
                 <button
-                  className="flex items-center gap-2 rounded-xl sm:rounded-2xl border border-border/50 bg-card/85 px-2.5 py-2 sm:px-3 sm:py-2.5 text-sm font-bold shadow-sm backdrop-blur-xl transition hover:bg-card active:scale-95"
+                  className="flex items-center gap-2 rounded-xl sm:rounded-2xl border border-border/50 bg-card px-2.5 py-2 sm:px-3 sm:py-2.5 text-sm font-bold shadow-sm transition hover:bg-card active:scale-95"
                   aria-label="Filtros y Días"
                 >
                   <SlidersHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
@@ -179,7 +179,7 @@ function Index() {
               </Popover.Trigger>
               <Popover.Portal>
                 <Popover.Content
-                  className="z-[2000] w-[calc(100vw-32px)] sm:w-[380px] origin-top animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 overflow-hidden rounded-[28px] border border-border bg-card/95 shadow-2xl backdrop-blur-2xl mt-2"
+                  className="z-[2000] w-[calc(100vw-32px)] sm:w-[380px] origin-top animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95 overflow-hidden rounded-[28px] border border-border bg-card shadow-2xl mt-2"
                   align="center"
                   sideOffset={5}
                   collisionPadding={16}
@@ -211,7 +211,7 @@ function Index() {
 
               <button
                 onClick={toggle}
-                className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-xl sm:rounded-2xl border border-border/50 bg-card/85 text-foreground shadow-sm backdrop-blur-xl transition hover:bg-card active:scale-95"
+                className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-xl sm:rounded-2xl border border-border/50 bg-card text-foreground shadow-sm transition hover:bg-card active:scale-95"
                 aria-label="Cambiar tema"
               >
                 {theme === "dark" ? <Sun className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
