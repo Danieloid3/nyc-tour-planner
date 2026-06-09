@@ -110,7 +110,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
         >
           {/* Header background with image */}
           <div 
-            className="absolute top-0 left-0 right-0 h-[220px] transition-all duration-500 bg-muted cursor-pointer"
+            className="absolute top-0 left-0 right-0 h-[220px] z-10 transition-all duration-500 bg-muted cursor-pointer"
             onClick={() => mainImage && setFullscreenIndex(0)}
             style={{ 
               backgroundImage: mainImage ? `url(${mainImage.thumb})` : `linear-gradient(180deg, ${day.color}30, transparent)`,
@@ -128,13 +128,13 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
             )}
           </div>
 
-          <div className="relative z-10 mx-auto mt-3 mb-2 h-1.5 w-12 flex-shrink-0 rounded-full bg-white/40 shadow-sm" />
+          <div className="relative z-[15] mx-auto mt-3 mb-2 h-1.5 w-12 flex-shrink-0 rounded-full bg-white/40 shadow-sm" />
           
           <div 
             ref={scrollRef}
-            className="flex-1 overflow-y-auto thin-scroll pb-56 relative z-10 isolate"
+            className="flex-1 overflow-y-auto thin-scroll pb-56 isolate"
           >
-            <div className="relative px-6 pt-16 pb-5">
+            <div className="relative z-20 px-6 pt-16 pb-5">
               <div className="flex items-start gap-4">
                 <span
                   className="mt-1 grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-white shadow-md"
