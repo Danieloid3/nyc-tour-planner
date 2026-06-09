@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, MapPin, Clock, CheckCircle2, Circle, ChevronDown, Map as MapIcon } from "lucide-react";
+import { ArrowRight, MapPin, Clock, CheckCircle2, Circle, ChevronDown, Map as MapIcon, Lightbulb } from "lucide-react";
 import { days, allPlaces, CATEGORY_LABELS } from "@/data/itinerary";
 import { CATEGORY_META } from "@/lib/categories";
 import { dayTotalDistance, formatDistance, walkingTime, haversine } from "@/lib/geo";
@@ -104,7 +104,7 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                     <p className={`mt-2 text-sm text-foreground/80 ${isExpanded ? "" : "line-clamp-2"}`}>{t.description}</p>
                     {isExpanded && t.pace && (
                       <div className="mt-3 animate-fade-in-up rounded-xl bg-accent/30 p-3 border border-accent/50 text-[13px] text-foreground/90 font-medium flex gap-2 items-start shadow-sm">
-                        <span className="text-muted-foreground mt-0.5">💡</span>
+                        <Lightbulb className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
                         <span>
                           <strong className="text-foreground">Ritmo sugerido:</strong> {t.pace}
                         </span>

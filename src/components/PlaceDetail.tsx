@@ -1,5 +1,5 @@
 import { Drawer } from "vaul";
-import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle } from "lucide-react";
+import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle, Lightbulb } from "lucide-react";
 import { days, CATEGORY_LABELS, type Place } from "@/data/itinerary";
 import { CATEGORY_META } from "@/lib/categories";
 import { googleMapsLink, googleMapsNavigationLink, haversine, formatDistance, walkingTime, transitTime } from "@/lib/geo";
@@ -192,7 +192,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
               {place.curiosity && (
                 <div className="rounded-2xl bg-accent/30 p-4 border border-accent/50 shadow-sm">
                   <h3 className="mb-2 flex items-center gap-2 text-[13px] font-black uppercase tracking-widest text-primary">
-                    <span className="text-base">💡</span> ¿Sabías que...?
+                    <Lightbulb className="h-4 w-4" /> ¿Sabías que...?
                   </h3>
                   <p className="text-[14px] text-foreground/90 leading-relaxed font-medium italic">{place.curiosity}</p>
                 </div>
