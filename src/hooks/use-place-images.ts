@@ -63,9 +63,6 @@ export function usePlaceImages(placeName: string | undefined) {
             });
           }
         }
-
-        }
-
         if (mounted) {
           setImages(results);
           imageCache.set(placeName, results);
