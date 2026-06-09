@@ -17,7 +17,7 @@ export function LocationWidget({ userLocation, targetPlace, onCenter }: Props) {
       : null;
 
   return (
-    <div className="absolute bottom-6 right-4 z-[1000] flex flex-col items-end gap-3 pointer-events-none">
+    <div className="fixed bottom-6 right-4 z-[1000] flex flex-col items-end gap-3 pointer-events-none">
       
       {/* Target Distance Panel */}
       {distance !== null && targetPlace && (
