@@ -102,6 +102,14 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                       </div>
                     </div>
                     <p className={`mt-2 text-sm text-foreground/80 ${isExpanded ? "" : "line-clamp-2"}`}>{t.description}</p>
+                    {isExpanded && t.pace && (
+                      <div className="mt-3 animate-fade-in-up rounded-xl bg-accent/30 p-3 border border-accent/50 text-[13px] text-foreground/90 font-medium flex gap-2 items-start shadow-sm">
+                        <span className="text-muted-foreground mt-0.5">💡</span>
+                        <span>
+                          <strong className="text-foreground">Ritmo sugerido:</strong> {t.pace}
+                        </span>
+                      </div>
+                    )}
                     <div className="mt-3 flex flex-wrap items-center gap-3">
                       <div className="flex -space-x-1">
                         {cats.map((c) => {

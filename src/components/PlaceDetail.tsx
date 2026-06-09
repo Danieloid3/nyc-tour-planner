@@ -189,12 +189,12 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                 </div>
               )}
 
-              {day.pace && (
-                <div className="rounded-2xl bg-accent/30 p-4">
-                  <h3 className="mb-2 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground">
-                    <Gauge className="h-4 w-4" /> Nota de ritmo
+              {place.curiosity && (
+                <div className="rounded-2xl bg-accent/30 p-4 border border-accent/50 shadow-sm">
+                  <h3 className="mb-2 flex items-center gap-2 text-[13px] font-black uppercase tracking-widest text-primary">
+                    <span className="text-base">💡</span> ¿Sabías que...?
                   </h3>
-                  <p className="text-[14px] text-foreground/90 leading-relaxed font-medium">{day.pace}</p>
+                  <p className="text-[14px] text-foreground/90 leading-relaxed font-medium italic">{place.curiosity}</p>
                 </div>
               )}
             </div>
