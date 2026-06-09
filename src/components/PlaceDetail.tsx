@@ -222,9 +222,9 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                 }`}
               >
                 {progress.isVisited(place.id) ? (
-                  <><CheckCircle2 className="h-4 w-4 text-primary" /> Visitado</>
+                  <><CheckCircle2 className="h-4 w-4 text-primary" /> ¡Visitado!</>
                 ) : (
-                  <><Circle className="h-4 w-4 text-primary" /> Marcar</>
+                  <><Circle className="h-4 w-4 text-primary" /> Ya lo visité</>
                 )}
               </button>
               
@@ -234,7 +234,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                 rel="noopener noreferrer"
                 className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border-2 border-border bg-background px-2 text-[14px] font-bold text-foreground transition hover:bg-secondary active:scale-[0.98]"
               >
-                <MapPin className="h-4 w-4" /> Ver mapa
+                <MapPin className="h-4 w-4" /> Google Maps
               </a>
             </div>
           </div>
