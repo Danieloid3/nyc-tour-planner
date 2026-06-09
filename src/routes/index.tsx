@@ -220,7 +220,7 @@ function Index() {
         ) : (
           <div className="h-full w-full overflow-y-auto thin-scroll pt-24 px-4 pb-12">
              <div className="mx-auto max-w-4xl">
-               <Timeline onSelectDay={(id) => focusDay(id)} progress={progress} />
+               <Timeline onSelectDay={(id) => focusDay(id)} progress={progress} selectedDayId={selectedDayId} />
              </div>
           </div>
         )}

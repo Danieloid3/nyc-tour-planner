@@ -8,9 +8,10 @@ import type { useProgress } from "@/hooks/use-progress";
 interface Props {
   onSelectDay: (dayId: string) => void;
   progress: ReturnType<typeof useProgress>;
+  selectedDayId: string | null;
 }
 
-export function Timeline({ onSelectDay, progress }: Props) {
+export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
   const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set()); // All days collapsed by default
 
   const toggleExpanded = (id: string) => {
@@ -62,13 +63,17 @@ export function Timeline({ onSelectDay, progress }: Props) {
             const isDayCompleted = dayVisitedCount === dayTotal && dayTotal > 0;
 
             const isExpanded = expandedDays.has(t.id);
+            const isSelected = t.id === selectedDayId;
 
             return (
               <div key={t.id} className="relative flex gap-4" style={{ animationDelay: `${i * 40}ms` }}>
                 <div className="flex-1">
                   <button
                     onClick={() => toggleExpanded(t.id)}
-                    className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border ${isDayCompleted ? 'border-primary/50 opacity-80' : 'border-border'} bg-card text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl`}
+                    className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl ${
+                      isSelected ? "ring-2 ring-primary ring-offset-2 border-primary bg-primary/5" :
+                      isDayCompleted ? "border-primary/50 opacity-80 bg-card" : "border-border bg-card"
+                    }`}
                   >
                   <div className="h-1.5 w-full" style={{ background: t.color }} />
                   <div className="p-4">
