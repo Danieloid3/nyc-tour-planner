@@ -93,7 +93,8 @@ function Index() {
 
   const selectPlace = (p: Place & { dayId: string } | null) => {
     if (p && !selectedPlace) {
-      window.history.pushState({ placeDrawer: true }, '');
+      const currentState = window.history.state || {};
+      window.history.pushState({ ...currentState, placeDrawer: true }, '');
     }
     setSelectedPlace(p);
     if (p) setView("map");
