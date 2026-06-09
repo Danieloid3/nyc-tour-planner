@@ -251,7 +251,13 @@ export default function TravelMap({
     const map = mapRef.current;
     if (!map || !selectedPlaceId) return;
     const p = allPlaces.find((x) => x.id === selectedPlaceId);
-    if (p) map.flyTo([p.lat, p.lng], Math.max(map.getZoom(), 15), { duration: 0.6 });
+    if (p) {
+      setTimeout(() => {
+        if (mapRef.current) {
+          mapRef.current.flyTo([p.lat, p.lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.6 });
+        }
+      }, 300); // Wait for the drawer animation to mostly finish
+    }
   }, [selectedPlaceId]);
 
   // reset view when deselecting day
