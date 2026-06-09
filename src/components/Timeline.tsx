@@ -143,28 +143,20 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                       className="mt-4 pt-1"
                       onClick={(e) => { e.stopPropagation(); onSelectDay(t.id); }}
                     >
-                      <div className="flex w-full h-12 items-center justify-center gap-2 rounded-xl bg-primary text-[15px] font-black text-primary-foreground shadow-md transition hover:opacity-90 active:scale-95">
+                      <div 
+                        className="flex w-full h-12 items-center justify-center gap-2 rounded-xl text-[15px] font-black text-white shadow-md transition hover:opacity-90 active:scale-95"
+                        style={{ backgroundColor: t.color }}
+                      >
                         <MapIcon className="h-5 w-5" /> VER RUTA EN EL MAPA
                       </div>
                     </div>
                   </div>
                 </button>
                 
-                {/* List of places for the day (expandable accordion) */}
                 <div 
-                  className={`pl-8 sm:pl-12 pr-2 sm:pr-4 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[2000px] mt-4 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
+                  className={`pl-8 sm:pl-12 pr-2 sm:pr-4 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[2000px] mt-2 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
                 >
-                  {/* Map Button at top of expanded list */}
-                  <div className="pt-1 pb-5 flex justify-start">
-                    <button 
-                      onClick={() => onSelectDay(t.id)}
-                      className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-[13px] font-bold text-primary hover:bg-primary/20 transition-colors"
-                    >
-                      <MapIcon className="h-4 w-4" /> Ver ruta en el mapa
-                    </button>
-                  </div>
-                  
-                  <div className="space-y-4 pb-4">
+                  <div className="relative border-l-2 border-border/50 ml-3.5 sm:ml-4 pl-6 sm:pl-8 pb-4">
                     {[...t.places].sort((a, b) => a.order - b.order).map((p, idx, arr) => {
                     const next = arr[idx + 1];
                     const distToNext = next ? haversine(p, next) : null;

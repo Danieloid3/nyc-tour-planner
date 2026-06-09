@@ -207,7 +207,8 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
               href={googleMapsNavigationLink(place, origin)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-3 inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-primary px-4 text-[16px] font-black text-primary-foreground shadow-lg transition hover:opacity-90 active:scale-[0.98]"
+              className="mb-3 inline-flex h-14 w-full items-center justify-center gap-3 rounded-2xl px-4 text-[16px] font-black shadow-lg transition hover:opacity-90 active:scale-[0.98] text-white"
+              style={{ backgroundColor: day.color }}
             >
               <Navigation className="h-6 w-6" /> LLEVARME HASTA AQUÍ
             </a>
