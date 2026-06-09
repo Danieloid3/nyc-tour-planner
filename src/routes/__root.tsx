@@ -88,7 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Lovable App" },
       { name: "twitter:description", content: "NYC Journey Map visualizes your New York itinerary as an interactive travel map." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a4d0f488-4beb-4a9d-a082-9f19ec922259/id-preview-1ef9a295--a3555291-252a-451c-b457-884fe35263ab.lovable.app-1780964885937.png" },
-      { name: "theme-color", content: "#ffffff" },
+      { name: "theme-color", content: "#f0ead2" },
     ],
     links: [
       { rel: "manifest", href: "/manifest.webmanifest" },
