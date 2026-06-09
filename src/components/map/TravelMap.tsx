@@ -90,9 +90,9 @@ export default function TravelMap({
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    // Toggle labels when zoomed in closely (zoom >= 14)
+    // Toggle labels when zoomed in closely (zoom >= 15)
     map.on('zoomend', () => {
-      if (map.getZoom() >= 14) {
+      if (map.getZoom() >= 15) {
         containerRef.current?.classList.add('show-labels');
       } else {
         containerRef.current?.classList.remove('show-labels');
