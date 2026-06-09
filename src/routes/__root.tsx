@@ -88,8 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Lovable App" },
       { name: "twitter:description", content: "NYC Journey Map visualizes your New York itinerary as an interactive travel map." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a4d0f488-4beb-4a9d-a082-9f19ec922259/id-preview-1ef9a295--a3555291-252a-451c-b457-884fe35263ab.lovable.app-1780964885937.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a4d0f488-4beb-4a9d-a082-9f19ec922259/id-preview-1ef9a295--a3555291-252a-451c-b457-884fe35263ab.lovable.app-1780964885937.png" },
-      { name: "theme-color", content: "#0f172a" },
+      { name: "theme-color", content: "#ffffff" },
     ],
     links: [
       { rel: "manifest", href: "/manifest.webmanifest" },
@@ -112,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-const themeInit = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':true;document.documentElement.classList.toggle('dark',d);}catch(e){document.documentElement.classList.add('dark');}})();`;
+const themeInit = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':false;document.documentElement.classList.toggle('dark',d);}catch(e){}})();`;
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
