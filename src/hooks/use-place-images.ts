@@ -50,12 +50,13 @@ export function usePlaceImages(placeName: string | undefined) {
         const pages = data.query.pages;
         const results: PlaceImage[] = [];
 
-        // Sort by index so it matches the search relevance order
         const sortedPages = Object.values(pages).sort((a: any, b: any) => a.index - b.index);
+        const uniqueUrls = new Set<string>();
 
         for (const page of sortedPages as any[]) {
           const imageInfo = page.imageinfo?.[0];
-          if (imageInfo?.thumburl) {
+          if (imageInfo?.thumburl && !uniqueUrls.has(imageInfo.url)) {
+            uniqueUrls.add(imageInfo.url);
             results.push({
               url: imageInfo.url, // Original full size
               thumb: imageInfo.thumburl, // 800px width

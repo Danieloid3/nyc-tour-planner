@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Drawer } from "vaul";
-import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle, Lightbulb } from "lucide-react";
+import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle, Lightbulb, X } from "lucide-react";
 import { days, CATEGORY_LABELS, type Place } from "@/data/itinerary";
 import { CATEGORY_META } from "@/lib/categories";
 import { googleMapsLink, googleMapsNavigationLink, haversine, formatDistance, walkingTime, transitTime } from "@/lib/geo";
@@ -17,6 +18,7 @@ interface Props {
 
 export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress }: Props) {
   const isOpen = !!place;
+  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
   if (!place) {
     return (
@@ -59,7 +61,8 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
         <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden">
           {/* Header background with image */}
           <div 
-            className="absolute top-0 left-0 right-0 h-[220px] transition-all duration-500 bg-muted"
+            className="absolute top-0 left-0 right-0 h-[220px] transition-all duration-500 bg-muted cursor-pointer"
+            onClick={() => mainImage && setFullscreenImage(mainImage.url)}
             style={{ 
               backgroundImage: mainImage ? `url(${mainImage.thumb})` : `linear-gradient(180deg, ${day.color}30, transparent)`,
               backgroundSize: 'cover',
@@ -119,7 +122,11 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                   </h3>
                   <div className="flex w-full gap-3 overflow-x-auto pb-4 snap-x thin-scroll">
                     {galleryImages.map((img, i) => (
-                      <div key={i} className="snap-center shrink-0 w-[140px] h-[100px] overflow-hidden rounded-2xl bg-muted shadow-sm relative group">
+                      <div 
+                        key={i} 
+                        onClick={() => setFullscreenImage(img.url)}
+                        className="snap-center shrink-0 w-[140px] h-[100px] overflow-hidden rounded-2xl bg-muted shadow-sm relative group cursor-pointer"
+                      >
                         <img 
                           src={img.thumb} 
                           alt={`${place.name} - ${i+1}`} 
@@ -241,6 +248,33 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           </div>
         </Drawer.Content>
       </Drawer.Portal>
+
+      {/* Fullscreen Image Viewer Modal */}
+      {fullscreenImage && (
+        <Drawer.Portal>
+          <div 
+            className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
+            onClick={() => setFullscreenImage(null)}
+          >
+            <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-10 bg-gradient-to-b from-black/50 to-transparent pb-8">
+              <button 
+                className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95"
+                onClick={(e) => { e.stopPropagation(); setFullscreenImage(null); }}
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="flex-1 flex items-center justify-center p-2">
+              <img 
+                src={fullscreenImage} 
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in fade-in zoom-in-95 duration-300" 
+                alt="Fullscreen view"
+                onClick={(e) => e.stopPropagation()} 
+              />
+            </div>
+          </div>
+        </Drawer.Portal>
+      )}
     </Drawer.Root>
   );
 }
