@@ -35,6 +35,14 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
     setFullscreenIndex(null);
   }, [place?.id]);
 
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  
+  React.useEffect(() => {
+    if (isOpen && scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+    }
+  }, [place?.id, isOpen]);
+
   // Handle Android back button for Fullscreen Image
   React.useEffect(() => {
     if (fullscreenIndex !== null && window.location.hash !== '#image') {
@@ -122,7 +130,10 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
 
           <div className="relative z-10 mx-auto mt-3 mb-2 h-1.5 w-12 flex-shrink-0 rounded-full bg-white/40 shadow-sm" />
           
-          <div className="flex-1 overflow-y-auto thin-scroll pb-56">
+          <div 
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto thin-scroll pb-56 relative z-10 isolate"
+          >
             <div className="relative px-6 pt-16 pb-5">
               <div className="flex items-start gap-4">
                 <span
