@@ -99,5 +99,6 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  nitro: true,
   plugins: [customPwaPlugin() as any]
 });
