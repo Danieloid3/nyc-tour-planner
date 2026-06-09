@@ -84,7 +84,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
 
         <button
           onClick={handleClose}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-primary text-[16px] font-black text-primary-foreground shadow-lg transition hover:opacity-90 active:scale-95"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-red-500 text-[16px] font-black text-white shadow-lg transition hover:bg-red-600 active:scale-95"
         >
           <CheckCircle2 className="h-5 w-5" /> ¡Empezar el viaje!
         </button>
