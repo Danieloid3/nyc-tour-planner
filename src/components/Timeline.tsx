@@ -70,14 +70,14 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                 <div className="flex-1">
                   <button
                     onClick={() => toggleExpanded(t.id)}
-                    className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl ${
+                    className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl bg-card ${
                       isSelected ? "" :
-                      isDayCompleted ? "border-primary/50 opacity-80 bg-card" : "border-border bg-card"
+                      isDayCompleted ? "border-primary/50 opacity-80" : "border-border"
                     }`}
                     style={isSelected ? {
                       borderColor: t.color,
                       boxShadow: `0 0 0 2px ${t.color}40`,
-                      backgroundColor: `${t.color}10`
+                      backgroundImage: `linear-gradient(${t.color}15, ${t.color}15)`
                     } : undefined}
                   >
                   <div className="h-1.5 w-full" style={{ background: t.color }} />
