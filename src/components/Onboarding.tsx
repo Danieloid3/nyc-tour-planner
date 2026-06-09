@@ -26,7 +26,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 transition-opacity duration-400 ${isClosing ? 'opacity-0' : 'opacity-100 animate-fade-in'}`}>
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-xl" />
       
       <div className="relative w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-card p-8 text-center shadow-2xl border border-border animate-fade-in-up">
         
@@ -45,7 +45,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
         <div className="mb-10 space-y-6 text-left">
           
           <div className="flex items-start gap-4">
-            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-blue-500/10 text-blue-500">
+            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
               <List className="h-5 w-5" />
             </div>
             <div>
@@ -57,7 +57,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-500/10 text-amber-500">
+            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent/30 text-foreground">
               <Map className="h-5 w-5" />
             </div>
             <div>
@@ -69,7 +69,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-green-500/10 text-green-500">
+            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary/60 text-foreground">
               <Navigation className="h-5 w-5" />
             </div>
             <div>

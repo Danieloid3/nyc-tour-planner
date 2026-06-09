@@ -262,3 +262,8 @@
 .thin-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
 .thin-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
 .thin-scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* Adjust map tile visibility in dark mode */
+.dark .leaflet-tile-pane {
+  filter: brightness(1.7) sepia(0.3) hue-rotate(-20deg) contrast(0.9);
+}
