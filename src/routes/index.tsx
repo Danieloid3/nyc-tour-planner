@@ -37,8 +37,10 @@ const ALL_DAY_IDS = new Set(days.map((t) => t.id));
 
 function Index() {
   const { theme, toggle } = useTheme();
-  const [view, setView] = useState<"map" | "timeline">("map");
-  const [activeDayIds, setActiveDayIds] = useState<Set<string>>(new Set(ALL_DAY_IDS));
+  // La vista principal por defecto ahora es la lista de días (timeline)
+  const [view, setView] = useState<"map" | "timeline">("timeline");
+  // Por defecto, solo el Día 1 está activo en el mapa para evitar saturación de puntos
+  const [activeDayIds, setActiveDayIds] = useState<Set<string>>(new Set([days[0].id]));
   const [selectedDayId, setSelectedDayId] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<(Place & { dayId: string }) | null>(null);
   const [showRoutes, setShowRoutes] = useState(false);

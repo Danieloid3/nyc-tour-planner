@@ -31,7 +31,7 @@ export function Timeline({ onSelectDay, progress }: Props) {
         <div className="mb-6">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground">Cronología del viaje</h2>
           <p className="text-sm text-muted-foreground mt-1 mb-4">
-            12 días organizados por jornadas. Pulsa una tarjeta para verla en el mapa.
+            12 días organizados por jornadas. Pulsa un día para desplegar sus actividades, y usa el botón del mapa para ver su ruta.
           </p>
           
           {/* Global Progress */}
@@ -127,9 +127,9 @@ export function Timeline({ onSelectDay, progress }: Props) {
                   <div className="pt-1 pb-5 flex justify-start">
                     <button 
                       onClick={() => onSelectDay(t.id)}
-                      className="flex items-center gap-2 text-[13px] font-bold text-primary hover:text-primary/80 transition"
+                      className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-[13px] font-bold text-primary hover:bg-primary/20 transition-colors"
                     >
-                      <MapIcon className="h-4 w-4" /> Ver ruta entera en el mapa
+                      <MapIcon className="h-4 w-4" /> Ver ruta en el mapa
                     </button>
                   </div>
                   
