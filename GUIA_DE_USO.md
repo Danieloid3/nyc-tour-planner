@@ -33,7 +33,7 @@ La aplicación tiene dos vistas principales que pueden alternar en cualquier mom
 ### ☰ Vista de Lista (El Itinerario)
 Aquí verán los 12 días del viaje organizados de forma clara.
 - **Para ver qué toca hacer hoy:** Simplemente toquen el día que quieran ver (por ejemplo, "Día 1: Bienvenida"). Se desplegará la lista de todos los lugares maravillosos que visitarán ese día en orden.
-- Si quieren ver dónde queda esa ruta en la ciudad, pulsen el botón azul que dice **"Ver ruta en el mapa"**.
+- Si quieren ver dónde queda esa ruta en la ciudad, pulsen el botón que dice **"Ver ruta en el mapa"**.
 
 ### ⌖ Vista de Mapa (La Ciudad)
 Aquí verán la ciudad de Nueva York desde arriba.
@@ -51,7 +51,7 @@ Cuando toquen un lugar (ya sea en la lista de días o un punto en el mapa), se a
 1. **Fotos:** Verán una galería de fotos del lugar. Pueden tocar cualquier foto para verla a pantalla completa, y luego cerrarla tocando la "X" o el fondo negro para volver a la tarjeta.
 2. **Qué ver y comer:** Les indicamos detalles clave a los que prestar atención y recomendaciones de comida cercana.
 3. **Botón "Google Maps":** Los lleva a la app normal de mapas por si quieren ver reseñas o usar la navegación tradicional.
-4. **Botón azul "Iniciar ruta":** ¡El más útil! Lo tocan y su teléfono los guiará paso a paso caminando (o en metro) desde donde están hasta ese lugar.
+4. **Botón "Llévame hasta aquí":** ¡El más útil! Lo tocan y su teléfono los guiará paso a paso caminando (o en metro) desde donde están hasta ese lugar.
 5. **Botón "Marcar como visitado":** Cuando ya hayan disfrutado del lugar, tóquenlo. Se le pondrá una marca de verificación (✔) verde. ¡Es muy satisfactorio ver cómo van completando el viaje!
 
 ---
