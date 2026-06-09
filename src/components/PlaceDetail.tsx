@@ -26,6 +26,25 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
     setFullscreenIndex(null);
   }, [place?.id]);
 
+  // Handle Android back button for Fullscreen Image
+  React.useEffect(() => {
+    if (fullscreenIndex !== null && window.location.hash !== '#image') {
+      window.history.pushState(null, '', window.location.pathname + window.location.search + '#image');
+    } else if (fullscreenIndex === null && window.location.hash === '#image') {
+      window.history.back();
+    }
+  }, [fullscreenIndex]);
+
+  React.useEffect(() => {
+    const onHashChange = () => {
+      if (window.location.hash !== '#image' && fullscreenIndex !== null) {
+        setFullscreenIndex(null);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [fullscreenIndex]);
+
   if (!place) {
     return (
       <Drawer.Root open={false} onOpenChange={onClose}>

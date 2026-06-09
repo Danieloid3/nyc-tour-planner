@@ -65,6 +65,30 @@ function Index() {
     });
   };
 
+  // Android back button support for Place Modal
+  useEffect(() => {
+    if (selectedPlace && window.location.hash !== '#place') {
+      window.history.pushState(null, '', window.location.pathname + window.location.search + '#place');
+    } else if (!selectedPlace && window.location.hash === '#place') {
+      window.history.back();
+    }
+  }, [selectedPlace]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      if (window.location.hash !== '#place' && selectedPlace) {
+        setSelectedPlace(null);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [selectedPlace]);
+
+  const selectPlace = (p: (Place & { dayId: string }) | null) => {
+    setSelectedPlace(p);
+    if (p) setView("map");
+  };
+
   const toggleDay = (id: string) =>
     setActiveDayIds((prev) => {
       const next = new Set(prev);
@@ -85,10 +109,7 @@ function Index() {
     // Removed unstable history listeners to prevent router conflicts
   }, []);
 
-  const selectPlace = (p: Place & { dayId: string } | null) => {
-    setSelectedPlace(p);
-    if (p) setView("map");
-  };
+
 
   const closePlace = () => {
     setSelectedPlace(null);
