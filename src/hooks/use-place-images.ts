@@ -6,6 +6,8 @@ export interface PlaceImage {
   title: string;
 }
 
+const imageCache = new Map<string, PlaceImage[]>();
+
 export function usePlaceImages(placeName: string | undefined) {
   const [images, setImages] = useState<PlaceImage[]>([]);
   const [loading, setLoading] = useState(false);
@@ -14,6 +16,11 @@ export function usePlaceImages(placeName: string | undefined) {
   useEffect(() => {
     if (!placeName) {
       setImages([]);
+      return;
+    }
+
+    if (imageCache.has(placeName)) {
+      setImages(imageCache.get(placeName)!);
       return;
     }
 
@@ -26,8 +33,8 @@ export function usePlaceImages(placeName: string | undefined) {
         // Query Wikimedia Commons for "New York [Place Name]"
         const query = encodeURIComponent(`New York ${placeName}`);
         // gsrnamespace=6 means "File:" namespace. gsrlimit=4 limits to 4 images.
-        // prop=imageinfo&iiprop=url gets the URL, and iiurlwidth=800 gets an 800px thumbnail.
-        const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=4&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`;
+        // prop=imageinfo&iiprop=url gets the URL, and iiurlwidth=400 gets a 400px thumbnail (faster loading).
+        const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=3&prop=imageinfo&iiprop=url&iiurlwidth=400&format=json&origin=*`;
         
         const res = await fetch(url);
         const data = await res.json();
@@ -57,8 +64,13 @@ export function usePlaceImages(placeName: string | undefined) {
           }
         }
 
-        setImages(results);
-        setLoading(false);
+        }
+
+        if (mounted) {
+          setImages(results);
+          imageCache.set(placeName, results);
+          setLoading(false);
+        }
       } catch (err) {
         if (mounted) {
           console.error("Failed to fetch images for", placeName, err);
