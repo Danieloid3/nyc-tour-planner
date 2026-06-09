@@ -1,11 +1,11 @@
 {
-  "name": "NYC Familiar",
-  "short_name": "NYC Tour",
-  "description": "Mapa interactivo del itinerario familiar de Nueva York.",
+  "name": "Wander",
+  "short_name": "Wander",
+  "description": "Tu mapa interactivo de viajes.",
   "start_url": "/",
   "id": "/",
-  "theme_color": "#0f172a",
-  "background_color": "#0f172a",
+  "theme_color": "#f5ebe0",
+  "background_color": "#f5ebe0",
   "display": "standalone",
   "orientation": "portrait",
   "icons": [

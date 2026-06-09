@@ -161,7 +161,7 @@ function Index() {
               <Compass className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </span>
             <div className="pr-1 leading-tight">
-              <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">NYC Familiar</h1>
+              <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">Wander</h1>
               <p className="hidden text-[10px] font-semibold text-muted-foreground sm:block">12 días de viaje</p>
             </div>
           </div>

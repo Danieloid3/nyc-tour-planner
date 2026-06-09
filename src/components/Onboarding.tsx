@@ -31,8 +31,8 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
       <div className="relative w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-card p-8 text-center shadow-2xl border border-border animate-fade-in-up">
         
         {/* Decorative Header */}
-        <div className="mx-auto mb-6 grid h-20 w-20 place-items-center rounded-full bg-primary/10">
-          <Heart className="h-10 w-10 text-primary animate-pulse" />
+        <div className="mx-auto mb-6 grid h-20 w-20 place-items-center rounded-full bg-red-500/10">
+          <Heart className="h-10 w-10 text-red-500 animate-pulse" />
         </div>
 
         <h2 className="mb-2 text-3xl font-black tracking-tight text-foreground">
@@ -45,7 +45,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
         <div className="mb-10 space-y-6 text-left">
           
           <div className="flex items-start gap-4">
-            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
+            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-blue-500/15 text-blue-500">
               <List className="h-5 w-5" />
             </div>
             <div>
@@ -57,7 +57,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent/30 text-foreground">
+            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-500/15 text-amber-500">
               <Map className="h-5 w-5" />
             </div>
             <div>
@@ -69,7 +69,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary/60 text-foreground">
+            <div className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-500">
               <Navigation className="h-5 w-5" />
             </div>
             <div>
