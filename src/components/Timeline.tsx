@@ -91,13 +91,6 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                         <p className="text-xs text-muted-foreground">{t.subtitle}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div 
-                          onClick={(e) => { e.stopPropagation(); onSelectDay(t.id); }}
-                          className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                          title="Ver ruta en mapa"
-                        >
-                          <MapIcon className="h-4 w-4" />
-                        </div>
                         <ChevronDown className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
                       </div>
                     </div>
@@ -143,6 +136,15 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                           className="h-full transition-all duration-700 ease-out" 
                           style={{ width: `${(dayVisitedCount / dayTotal) * 100}%`, backgroundColor: t.color }}
                         />
+                      </div>
+                    </div>
+
+                    <div 
+                      className="mt-4 pt-1"
+                      onClick={(e) => { e.stopPropagation(); onSelectDay(t.id); }}
+                    >
+                      <div className="flex w-full h-12 items-center justify-center gap-2 rounded-xl bg-primary text-[15px] font-black text-primary-foreground shadow-md transition hover:opacity-90 active:scale-95">
+                        <MapIcon className="h-5 w-5" /> VER RUTA EN EL MAPA
                       </div>
                     </div>
                   </div>
