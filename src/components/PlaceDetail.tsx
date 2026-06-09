@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Drawer } from "vaul";
 import { ArrowRight, MapPin, Navigation, Eye, Utensils, Gauge, Footprints, Train, ImageIcon, CheckCircle2, Circle, Lightbulb, X } from "lucide-react";
 import { days, CATEGORY_LABELS, type Place } from "@/data/itinerary";
@@ -20,6 +20,11 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
   const isOpen = !!place;
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const { images, loading } = usePlaceImages(place?.name);
+
+  // Clear fullscreen image when place changes or closes
+  React.useEffect(() => {
+    setFullscreenImage(null);
+  }, [place?.id]);
 
   if (!place) {
     return (
