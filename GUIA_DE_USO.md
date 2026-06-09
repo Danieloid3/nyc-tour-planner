@@ -39,7 +39,8 @@ Aquí verán los 12 días del viaje organizados de forma clara.
 Aquí verán la ciudad de Nueva York desde arriba.
 - Los puntos oscuros muestran los lugares que van a visitar.
 - **El punto azul con un halo** eres tú (tu ubicación real en ese instante).
-- En la esquina inferior izquierda hay un botón con un icono de mirilla (⌖). Tóquenlo si se pierden y el mapa volará mágicamente hasta donde ustedes están parados.
+- En la esquina inferior derecha hay un botón con un icono de flecha. Tóquenlo si se pierden y el mapa volará mágicamente hasta donde ustedes están parados.
+- **¡Novedad!** Si seleccionaron un día específico en el mapa y están caminando, verán en la esquina inferior derecha un recuadro indicando cuál es el lugar del tour **más cercano a ustedes** en ese momento. Pueden **tocar ese recuadro** para abrir directamente la información de ese lugar.
 
 ---
 
@@ -47,9 +48,9 @@ Aquí verán la ciudad de Nueva York desde arriba.
 
 Cuando toquen un lugar (ya sea en la lista de días o un punto en el mapa), se abrirá una tarjeta con toda la información:
 
-1. **Fotos:** Podrán deslizar el dedo sobre las imágenes para ver cómo es el lugar.
+1. **Fotos:** Verán una galería de fotos del lugar. Pueden tocar cualquier foto para verla a pantalla completa, y luego cerrarla tocando la "X" o el fondo negro para volver a la tarjeta.
 2. **Qué ver y comer:** Les indicamos detalles clave a los que prestar atención y recomendaciones de comida cercana.
-3. **Botón "Google Maps":** Los lleva a la app normal de mapas por si quieren ver reseñas.
+3. **Botón "Google Maps":** Los lleva a la app normal de mapas por si quieren ver reseñas o usar la navegación tradicional.
 4. **Botón azul "Iniciar ruta":** ¡El más útil! Lo tocan y su teléfono los guiará paso a paso caminando (o en metro) desde donde están hasta ese lugar.
 5. **Botón "Marcar como visitado":** Cuando ya hayan disfrutado del lugar, tóquenlo. Se le pondrá una marca de verificación (✔) verde. ¡Es muy satisfactorio ver cómo van completando el viaje!
 
