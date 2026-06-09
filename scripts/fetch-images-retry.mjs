@@ -21,7 +21,7 @@ const uniquePlaces = [...new Set(placeNames)];
 
 async function fetchPlace(placeName) {
   const query = encodeURIComponent(`New York ${placeName}`);
-  const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=5&prop=imageinfo&iiprop=url|sha1&iiurlwidth=1024&format=json&origin=*`;
+  const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url|sha1&iiurlwidth=1024&format=json&origin=*`;
   
   try {
     const res = await fetch(url, { headers: { 'User-Agent': 'WanderAppLocalBuild/1.0' } });
@@ -69,7 +69,7 @@ async function fetchPlace(placeName) {
           title: page.title.replace('File:', '').replace(/\.[^/.]+$/, '')
         });
         
-        if (results.length >= 2) break;
+        if (results.length >= 3) break; // Now we get 3 photos!
       }
     }
     return results;
@@ -81,10 +81,11 @@ async function fetchPlace(placeName) {
 
 async function main() {
   for (const place of uniquePlaces) {
-    if (!imagesDb[place] || imagesDb[place].length === 0) {
-      console.log(`Fetching missing ${place}...`);
+    // Re-fetch if we have fewer than 3 images
+    if (!imagesDb[place] || imagesDb[place].length < 3) {
+      console.log(`Fetching missing images for ${place}...`);
       const images = await fetchPlace(place);
-      if (images) {
+      if (images && images.length > 0) {
         imagesDb[place] = images;
         fs.writeFileSync(jsonPath, JSON.stringify(imagesDb, null, 2));
       }

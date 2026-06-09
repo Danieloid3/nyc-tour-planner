@@ -9,18 +9,28 @@
       "url": "/places/grand_central_terminal_2.jpg",
       "thumb": "/places/grand_central_terminal_2.jpg",
       "title": "Grand Central Station Main Concourse Jan 2006"
+    },
+    {
+      "url": "/places/grand_central_terminal_3.jpg",
+      "thumb": "/places/grand_central_terminal_3.jpg",
+      "title": "Grand Central Station Main Concourse Rectilinear projection Jan 2006"
     }
   ],
   "SUMMIT One Vanderbilt": [
     {
       "url": "/places/summit_one_vanderbilt_1.jpg",
       "thumb": "/places/summit_one_vanderbilt_1.jpg",
-      "title": "Chrysler Building in New York City As Seen From SUMMIT One Vanderbilt"
+      "title": "Edge from One Vanderbilt New York 2022"
     },
     {
       "url": "/places/summit_one_vanderbilt_2.jpg",
       "thumb": "/places/summit_one_vanderbilt_2.jpg",
-      "title": "Edge from One Vanderbilt New York 2022"
+      "title": "Chrysler Building in New York City As Seen From SUMMIT One Vanderbilt"
+    },
+    {
+      "url": "/places/summit_one_vanderbilt_3.jpg",
+      "thumb": "/places/summit_one_vanderbilt_3.jpg",
+      "title": "Hyatt Grand Central New York from One Vanderbilt 2022"
     }
   ],
   "Biblioteca Pública de Nueva York": [
@@ -32,6 +42,11 @@
     {
       "url": "/places/biblioteca_p_blica_de_nueva_york_2.jpg",
       "thumb": "/places/biblioteca_p_blica_de_nueva_york_2.jpg",
+      "title": "New York Public Library 1908c"
+    },
+    {
+      "url": "/places/biblioteca_p_blica_de_nueva_york_3.jpg",
+      "thumb": "/places/biblioteca_p_blica_de_nueva_york_3.jpg",
       "title": "New York Public Library at Night (5)"
     }
   ],
@@ -45,6 +60,11 @@
       "url": "/places/bryant_park_2.jpg",
       "thumb": "/places/bryant_park_2.jpg",
       "title": "American woodcock in Bryant Park (54062)"
+    },
+    {
+      "url": "/places/bryant_park_3.jpg",
+      "thumb": "/places/bryant_park_3.jpg",
+      "title": "Dancers in Bryant Park (91755)"
     }
   ],
   "5th Avenue": [
@@ -57,6 +77,11 @@
       "url": "/places/5th_avenue_2.jpg",
       "thumb": "/places/5th_avenue_2.jpg",
       "title": "Spires of St Patricks Cathedral Rising Above Fifth Avenue 2019-09-30 18-19"
+    },
+    {
+      "url": "/places/5th_avenue_3.jpg",
+      "thumb": "/places/5th_avenue_3.jpg",
+      "title": "Art Deco Building on 1 Fifth Avenue behind Washington Square Arch 2019-09-29 23-34"
     }
   ],
   "Catedral de St. Patrick": [
@@ -64,6 +89,16 @@
       "url": "/places/catedral_de_st__patrick_1.jpg",
       "thumb": "/places/catedral_de_st__patrick_1.jpg",
       "title": "Catedral de St. Patrick's-2023 07"
+    },
+    {
+      "url": "/places/catedral_de_st__patrick_2.jpg",
+      "thumb": "/places/catedral_de_st__patrick_2.jpg",
+      "title": "Catedral de St. Patrick's-2023 09"
+    },
+    {
+      "url": "/places/catedral_de_st__patrick_3.jpg",
+      "thumb": "/places/catedral_de_st__patrick_3.jpg",
+      "title": "Catedral de St. Patrick's-2023 04"
     }
   ],
   "Rockefeller Center": [
@@ -75,7 +110,12 @@
     {
       "url": "/places/rockefeller_center_2.jpg",
       "thumb": "/places/rockefeller_center_2.jpg",
-      "title": "Manhattan at night north of Rockefeller Center (11226)"
+      "title": "Rockefeller Center, December 1933"
+    },
+    {
+      "url": "/places/rockefeller_center_3.jpg",
+      "thumb": "/places/rockefeller_center_3.jpg",
+      "title": "New York City (New York, USA), Rockefeller Center -- 2012 -- 6413"
     }
   ],
   "Top of the Rock": [
@@ -88,6 +128,11 @@
       "url": "/places/top_of_the_rock_2.jpg",
       "thumb": "/places/top_of_the_rock_2.jpg",
       "title": "View of Empire State Building from Rockefeller Center New York City dllu"
+    },
+    {
+      "url": "/places/top_of_the_rock_3.jpg",
+      "thumb": "/places/top_of_the_rock_3.jpg",
+      "title": "Boats view from Top of the Rock"
     }
   ],
   "Times Square": [
@@ -100,6 +145,11 @@
       "url": "/places/times_square_2.jpg",
       "thumb": "/places/times_square_2.jpg",
       "title": "New York City (New York, USA), Times Square-Duffy Square -- 2012 -- 6380"
+    },
+    {
+      "url": "/places/times_square_3.jpg",
+      "thumb": "/places/times_square_3.jpg",
+      "title": "Lehman Brothers Times Square by David Shankbone"
     }
   ],
   "Koreatown": [
@@ -112,6 +162,11 @@
       "url": "/places/koreatown_2.jpg",
       "thumb": "/places/koreatown_2.jpg",
       "title": "Koreatown Manhattan September 2024 011"
+    },
+    {
+      "url": "/places/koreatown_3.jpg",
+      "thumb": "/places/koreatown_3.jpg",
+      "title": "Koreatown Manhattan September 2024 005"
     }
   ],
   "Empire State Building": [
@@ -124,75 +179,939 @@
       "url": "/places/empire_state_building_2.jpg",
       "thumb": "/places/empire_state_building_2.jpg",
       "title": "Manhattan from Weehawken, NJ"
+    },
+    {
+      "url": "/places/empire_state_building_3.jpg",
+      "thumb": "/places/empire_state_building_3.jpg",
+      "title": "Empire State Building pano"
     }
   ],
-  "Madison Square Garden": [],
-  "Fulton Street": [],
-  "Oculus": [],
-  "9/11 Memorial": [],
-  "Museo 9/11": [],
-  "Trinity Church": [],
-  "Wall Street": [],
-  "Federal Hall": [],
-  "Bolsa de Nueva York": [],
+  "Madison Square Garden": [
+    {
+      "url": "/places/madison_square_garden_1.jpg",
+      "thumb": "/places/madison_square_garden_1.jpg",
+      "title": "Madison Square Garden (MSG) - Full (48124330357)"
+    },
+    {
+      "url": "/places/madison_square_garden_2.jpg",
+      "thumb": "/places/madison_square_garden_2.jpg",
+      "title": "Madison Square Garden 1941 Postcard"
+    },
+    {
+      "url": "/places/madison_square_garden_3.jpg",
+      "thumb": "/places/madison_square_garden_3.jpg",
+      "title": "Madison Square Garden (c.1879)"
+    }
+  ],
+  "Fulton Street": [
+    {
+      "url": "/places/fulton_street_1.jpg",
+      "thumb": "/places/fulton_street_1.jpg",
+      "title": "Fulton Center skylight (91420)"
+    },
+    {
+      "url": "/places/fulton_street_2.jpg",
+      "thumb": "/places/fulton_street_2.jpg",
+      "title": "Fulton Street (NYC subway station map)"
+    },
+    {
+      "url": "/places/fulton_street_3.jpg",
+      "thumb": "/places/fulton_street_3.jpg",
+      "title": "Fulton Street (Nassau)"
+    }
+  ],
+  "Oculus": [
+    {
+      "url": "/places/oculus_1.jpg",
+      "thumb": "/places/oculus_1.jpg",
+      "title": "Oculus (41323p)"
+    },
+    {
+      "url": "/places/oculus_2.jpg",
+      "thumb": "/places/oculus_2.jpg",
+      "title": "One World Trade Center through the Oculus (91538)"
+    },
+    {
+      "url": "/places/oculus_3.jpg",
+      "thumb": "/places/oculus_3.jpg",
+      "title": "Oculus (41331p)"
+    }
+  ],
+  "9/11 Memorial": [
+    {
+      "url": "/places/9_11_memorial_1.jpg",
+      "thumb": "/places/9_11_memorial_1.jpg",
+      "title": "New York - National September 11 Memorial South Pool - April 2012 - 9693C"
+    },
+    {
+      "url": "/places/9_11_memorial_2.jpg",
+      "thumb": "/places/9_11_memorial_2.jpg",
+      "title": "9-11 Memorial and Museum (28815276064)"
+    },
+    {
+      "url": "/places/9_11_memorial_3.jpg",
+      "thumb": "/places/9_11_memorial_3.jpg",
+      "title": "9-11 Memorial (37460517090)"
+    }
+  ],
+  "Museo 9/11": [
+    {
+      "url": "/places/museo_9_11_1.jpg",
+      "thumb": "/places/museo_9_11_1.jpg",
+      "title": "National September 11 Memorial & Museum - July 2009 - Sarah Stierch"
+    },
+    {
+      "url": "/places/museo_9_11_2.jpg",
+      "thumb": "/places/museo_9_11_2.jpg",
+      "title": "National September 11 Memorial td (2018-12-13) 02"
+    },
+    {
+      "url": "/places/museo_9_11_3.jpg",
+      "thumb": "/places/museo_9_11_3.jpg",
+      "title": "9-11 Memorial and Museum (28815276064)"
+    }
+  ],
+  "Trinity Church": [
+    {
+      "url": "/places/trinity_church_1.jpg",
+      "thumb": "/places/trinity_church_1.jpg",
+      "title": "Trinity Church NYC 004b"
+    },
+    {
+      "url": "/places/trinity_church_2.jpg",
+      "thumb": "/places/trinity_church_2.jpg",
+      "title": "Trinity Church, New York"
+    },
+    {
+      "url": "/places/trinity_church_3.jpg",
+      "thumb": "/places/trinity_church_3.jpg",
+      "title": "Trinity Church Wall Street seen from Broadway"
+    }
+  ],
+  "Wall Street": [
+    {
+      "url": "/places/wall_street_1.jpg",
+      "thumb": "/places/wall_street_1.jpg",
+      "title": "New York City (New York, USA), Wall Street -- 2012 -- 6614"
+    },
+    {
+      "url": "/places/wall_street_2.jpg",
+      "thumb": "/places/wall_street_2.jpg",
+      "title": "Manhattan 1931"
+    },
+    {
+      "url": "/places/wall_street_3.jpg",
+      "thumb": "/places/wall_street_3.jpg",
+      "title": "Lower Manhattan from Staten Island Ferry Jan 2006"
+    }
+  ],
+  "Federal Hall": [
+    {
+      "url": "/places/federal_hall_1.jpg",
+      "thumb": "/places/federal_hall_1.jpg",
+      "title": "New York Stock Exchange August 2017 04"
+    },
+    {
+      "url": "/places/federal_hall_2.jpg",
+      "thumb": "/places/federal_hall_2.jpg",
+      "title": "Federal Hall (48126566178)"
+    }
+  ],
+  "Bolsa de Nueva York": [
+    {
+      "url": "/places/bolsa_de_nueva_york_1.jpg",
+      "thumb": "/places/bolsa_de_nueva_york_1.jpg",
+      "title": "Wall Street - New York Stock Exchange"
+    },
+    {
+      "url": "/places/bolsa_de_nueva_york_2.jpg",
+      "thumb": "/places/bolsa_de_nueva_york_2.jpg",
+      "title": "New York Stock Exchange August 2017 02"
+    }
+  ],
   "Charging Bull": [],
-  "Stone Street": [],
-  "Battery Park": [],
-  "Battery Park City": [],
-  "Bowling Green": [],
-  "Staten Island Ferry": [],
-  "St. George Terminal": [],
+  "Stone Street": [
+    {
+      "url": "/places/stone_street_1.jpg",
+      "thumb": "/places/stone_street_1.jpg",
+      "title": "Stone Street, New Hamburg, NY"
+    },
+    {
+      "url": "/places/stone_street_2.jpg",
+      "thumb": "/places/stone_street_2.jpg",
+      "title": "Stone Street in New Amsterdam 1659 (Scale Model) Museum of NYC"
+    }
+  ],
+  "Battery Park": [
+    {
+      "url": "/places/battery_park_1.jpg",
+      "thumb": "/places/battery_park_1.jpg",
+      "title": "Battery Park City New York January 2018 002"
+    },
+    {
+      "url": "/places/battery_park_2.jpg",
+      "thumb": "/places/battery_park_2.jpg",
+      "title": "Battery Park City New York January 2018 001"
+    }
+  ],
+  "Battery Park City": [
+    {
+      "url": "/places/battery_park_city_1.jpg",
+      "thumb": "/places/battery_park_city_1.jpg",
+      "title": "Battery Park City New York January 2018 002"
+    },
+    {
+      "url": "/places/battery_park_city_2.jpg",
+      "thumb": "/places/battery_park_city_2.jpg",
+      "title": "Battery Park City New York January 2018 001"
+    }
+  ],
+  "Bowling Green": [
+    {
+      "url": "/places/bowling_green_1.jpg",
+      "thumb": "/places/bowling_green_1.jpg",
+      "title": "New York Bowling Green anagoria"
+    },
+    {
+      "url": "/places/bowling_green_2.jpg",
+      "thumb": "/places/bowling_green_2.jpg",
+      "title": "New York Bowling Green Park Sign"
+    }
+  ],
+  "Staten Island Ferry": [
+    {
+      "url": "/places/staten_island_ferry_1.jpg",
+      "thumb": "/places/staten_island_ferry_1.jpg",
+      "title": "Lower Manhattan from Staten Island Ferry Jan 2006"
+    },
+    {
+      "url": "/places/staten_island_ferry_2.jpg",
+      "thumb": "/places/staten_island_ferry_2.jpg",
+      "title": "Staten Island Ferry terminal"
+    }
+  ],
+  "St. George Terminal": [
+    {
+      "url": "/places/st__george_terminal_1.jpg",
+      "thumb": "/places/st__george_terminal_1.jpg",
+      "title": "St. George Ferry Terminal, Staten Island, New York City, 20231002 1621 1749"
+    },
+    {
+      "url": "/places/st__george_terminal_2.jpg",
+      "thumb": "/places/st__george_terminal_2.jpg",
+      "title": "Staten Island Ferry - St. George Terminal, Staten Island, New York, NY, USA - August 19, 2015 01"
+    }
+  ],
   "Empire Outlets": [],
-  "Puente de Brooklyn": [],
-  "DUMBO": [],
-  "Washington Street": [],
-  "Pebble Beach (Brooklyn Bridge Park)": [],
-  "Jane": [],
-  "Chinatown": [],
-  "Little Italy": [],
-  "SoHo": [],
-  "Nolita": [],
-  "The Pond": [],
-  "Bethesda Terrace": [],
-  "Bow Bridge": [],
-  "Strawberry Fields": [],
-  "The Mall": [],
-  "Central Park Zoo": [],
-  "Edificio de Friends": [],
-  "Friends Experience": [],
-  "Museo de Historia Natural": [],
-  "Upper West Side": [],
-  "West Village": [],
-  "Roosevelt Island Tramway": [],
-  "Roosevelt Island": [],
-  "Southpoint Park": [],
-  "Smallpox Hospital": [],
-  "Bloomingdale": [],
-  "Upper East Side": [],
-  "The Met": [],
-  "MoMA": [],
-  "Guggenheim": [],
-  "Museum Mile": [],
+  "Puente de Brooklyn": [
+    {
+      "url": "/places/puente_de_brooklyn_1.jpg",
+      "thumb": "/places/puente_de_brooklyn_1.jpg",
+      "title": "Brooklyn Bridge at Night"
+    },
+    {
+      "url": "/places/puente_de_brooklyn_2.jpg",
+      "thumb": "/places/puente_de_brooklyn_2.jpg",
+      "title": "Pont de Brooklyn de nuit - Octobre 2008 edit"
+    }
+  ],
+  "DUMBO": [
+    {
+      "url": "/places/dumbo_1.jpg",
+      "thumb": "/places/dumbo_1.jpg",
+      "title": "2024-11-17-Manhattan Bridge Dumbo-0407"
+    }
+  ],
+  "Washington Street": [
+    {
+      "url": "/places/washington_street_1.jpg",
+      "thumb": "/places/washington_street_1.jpg",
+      "title": "Portrait of Billie Holiday and Mister, Downbeat, New York, N.Y., ca. Feb. 1947 (LOC, 5020400274, cropped)"
+    },
+    {
+      "url": "/places/washington_street_2.jpg",
+      "thumb": "/places/washington_street_2.jpg",
+      "title": "NYC Mulberry Street 3g04637u"
+    }
+  ],
+  "Pebble Beach (Brooklyn Bridge Park)": [
+    {
+      "url": "/places/pebble_beach__brooklyn_bridge_park__1.jpg",
+      "thumb": "/places/pebble_beach__brooklyn_bridge_park__1.jpg",
+      "title": "Brooklyn Bridge and the Lower Manhattan skyline from Pebble Beach, New York"
+    },
+    {
+      "url": "/places/pebble_beach__brooklyn_bridge_park__2.jpg",
+      "thumb": "/places/pebble_beach__brooklyn_bridge_park__2.jpg",
+      "title": "View from Pebble Beach 001"
+    }
+  ],
+  "Jane": [
+    {
+      "url": "/places/jane_1.jpg",
+      "thumb": "/places/jane_1.jpg",
+      "title": "Jane Jacobs"
+    }
+  ],
+  "Chinatown": [
+    {
+      "url": "/places/chinatown_1.jpg",
+      "thumb": "/places/chinatown_1.jpg",
+      "title": "Chinatown-manhattan-2004"
+    }
+  ],
+  "Little Italy": [
+    {
+      "url": "/places/little_italy_1.jpg",
+      "thumb": "/places/little_italy_1.jpg",
+      "title": "Mulberry Street NYC c1900 LOC 3g04637u edit"
+    },
+    {
+      "url": "/places/little_italy_2.jpg",
+      "thumb": "/places/little_italy_2.jpg",
+      "title": "NYC Mulberry Street 3g04637u"
+    },
+    {
+      "url": "/places/little_italy_3.jpg",
+      "thumb": "/places/little_italy_3.jpg",
+      "title": "Little Italy, New York-L1002082"
+    }
+  ],
+  "SoHo": [
+    {
+      "url": "/places/soho_1.jpg",
+      "thumb": "/places/soho_1.jpg",
+      "title": "Brooklyn Botanic Garden New York May 2015 panorama 2"
+    },
+    {
+      "url": "/places/soho_2.jpg",
+      "thumb": "/places/soho_2.jpg",
+      "title": "Broadway and Houston St intersection in Noho, New York City"
+    },
+    {
+      "url": "/places/soho_3.jpg",
+      "thumb": "/places/soho_3.jpg",
+      "title": "NYC SoHo Green Street"
+    }
+  ],
+  "Nolita": [
+    {
+      "url": "/places/nolita_1.jpg",
+      "thumb": "/places/nolita_1.jpg",
+      "title": "Nolita Manhattan August 2024"
+    },
+    {
+      "url": "/places/nolita_2.jpg",
+      "thumb": "/places/nolita_2.jpg",
+      "title": "Nolita Manhattan September 2024 016"
+    },
+    {
+      "url": "/places/nolita_3.jpg",
+      "thumb": "/places/nolita_3.jpg",
+      "title": "Nolita Manhattan September 2024 037"
+    }
+  ],
+  "The Pond": [
+    {
+      "url": "/places/the_pond_1.jpg",
+      "thumb": "/places/the_pond_1.jpg",
+      "title": "Brooklyn Botanic Garden New York May 2015 panorama 2"
+    },
+    {
+      "url": "/places/the_pond_2.jpg",
+      "thumb": "/places/the_pond_2.jpg",
+      "title": "Central Park New York May 2015 007"
+    },
+    {
+      "url": "/places/the_pond_3.jpg",
+      "thumb": "/places/the_pond_3.jpg",
+      "title": "Turtle Pond, Central Park, New York City, 20231004 1645 2118"
+    }
+  ],
+  "Bethesda Terrace": [
+    {
+      "url": "/places/bethesda_terrace_1.jpg",
+      "thumb": "/places/bethesda_terrace_1.jpg",
+      "title": "Bethesda terrace (11143p)"
+    },
+    {
+      "url": "/places/bethesda_terrace_2.jpg",
+      "thumb": "/places/bethesda_terrace_2.jpg",
+      "title": "Bethesda Terrace Arcade, Central Park, New York City, 20231002 1841 1887"
+    },
+    {
+      "url": "/places/bethesda_terrace_3.jpg",
+      "thumb": "/places/bethesda_terrace_3.jpg",
+      "title": "Bethesda Terrace and Fountain, Central Park, 2025"
+    }
+  ],
+  "Bow Bridge": [
+    {
+      "url": "/places/bow_bridge_1.jpg",
+      "thumb": "/places/bow_bridge_1.jpg",
+      "title": "Bow Bridge panorama Central Park (86746p)"
+    },
+    {
+      "url": "/places/bow_bridge_2.jpg",
+      "thumb": "/places/bow_bridge_2.jpg",
+      "title": "Bow Bridge over the Lake, Central Park, Manhattan, New York"
+    },
+    {
+      "url": "/places/bow_bridge_3.jpg",
+      "thumb": "/places/bow_bridge_3.jpg",
+      "title": "Hadley Bow Bridge"
+    }
+  ],
+  "Strawberry Fields": [
+    {
+      "url": "/places/strawberry_fields_1.jpg",
+      "thumb": "/places/strawberry_fields_1.jpg",
+      "title": "Mémorial Strawberry Fields"
+    },
+    {
+      "url": "/places/strawberry_fields_2.jpg",
+      "thumb": "/places/strawberry_fields_2.jpg",
+      "title": "Imagine mosaic, John Lennon tribute, Strawberry Fields, Central Park, New York City, NY, KW (15730997145)"
+    },
+    {
+      "url": "/places/strawberry_fields_3.jpg",
+      "thumb": "/places/strawberry_fields_3.jpg",
+      "title": "'Imagine' Mosaic -- Strawberry Fields Central Park New York (NY) April 2016 (26214909303)"
+    }
+  ],
+  "The Mall": [
+    {
+      "url": "/places/the_mall_1.jpg",
+      "thumb": "/places/the_mall_1.jpg",
+      "title": "Westfield World Trade Center - 23 August 2016"
+    },
+    {
+      "url": "/places/the_mall_2.jpg",
+      "thumb": "/places/the_mall_2.jpg",
+      "title": "Oculus World Trade Center - August 18 2016"
+    },
+    {
+      "url": "/places/the_mall_3.jpg",
+      "thumb": "/places/the_mall_3.jpg",
+      "title": "Westfield Mall"
+    }
+  ],
+  "Central Park Zoo": [
+    {
+      "url": "/places/central_park_zoo_1.jpg",
+      "thumb": "/places/central_park_zoo_1.jpg",
+      "title": "Central Park td (2019-07-11) 063 - Wien Walk, Central Park Zoo"
+    },
+    {
+      "url": "/places/central_park_zoo_2.jpg",
+      "thumb": "/places/central_park_zoo_2.jpg",
+      "title": "Central Park Zoo Delacorte Clock April 2024"
+    },
+    {
+      "url": "/places/central_park_zoo_3.jpg",
+      "thumb": "/places/central_park_zoo_3.jpg",
+      "title": "Goura victoria -Central Park Zoo, New York, USA-8a"
+    }
+  ],
+  "Edificio de Friends": [
+    {
+      "url": "/places/edificio_de_friends_1.jpg",
+      "thumb": "/places/edificio_de_friends_1.jpg",
+      "title": "Guide to Havana, Mexico and New York (IA guidetohavanamex00smit)"
+    },
+    {
+      "url": "/places/edificio_de_friends_2.jpg",
+      "thumb": "/places/edificio_de_friends_2.jpg",
+      "title": "Las industrias de New Haven y su vecindad (IA lasindustriasden00newh)"
+    },
+    {
+      "url": "/places/edificio_de_friends_3.jpg",
+      "thumb": "/places/edificio_de_friends_3.jpg",
+      "title": "The North Americans of antiquity; their origin, migrations, and type of civilization considered (IA americansofnorth00shorrich)"
+    }
+  ],
+  "Friends Experience": [
+    {
+      "url": "/places/friends_experience_1.jpg",
+      "thumb": "/places/friends_experience_1.jpg",
+      "title": "The FRIENDS Experience (54574029631)"
+    },
+    {
+      "url": "/places/friends_experience_2.jpg",
+      "thumb": "/places/friends_experience_2.jpg",
+      "title": "Experience of a New York clerk (IA experienceofnewy00reed)"
+    },
+    {
+      "url": "/places/friends_experience_3.jpg",
+      "thumb": "/places/friends_experience_3.jpg",
+      "title": "An address to the friends of homoeopathy in New York, from the trustees of the New York Homoeopathic Dispensary Association (IA 101157743.nlm.nih.gov)"
+    }
+  ],
+  "Museo de Historia Natural": [
+    {
+      "url": "/places/museo_de_historia_natural_1.jpg",
+      "thumb": "/places/museo_de_historia_natural_1.jpg",
+      "title": "American Museum of Natural History 02"
+    },
+    {
+      "url": "/places/museo_de_historia_natural_2.jpg",
+      "thumb": "/places/museo_de_historia_natural_2.jpg",
+      "title": "Facade of the American museum of natural history NYC (5)"
+    },
+    {
+      "url": "/places/museo_de_historia_natural_3.jpg",
+      "thumb": "/places/museo_de_historia_natural_3.jpg",
+      "title": "Museo Americano de Historia Natural (49)"
+    }
+  ],
+  "Upper West Side": [
+    {
+      "url": "/places/upper_west_side_1.jpg",
+      "thumb": "/places/upper_west_side_1.jpg",
+      "title": "Upper West Side New York August 2013 002"
+    },
+    {
+      "url": "/places/upper_west_side_2.jpg",
+      "thumb": "/places/upper_west_side_2.jpg",
+      "title": "The Dakota, West 72nd Street, Upper West Side, Manhattan, New York"
+    },
+    {
+      "url": "/places/upper_west_side_3.jpg",
+      "thumb": "/places/upper_west_side_3.jpg",
+      "title": "Upper West Side from Weehawken September 2021 panorama"
+    }
+  ],
+  "West Village": [
+    {
+      "url": "/places/west_village_1.jpg",
+      "thumb": "/places/west_village_1.jpg",
+      "title": "West Village 333 Avenue of the Americas embedded 2019-09-30 17-21"
+    },
+    {
+      "url": "/places/west_village_2.jpg",
+      "thumb": "/places/west_village_2.jpg",
+      "title": "West Village 333 Avenue of the Americas rising 2019-09-30 17-21"
+    },
+    {
+      "url": "/places/west_village_3.jpg",
+      "thumb": "/places/west_village_3.jpg",
+      "title": "West Village"
+    }
+  ],
+  "Roosevelt Island Tramway": [
+    {
+      "url": "/places/roosevelt_island_tramway_1.jpg",
+      "thumb": "/places/roosevelt_island_tramway_1.jpg",
+      "title": "2024-11-18- Roosevelt Island Tramway-0602"
+    },
+    {
+      "url": "/places/roosevelt_island_tramway_2.jpg",
+      "thumb": "/places/roosevelt_island_tramway_2.jpg",
+      "title": "Roosevelt Island td (2019-11-03) 040 - Roosevelt Island Tramway Station"
+    },
+    {
+      "url": "/places/roosevelt_island_tramway_3.jpg",
+      "thumb": "/places/roosevelt_island_tramway_3.jpg",
+      "title": "Roosevelt Island Tramway half-way view towards Manhattan, 2021-10-01"
+    }
+  ],
+  "Roosevelt Island": [
+    {
+      "url": "/places/roosevelt_island_1.jpg",
+      "thumb": "/places/roosevelt_island_1.jpg",
+      "title": "Roosevelt Island and Queens from Manhattan New York October 2015 001"
+    },
+    {
+      "url": "/places/roosevelt_island_2.jpg",
+      "thumb": "/places/roosevelt_island_2.jpg",
+      "title": "Roosevelt Island Bridge from the south (41860)"
+    },
+    {
+      "url": "/places/roosevelt_island_3.jpg",
+      "thumb": "/places/roosevelt_island_3.jpg",
+      "title": "Blackwell Island Light (41757)"
+    }
+  ],
+  "Southpoint Park": [
+    {
+      "url": "/places/southpoint_park_1.jpg",
+      "thumb": "/places/southpoint_park_1.jpg",
+      "title": "Southpoint Park RI td (2019-11-03) 019"
+    },
+    {
+      "url": "/places/southpoint_park_2.jpg",
+      "thumb": "/places/southpoint_park_2.jpg",
+      "title": "Southpoint Park RI td (2019-11-03) 020 - Strecker Memorial Laboratory"
+    },
+    {
+      "url": "/places/southpoint_park_3.jpg",
+      "thumb": "/places/southpoint_park_3.jpg",
+      "title": "Southpoint Park RI td (2019-11-03) 013 - Strecker Memorial Laboratory"
+    }
+  ],
+  "Smallpox Hospital": [
+    {
+      "url": "/places/smallpox_hospital_1.jpg",
+      "thumb": "/places/smallpox_hospital_1.jpg",
+      "title": "5Pointz Towers LIC"
+    },
+    {
+      "url": "/places/smallpox_hospital_2.jpg",
+      "thumb": "/places/smallpox_hospital_2.jpg",
+      "title": "New-York-City,-Roosevelt-Island,-Smallpox-Hospital,-Eingangsfront-(1996) crop"
+    },
+    {
+      "url": "/places/smallpox_hospital_3.jpg",
+      "thumb": "/places/smallpox_hospital_3.jpg",
+      "title": "Ruins of the Smallpox Hospital 2007"
+    }
+  ],
+  "Bloomingdale": [
+    {
+      "url": "/places/bloomingdale_1.jpg",
+      "thumb": "/places/bloomingdale_1.jpg",
+      "title": "Former Methodist church, Bloomingdale, New York"
+    },
+    {
+      "url": "/places/bloomingdale_2.jpg",
+      "thumb": "/places/bloomingdale_2.jpg",
+      "title": "Bloomingdale Insane Asylum, Manhattanville, New York"
+    },
+    {
+      "url": "/places/bloomingdale_3.jpg",
+      "thumb": "/places/bloomingdale_3.jpg",
+      "title": "Bloomingdales+New+York+Holiday+Windows+2020+xmas+windowalk 11"
+    }
+  ],
+  "Upper East Side": [
+    {
+      "url": "/places/upper_east_side_1.jpg",
+      "thumb": "/places/upper_east_side_1.jpg",
+      "title": "Apartment buildings on the bank of East River, Manhattan, New York City, 20231001 1109 1028"
+    },
+    {
+      "url": "/places/upper_east_side_2.jpg",
+      "thumb": "/places/upper_east_side_2.jpg",
+      "title": "East 74th Street IRT Power Station, New York City, 20231001 1109 1026 DxO"
+    },
+    {
+      "url": "/places/upper_east_side_3.jpg",
+      "thumb": "/places/upper_east_side_3.jpg",
+      "title": "Brownstone apartment, Manhattan's Upper East Side, New York, New York LCCN2011632000"
+    }
+  ],
+  "The Met": [
+    {
+      "url": "/places/the_met_1.jpg",
+      "thumb": "/places/the_met_1.jpg",
+      "title": "Camp - Notes on Fashion at the Met - Burberry rainbow cape (73854)"
+    },
+    {
+      "url": "/places/the_met_2.jpg",
+      "thumb": "/places/the_met_2.jpg",
+      "title": "Camp - Notes on Fashion at the Met - Gucci and Louis Vuitton (73828)"
+    },
+    {
+      "url": "/places/the_met_3.jpg",
+      "thumb": "/places/the_met_3.jpg",
+      "title": "Camp - Notes on Fashion at the Met - Moschino (73834)"
+    }
+  ],
+  "MoMA": [
+    {
+      "url": "/places/moma_1.jpg",
+      "thumb": "/places/moma_1.jpg",
+      "title": "Museum of Modern Art Saitama 2010"
+    },
+    {
+      "url": "/places/moma_2.jpg",
+      "thumb": "/places/moma_2.jpg",
+      "title": "National Museum of Modern Art Kyoto 2010"
+    },
+    {
+      "url": "/places/moma_3.jpg",
+      "thumb": "/places/moma_3.jpg",
+      "title": "New York 1911"
+    }
+  ],
+  "Guggenheim": [
+    {
+      "url": "/places/guggenheim_1.jpg",
+      "thumb": "/places/guggenheim_1.jpg",
+      "title": "Solomon R. Guggenheim Museum skylight"
+    },
+    {
+      "url": "/places/guggenheim_2.jpg",
+      "thumb": "/places/guggenheim_2.jpg",
+      "title": "New York Guggenheim-Museum 1995"
+    }
+  ],
+  "Museum Mile": [
+    {
+      "url": "/places/museum_mile_1.jpg",
+      "thumb": "/places/museum_mile_1.jpg",
+      "title": "Miles Davis Trumpet at the Urban Stomp exibit, Museum of the City of New York"
+    },
+    {
+      "url": "/places/museum_mile_2.jpg",
+      "thumb": "/places/museum_mile_2.jpg",
+      "title": "NEW YORK Mayor Koch - eröffnet Museum Mile Festival - Cooper-Hewitt-Museum - 084.02"
+    }
+  ],
   "Chelsea Market": [],
-  "High Line": [],
+  "High Line": [
+    {
+      "url": "/places/high_line_1.jpg",
+      "thumb": "/places/high_line_1.jpg",
+      "title": "The Standard High Line (24245)"
+    }
+  ],
   "Little Island": [],
-  "Hudson Yards": [],
-  "Vessel": [],
-  "Edge": [],
-  "Harlem": [],
+  "Hudson Yards": [
+    {
+      "url": "/places/hudson_yards_1.jpg",
+      "thumb": "/places/hudson_yards_1.jpg",
+      "title": "Hudson Yards from Hudson Commons (95131p)"
+    },
+    {
+      "url": "/places/hudson_yards_2.jpg",
+      "thumb": "/places/hudson_yards_2.jpg",
+      "title": "Pier 66 and Hudson Yards (01473)p"
+    }
+  ],
+  "Vessel": [
+    {
+      "url": "/places/vessel_1.jpg",
+      "thumb": "/places/vessel_1.jpg",
+      "title": "At New York City 2023 021"
+    },
+    {
+      "url": "/places/vessel_2.jpg",
+      "thumb": "/places/vessel_2.jpg",
+      "title": "The Vessel in New York from inside"
+    }
+  ],
+  "Edge": [
+    {
+      "url": "/places/edge_1.jpg",
+      "thumb": "/places/edge_1.jpg",
+      "title": "Edge HY"
+    },
+    {
+      "url": "/places/edge_2.jpg",
+      "thumb": "/places/edge_2.jpg",
+      "title": "MTA Showcases Cutting-Edge Electric Bus at the New York International Auto Show (52017759431)"
+    }
+  ],
+  "Harlem": [
+    {
+      "url": "/places/harlem_1.jpg",
+      "thumb": "/places/harlem_1.jpg",
+      "title": "Harlem Meer in Central Park - view from McGowan's Pass Redoubt, New York City, 20231004 1527 2064"
+    },
+    {
+      "url": "/places/harlem_2.jpg",
+      "thumb": "/places/harlem_2.jpg",
+      "title": "Central Park New York October 2016 panorama 1"
+    }
+  ],
   "Misa góspel (Abyssinian Baptist)": [],
-  "Soul food (Sylvia": [],
-  "Apollo Theater": [],
-  "Herald Square": [],
-  "Macy": [],
-  "Century 21": [],
-  "Jersey Gardens": [],
-  "Woodbury Common": [],
-  "Stamford Train Station": [],
-  "Stamford": [],
-  "Cove Island Park": [],
-  "Niagara Falls State Park": [],
-  "American Falls": [],
-  "Bridal Veil Falls": [],
-  "Horseshoe Falls": []
+  "Soul food (Sylvia": [
+    {
+      "url": "/places/soul_food__sylvia_1.jpg",
+      "thumb": "/places/soul_food__sylvia_1.jpg",
+      "title": "Staff of Sylvia's, a legendary soul-food restaurant in Harlem, New York LCCN2011632427"
+    },
+    {
+      "url": "/places/soul_food__sylvia_2.jpg",
+      "thumb": "/places/soul_food__sylvia_2.jpg",
+      "title": "Sylvia's Soul Food - Harlem 2017 (36232150155)"
+    }
+  ],
+  "Apollo Theater": [
+    {
+      "url": "/places/apollo_theater_1.jpg",
+      "thumb": "/places/apollo_theater_1.jpg",
+      "title": "Apollo Theater, Harlem (November 2006)"
+    },
+    {
+      "url": "/places/apollo_theater_2.jpg",
+      "thumb": "/places/apollo_theater_2.jpg",
+      "title": "Apollo Theater, New York City"
+    }
+  ],
+  "Herald Square": [
+    {
+      "url": "/places/herald_square_1.jpg",
+      "thumb": "/places/herald_square_1.jpg",
+      "title": "Macy's Herald Square August 2017 03"
+    },
+    {
+      "url": "/places/herald_square_2.jpg",
+      "thumb": "/places/herald_square_2.jpg",
+      "title": "Macy's Herald Square August 2017 01"
+    }
+  ],
+  "Macy": [
+    {
+      "url": "/places/macy_1.jpg",
+      "thumb": "/places/macy_1.jpg",
+      "title": "Macy's Herald Square August 2017 03"
+    },
+    {
+      "url": "/places/macy_2.jpg",
+      "thumb": "/places/macy_2.jpg",
+      "title": "Decorated Macy entrance"
+    }
+  ],
+  "Century 21": [
+    {
+      "url": "/places/century_21_1.jpg",
+      "thumb": "/places/century_21_1.jpg",
+      "title": "Century 21 (New York, New York) (45787492411)"
+    },
+    {
+      "url": "/places/century_21_2.jpg",
+      "thumb": "/places/century_21_2.jpg",
+      "title": "Century 21 (New York, New York) (44874695015)"
+    }
+  ],
+  "Jersey Gardens": [
+    {
+      "url": "/places/jersey_gardens_1.jpg",
+      "thumb": "/places/jersey_gardens_1.jpg",
+      "title": "Lower Manhattan from Jersey City November 2014 panorama 1"
+    },
+    {
+      "url": "/places/jersey_gardens_2.jpg",
+      "thumb": "/places/jersey_gardens_2.jpg",
+      "title": "Jersey Gardens Mall 48"
+    }
+  ],
+  "Woodbury Common": [
+    {
+      "url": "/places/woodbury_common_1.jpg",
+      "thumb": "/places/woodbury_common_1.jpg",
+      "title": "Woodbury Common Premium Outlets Hudson Valley District"
+    },
+    {
+      "url": "/places/woodbury_common_2.jpg",
+      "thumb": "/places/woodbury_common_2.jpg",
+      "title": "Woodbury Commons food court"
+    }
+  ],
+  "Stamford Train Station": [
+    {
+      "url": "/places/stamford_train_station_1.jpg",
+      "thumb": "/places/stamford_train_station_1.jpg",
+      "title": "Glenbrook station postcard"
+    },
+    {
+      "url": "/places/stamford_train_station_2.jpg",
+      "thumb": "/places/stamford_train_station_2.jpg",
+      "title": "Metropolitan Transportation Authority (New York)- 031 (8133070498)"
+    }
+  ],
+  "Stamford": [
+    {
+      "url": "/places/stamford_1.jpg",
+      "thumb": "/places/stamford_1.jpg",
+      "title": "View of Stamford, New York, circa 1911"
+    },
+    {
+      "url": "/places/stamford_2.jpg",
+      "thumb": "/places/stamford_2.jpg",
+      "title": "Stamford from Utsayantha"
+    },
+    {
+      "url": "/places/stamford_3.jpg",
+      "thumb": "/places/stamford_3.jpg",
+      "title": "Rexmere, Stamford, New York LCCN2017713463"
+    }
+  ],
+  "Cove Island Park": [
+    {
+      "url": "/places/cove_island_park_1.jpg",
+      "thumb": "/places/cove_island_park_1.jpg",
+      "title": "Red Cote Preserve, Oyster Bay Cove, Long Island, New York August 29, 2021"
+    },
+    {
+      "url": "/places/cove_island_park_2.jpg",
+      "thumb": "/places/cove_island_park_2.jpg",
+      "title": "New York Lower Manhattan Island photo D Ramey Logan"
+    },
+    {
+      "url": "/places/cove_island_park_3.jpg",
+      "thumb": "/places/cove_island_park_3.jpg",
+      "title": "NICE n27 Bus Stop, East Hills, Long Island, New York October 13, 2021 B"
+    }
+  ],
+  "Niagara Falls State Park": [
+    {
+      "url": "/places/niagara_falls_state_park_1.jpg",
+      "thumb": "/places/niagara_falls_state_park_1.jpg",
+      "title": "3Falls Niagara"
+    },
+    {
+      "url": "/places/niagara_falls_state_park_2.jpg",
+      "thumb": "/places/niagara_falls_state_park_2.jpg",
+      "title": "Niagara Falls USA Canada from Skylon Tower on 2002-05-28"
+    },
+    {
+      "url": "/places/niagara_falls_state_park_3.jpg",
+      "thumb": "/places/niagara_falls_state_park_3.jpg",
+      "title": "Niagara Scenic Trolley"
+    }
+  ],
+  "American Falls": [
+    {
+      "url": "/places/american_falls_1.jpg",
+      "thumb": "/places/american_falls_1.jpg",
+      "title": "Niagara Falls 001"
+    },
+    {
+      "url": "/places/american_falls_2.jpg",
+      "thumb": "/places/american_falls_2.jpg",
+      "title": "American and Bridal Veil Falls winter"
+    },
+    {
+      "url": "/places/american_falls_3.jpg",
+      "thumb": "/places/american_falls_3.jpg",
+      "title": "Niagara falls - Winter - Prospect point view at night"
+    }
+  ],
+  "Bridal Veil Falls": [
+    {
+      "url": "/places/bridal_veil_falls_1.jpg",
+      "thumb": "/places/bridal_veil_falls_1.jpg",
+      "title": "American and Bridal Veil Falls winter"
+    },
+    {
+      "url": "/places/bridal_veil_falls_2.jpg",
+      "thumb": "/places/bridal_veil_falls_2.jpg",
+      "title": "Niagara Falls - ON - Niagarafälle3"
+    },
+    {
+      "url": "/places/bridal_veil_falls_3.jpg",
+      "thumb": "/places/bridal_veil_falls_3.jpg",
+      "title": "Niagara Falls 001"
+    }
+  ],
+  "Horseshoe Falls": [
+    {
+      "url": "/places/horseshoe_falls_1.jpg",
+      "thumb": "/places/horseshoe_falls_1.jpg",
+      "title": "Maid of the Mist VII approaching the Horseshoe Falls, West view 20170418 1"
+    },
+    {
+      "url": "/places/horseshoe_falls_2.jpg",
+      "thumb": "/places/horseshoe_falls_2.jpg",
+      "title": "Niagara watervallen canada"
+    },
+    {
+      "url": "/places/horseshoe_falls_3.jpg",
+      "thumb": "/places/horseshoe_falls_3.jpg",
+      "title": "Horseshoe Falls from helicopter"
+    }
+  ]
 }
