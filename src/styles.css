@@ -54,48 +54,57 @@
 :root {
   --radius: 0.875rem;
 
-  /* User Provided Light Theme */
-  --background: #f0ead2;
-  --surface: #ffffff;
-  --surface-secondary: #f7f4e8;
-  --primary: #adc178;
-  --primary-hover: #9bb067;
-  --secondary: #dde5b6;
-  --accent: #a98467;
-  --text-primary: #3f342c;
-  --text-secondary: #6c584c;
-  --text-muted: #8b7b70;
-  --border: #d8d1b8;
-  --shadow: rgba(108, 88, 76, 0.12);
-  --success: #7ba05b;
-  --warning: #c89b53;
-  --error: #b45f5f;
+  /* Base Paper Palette */
+  --vanilla-cream: #f0ead2;
+  --tea-green: #dde5b6;
+  --muted-olive: #adc178;
+  --faded-copper: #a98467;
+  --ash-brown: #6c584c;
 
-  /* Shadcn Mappings */
-  --foreground: var(--text-primary);
-  --card: var(--surface);
-  --card-foreground: var(--text-primary);
-  --popover: var(--surface);
-  --popover-foreground: var(--text-primary);
-  --primary-foreground: #1f1b18;
-  --secondary-foreground: var(--text-primary);
-  --muted: var(--surface-secondary);
-  --muted-foreground: var(--text-muted);
-  --accent-foreground: #ffffff;
-  --destructive: var(--error);
+  /* Derived Light Colors */
+  --surface-light: #fbf9f1;
+  --surface-dim: #e6dfc3;
+  --text-dark: #3f332d;
+  --border-light: #d6ccbc;
+
+  /* Shadcn Mappings - Light */
+  --background: var(--vanilla-cream);
+  --foreground: var(--text-dark);
+  
+  --card: var(--surface-light);
+  --card-foreground: var(--text-dark);
+  
+  --popover: var(--surface-light);
+  --popover-foreground: var(--text-dark);
+  
+  --primary: var(--ash-brown);
+  --primary-foreground: var(--vanilla-cream);
+  
+  --secondary: var(--tea-green);
+  --secondary-foreground: var(--text-dark);
+  
+  --muted: var(--surface-dim);
+  --muted-foreground: var(--ash-brown);
+  
+  --accent: var(--faded-copper);
+  --accent-foreground: var(--surface-light);
+  
+  --destructive: #b45f5f;
   --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: var(--primary);
+  
+  --border: var(--border-light);
+  --input: var(--border-light);
+  --ring: var(--ash-brown);
 
   /* Sidebar */
-  --sidebar: var(--background);
-  --sidebar-foreground: var(--text-secondary);
-  --sidebar-primary: var(--primary);
-  --sidebar-primary-foreground: #1f1b18;
-  --sidebar-accent: var(--surface-secondary);
-  --sidebar-accent-foreground: var(--text-primary);
-  --sidebar-border: var(--border);
-  --sidebar-ring: var(--primary);
+  --sidebar: var(--surface-light);
+  --sidebar-foreground: var(--text-dark);
+  --sidebar-primary: var(--ash-brown);
+  --sidebar-primary-foreground: var(--vanilla-cream);
+  --sidebar-accent: var(--surface-dim);
+  --sidebar-accent-foreground: var(--text-dark);
+  --sidebar-border: var(--border-light);
+  --sidebar-ring: var(--ash-brown);
 
   /* Charts */
   --chart-1: oklch(0.646 0.222 41.116);
@@ -106,48 +115,52 @@
 }
 
 .dark {
-  /* User Provided Dark Theme */
-  --background: #1f1b18;
-  --surface: #2a2521;
-  --surface-secondary: #332d28;
-  --primary: #adc178;
-  --primary-hover: #c2d48d;
-  --secondary: #55643b;
-  --accent: #c09a79;
-  --text-primary: #f0ead2;
-  --text-secondary: #d4ccb5;
-  --text-muted: #a69b8d;
-  --border: #4a413a;
-  --shadow: rgba(0, 0, 0, 0.35);
-  --success: #8fb96a;
-  --warning: #d9b06d;
-  --error: #d17b7b;
+  /* Complementary Dark Palette (Burnt Paper / Dark Sepia) */
+  --dark-bg: #2b2421;
+  --dark-surface: #38302c;
+  --dark-surface-dim: #423833;
+  --dark-border: #544841;
+  --dark-text: var(--vanilla-cream);
+  --dark-text-muted: #a1958b;
 
-  /* Shadcn Mappings */
-  --foreground: var(--text-primary);
-  --card: var(--surface);
-  --card-foreground: var(--text-primary);
-  --popover: var(--surface);
-  --popover-foreground: var(--text-primary);
-  --primary-foreground: #1f1b18;
-  --secondary-foreground: var(--text-primary);
-  --muted: var(--surface-secondary);
-  --muted-foreground: var(--text-muted);
-  --accent-foreground: #1f1b18;
-  --destructive: var(--error);
+  /* Shadcn Mappings - Dark */
+  --background: var(--dark-bg);
+  --foreground: var(--dark-text);
+  
+  --card: var(--dark-surface);
+  --card-foreground: var(--dark-text);
+  
+  --popover: var(--dark-surface);
+  --popover-foreground: var(--dark-text);
+  
+  --primary: var(--faded-copper);
+  --primary-foreground: var(--dark-bg);
+  
+  --secondary: var(--dark-surface-dim);
+  --secondary-foreground: var(--tea-green);
+  
+  --muted: var(--dark-surface-dim);
+  --muted-foreground: var(--dark-text-muted);
+  
+  --accent: var(--muted-olive);
+  --accent-foreground: var(--dark-bg);
+  
+  --destructive: #d17b7b;
   --destructive-foreground: #ffffff;
-  --input: var(--border);
-  --ring: var(--primary);
+  
+  --border: var(--dark-border);
+  --input: var(--dark-border);
+  --ring: var(--faded-copper);
 
   /* Sidebar */
-  --sidebar: var(--background);
-  --sidebar-foreground: var(--text-secondary);
-  --sidebar-primary: var(--primary);
-  --sidebar-primary-foreground: #1f1b18;
-  --sidebar-accent: var(--surface-secondary);
-  --sidebar-accent-foreground: var(--text-primary);
-  --sidebar-border: var(--border);
-  --sidebar-ring: var(--primary);
+  --sidebar: var(--dark-surface);
+  --sidebar-foreground: var(--dark-text);
+  --sidebar-primary: var(--faded-copper);
+  --sidebar-primary-foreground: var(--dark-bg);
+  --sidebar-accent: var(--dark-surface-dim);
+  --sidebar-accent-foreground: var(--dark-text);
+  --sidebar-border: var(--dark-border);
+  --sidebar-ring: var(--faded-copper);
 
   /* Charts */
   --chart-1: oklch(0.488 0.243 264.376);
