@@ -54,57 +54,54 @@
 :root {
   --radius: 0.875rem;
 
-  /* Base Paper Palette */
-  --vanilla-cream: #f0ead2;
-  --tea-green: #dde5b6;
-  --muted-olive: #adc178;
-  --faded-copper: #a98467;
-  --ash-brown: #6c584c;
-
-  /* Derived Light Colors */
-  --surface-light: #fbf9f1;
-  --surface-dim: #e6dfc3;
-  --text-dark: #3f332d;
-  --border-light: #d6ccbc;
+  /* New Paper Palette */
+  --paper-1: #edede9;
+  --paper-2: #d6ccc2;
+  --paper-3: #f5ebe0;
+  --paper-4: #e3d5ca;
+  --paper-5: #d5bdaf;
+  --paper-accent: #b29ca2;
+  --paper-text-dark: #4a3f43;
+  --paper-text-muted: #8c7b80;
 
   /* Shadcn Mappings - Light */
-  --background: var(--vanilla-cream);
-  --foreground: var(--text-dark);
+  --background: var(--paper-3);
+  --foreground: var(--paper-text-dark);
   
-  --card: var(--surface-light);
-  --card-foreground: var(--text-dark);
+  --card: var(--paper-1);
+  --card-foreground: var(--paper-text-dark);
   
-  --popover: var(--surface-light);
-  --popover-foreground: var(--text-dark);
+  --popover: var(--paper-1);
+  --popover-foreground: var(--paper-text-dark);
   
-  --primary: var(--ash-brown);
-  --primary-foreground: var(--vanilla-cream);
+  --primary: var(--paper-accent);
+  --primary-foreground: var(--paper-3);
   
-  --secondary: var(--tea-green);
-  --secondary-foreground: var(--text-dark);
+  --secondary: var(--paper-5);
+  --secondary-foreground: var(--paper-text-dark);
   
-  --muted: var(--surface-dim);
-  --muted-foreground: var(--ash-brown);
+  --muted: var(--paper-4);
+  --muted-foreground: var(--paper-text-muted);
   
-  --accent: var(--faded-copper);
-  --accent-foreground: var(--surface-light);
+  --accent: var(--paper-2);
+  --accent-foreground: var(--paper-text-dark);
   
   --destructive: #b45f5f;
   --destructive-foreground: #ffffff;
   
-  --border: var(--border-light);
-  --input: var(--border-light);
-  --ring: var(--ash-brown);
+  --border: var(--paper-2);
+  --input: var(--paper-2);
+  --ring: var(--paper-accent);
 
   /* Sidebar */
-  --sidebar: var(--surface-light);
-  --sidebar-foreground: var(--text-dark);
-  --sidebar-primary: var(--ash-brown);
-  --sidebar-primary-foreground: var(--vanilla-cream);
-  --sidebar-accent: var(--surface-dim);
-  --sidebar-accent-foreground: var(--text-dark);
-  --sidebar-border: var(--border-light);
-  --sidebar-ring: var(--ash-brown);
+  --sidebar: var(--paper-1);
+  --sidebar-foreground: var(--paper-text-dark);
+  --sidebar-primary: var(--paper-accent);
+  --sidebar-primary-foreground: var(--paper-3);
+  --sidebar-accent: var(--paper-4);
+  --sidebar-accent-foreground: var(--paper-text-dark);
+  --sidebar-border: var(--paper-2);
+  --sidebar-ring: var(--paper-accent);
 
   /* Charts */
   --chart-1: oklch(0.646 0.222 41.116);
@@ -115,13 +112,13 @@
 }
 
 .dark {
-  /* Complementary Dark Palette (Burnt Paper / Dark Sepia) */
-  --dark-bg: #2b2421;
-  --dark-surface: #38302c;
-  --dark-surface-dim: #423833;
-  --dark-border: #544841;
-  --dark-text: var(--vanilla-cream);
-  --dark-text-muted: #a1958b;
+  /* Complementary Dark Palette (Warm Dark Taupe) */
+  --dark-bg: #2e282a;
+  --dark-surface: #3a3335;
+  --dark-surface-dim: #453c3f;
+  --dark-border: #5a4f53;
+  --dark-text: var(--paper-1);
+  --dark-text-muted: var(--paper-2);
 
   /* Shadcn Mappings - Dark */
   --background: var(--dark-bg);
@@ -133,16 +130,16 @@
   --popover: var(--dark-surface);
   --popover-foreground: var(--dark-text);
   
-  --primary: var(--faded-copper);
+  --primary: var(--paper-accent);
   --primary-foreground: var(--dark-bg);
   
   --secondary: var(--dark-surface-dim);
-  --secondary-foreground: var(--tea-green);
+  --secondary-foreground: var(--paper-5);
   
   --muted: var(--dark-surface-dim);
   --muted-foreground: var(--dark-text-muted);
   
-  --accent: var(--muted-olive);
+  --accent: var(--paper-4);
   --accent-foreground: var(--dark-bg);
   
   --destructive: #d17b7b;
@@ -150,17 +147,17 @@
   
   --border: var(--dark-border);
   --input: var(--dark-border);
-  --ring: var(--faded-copper);
+  --ring: var(--paper-accent);
 
   /* Sidebar */
   --sidebar: var(--dark-surface);
   --sidebar-foreground: var(--dark-text);
-  --sidebar-primary: var(--faded-copper);
+  --sidebar-primary: var(--paper-accent);
   --sidebar-primary-foreground: var(--dark-bg);
   --sidebar-accent: var(--dark-surface-dim);
   --sidebar-accent-foreground: var(--dark-text);
   --sidebar-border: var(--dark-border);
-  --sidebar-ring: var(--faded-copper);
+  --sidebar-ring: var(--paper-accent);
 
   /* Charts */
   --chart-1: oklch(0.488 0.243 264.376);
