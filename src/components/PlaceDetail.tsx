@@ -307,12 +307,12 @@ function SingleImageViewer({ image, onClose }: { image: any, onClose: () => void
   return (
     <div 
       className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
-      onPointerDown={(e) => { e.stopPropagation(); onClose(); }}
+      onClick={(e) => { e.stopPropagation(); onClose(); }}
     >
       <div className="absolute top-6 right-6 z-10">
         <button 
           className="p-3 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
-          onPointerDown={(e) => { e.stopPropagation(); onClose(); }}
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
         >
           <X className="h-6 w-6" />
         </button>
@@ -320,7 +320,7 @@ function SingleImageViewer({ image, onClose }: { image: any, onClose: () => void
       
       <div 
         className="flex-1 flex items-center justify-center p-4 relative"
-        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <img 
           src={image.url} 
