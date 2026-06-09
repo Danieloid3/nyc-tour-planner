@@ -62,7 +62,7 @@ export const days: DayPlan[] = [
     color: "#ef4444",
     description:
       "Reúne muchos de los iconos más famosos. Ideal como primer o segundo día porque deja a todo el grupo situado mentalmente en Manhattan.",
-    pace: "Si subís a SUMMIT y a Top of the Rock el mismo día queda demasiado cargado. Elegid solo un gran mirador.",
+    pace: "Este día incluye mucho asfalto. Tómense su tiempo en Bryant Park para descansar las piernas antes de seguir hacia la Quinta Avenida.",
     places: [
       { id: "grand-central", name: "Grand Central Terminal", category: "estacion", lat: 40.752726, lng: -73.977229, order: 1, description: "Entrad sin prisa y disfrutad del edificio como una atracción en sí misma. Conecta con las líneas 4, 5, 6, 7 y Shuttle.", seeWhat: ["Gran vestíbulo", "Techo astronómico", "Vanderbilt Hall"], food: "Desayuno rápido o parada técnica en Vanderbilt Hall.", curiosity: "El techo estrellado del vestíbulo principal está pintado al revés. Cornelius Vanderbilt afirmó que era a propósito para verlo 'desde la perspectiva de Dios'." },
       { id: "summit-ovt", name: "SUMMIT One Vanderbilt", category: "mirador", lat: 40.752854, lng: -73.978674, order: 2, description: "Mirador inmersivo justo al lado de Grand Central, muy cómodo logísticamente.", seeWhat: ["Skyline de Midtown", "Experiencia de espejos"], curiosity: "Los espejos del Summit One Vanderbilt cubren más de 2,700 metros cuadrados, creando una ilusión de espacio infinito que te hace perder la noción de dónde estás." },
@@ -86,7 +86,7 @@ export const days: DayPlan[] = [
     color: "#f97316",
     description:
       "Un día muy completo pero muy lógico: casi todo queda enlazado caminando. Mezcla arquitectura, historia y vistas al agua.",
-    pace: "Si los padres se cansan, es fácil de recortar: eliminar el museo 9/11 y dejar solo memorial + financiero.",
+    pace: "Día con mucha historia y muy plano. Si sienten cansancio, pueden omitir el interior del museo y disfrutar solo de las vistas exteriores y Wall Street.",
     places: [
       { id: "fulton-st", name: "Fulton Street", category: "estacion", lat: 40.709913, lng: -74.007846, order: 1, description: "Punto de llegada desde Grand Central con las líneas 4 o 5.", curiosity: "La estación de metro Fulton Center tiene un tragaluz gigante llamado 'Sky Reflector-Net' compuesto por 952 paneles de aluminio que bajan la luz solar hasta las vías." },
       { id: "oculus", name: "Oculus", category: "atraccion", lat: 40.711522, lng: -74.011080, order: 2, description: "Estructura espectacular junto al World Trade Center. Vale la pena verlo por dentro.", seeWhat: ["Arquitectura de Calatrava", "Bóveda blanca"], food: "Muchas opciones cómodas y limpias para comer.", curiosity: "Su diseño arquitectónico busca parecer 'una paloma liberada de las manos de un niño', como símbolo de paz tras los atentados del 11 de septiembre." },
@@ -110,7 +110,7 @@ export const days: DayPlan[] = [
     color: "#eab308",
     description:
       "De los tours más agradecidos para un grupo familiar: da sensación de hacer mucho con poco esfuerzo. El ferry es gratuito y ofrece una de las mejores vistas de la Estatua de la Libertad.",
-    pace: "Funciona especialmente bien como día suave entre dos días de mucha caminata.",
+    pace: "Un día muy relajado. El viaje en ferry les permitirá descansar sentados y abrigados mientras disfrutan de la Estatua de la Libertad.",
     places: [
       { id: "bowling-green", name: "Bowling Green", category: "parque", lat: 40.704708, lng: -74.013844, order: 1, description: "Parada de metro y pequeño parque histórico, punto de inicio del recorrido.", curiosity: "Es el parque público más antiguo de Nueva York. La leyenda dice que aquí los holandeses 'compraron' la isla de Manhattan a los nativos por bienes valorados en 24 dólares." },
       { id: "si-ferry", name: "Staten Island Ferry", category: "ferry", lat: 40.701231, lng: -74.013403, order: 2, description: "Sentaos en la parte exterior si hace buen tiempo, en el lado de Manhattan/Liberty Island.", seeWhat: ["Vistas de la Estatua de la Libertad", "Skyline alejándose"], food: "Algo ligero en Lower Manhattan antes de embarcar.", curiosity: "El ferry es gratuito desde 1997. Antes de eso, costaba 50 centavos, y aunque parezca poco, la medida de hacerlo gratis buscaba aliviar el tráfico de coches hacia Manhattan." },
@@ -126,7 +126,7 @@ export const days: DayPlan[] = [
     color: "#84cc16",
     description:
       "Uno de los días más fotogénicos y variados. La clave es el orden correcto para evitar repetir puente y llegar a comer con calma.",
-    pace: "Si hace mucho calor, mejor hacer el puente temprano y dejar Chinatown/Little Italy para después de comer.",
+    pace: "Cruzar el puente es precioso pero puede cansar. Háganlo a su ritmo, parando a tomar fotos, y aprovechen el metro para regresar desde DUMBO.",
     places: [
       { id: "brooklyn-bridge", name: "Puente de Brooklyn", category: "monumento", lat: 40.706086, lng: -73.996864, order: 1, description: "Cruzar andando sin prisa: lo bonito es parar, mirar y hacer fotos.", seeWhat: ["Skyline de Manhattan", "Arcos de piedra"], curiosity: "Fue el puente colgante más largo del mundo al inaugurarse. Para demostrar que era seguro, el famoso showman P.T. Barnum lo cruzó con 21 elefantes en 1884." },
       { id: "dumbo", name: "DUMBO", category: "barrio", lat: 40.703277, lng: -73.990322, order: 5, description: "Ver Washington Street, el skyline y el paseo junto al agua.", seeWhat: ["Manhattan Bridge enmarcado", "Paseo del río"], food: "Pizza clásica con vistas.", curiosity: "El nombre DUMBO es un acrónimo de 'Down Under the Manhattan Bridge Overpass' (Debajo del paso elevado del Puente de Manhattan)." },
@@ -147,7 +147,7 @@ export const days: DayPlan[] = [
     color: "#22c55e",
     description:
       "Este día debe sentirse como descanso activo. Central Park es enorme: conviene escoger bien el tramo y no intentar verlo todo.",
-    pace: "No mezclar con demasiados museos o miradores. Su función es bajar revoluciones.",
+    pace: "Central Park es inmenso. No intenten caminarlo entero; la idea es dar un paseo tranquilo por el sur y sentarse en las bancas a ver la vida pasar.",
     places: [
       { id: "the-pond", name: "The Pond", category: "parque", lat: 40.766500, lng: -73.974000, order: 1, description: "Entrada por la zona sur del parque, cerca de 5th Avenue.", curiosity: "Este estanque es famoso porque en invierno es el hogar favorito de los patos y, en la novela 'El guardián entre el centeno', el protagonista se obsesiona preguntándose a dónde van cuando se congela." },
       { id: "bethesda-terrace", name: "Bethesda Terrace", category: "atraccion", lat: 40.774000, lng: -73.970900, order: 4, description: "Una de las zonas más bellas del parque, con su fuente y arcadas.", curiosity: "La estatua central, 'El Ángel de las Aguas', fue diseñada por Emma Stebbins en 1873, convirtiéndose en la primera mujer en recibir un encargo de arte público en Nueva York." },
@@ -170,7 +170,7 @@ export const days: DayPlan[] = [
     color: "#14b8a6",
     description:
       "Puede quedar muy bonito y descansado. El teleférico ofrece vistas estupendas del East River y es una experiencia corta y diferente.",
-    pace: "Ideal como día corto, para volver antes a Stamford o ver partido después.",
+    pace: "Un escape tranquilo del ruido de Manhattan. El recorrido es corto y llano, ideal para una mañana relajada antes de ir de compras o almorzar.",
     places: [
       { id: "roosevelt-tram", name: "Roosevelt Island Tramway", category: "atraccion", lat: 40.761400, lng: -73.963900, order: 1, description: "Subid al teleférico en 59th Street / 2nd Avenue.", seeWhat: ["Vistas del East River", "Puente de Queensboro"], curiosity: "El viaje dura solo 3 minutos. Cada cabina puede llevar hasta a 110 personas y llega a elevarse casi 80 metros sobre el nivel del East River." },
       { id: "roosevelt-island", name: "Roosevelt Island", category: "barrio", lat: 40.761500, lng: -73.950500, order: 2, description: "Pasear sin prisa; lo mejor es el ambiente y la sensación de salir del Manhattan clásico.", curiosity: "Antes de ser residencial, la isla se llamaba 'Isla del Bienestar' y albergaba exclusivamente asilos, hospitales de cuarentena y una prisión penitenciaria." },
@@ -188,7 +188,7 @@ export const days: DayPlan[] = [
     color: "#06b6d4",
     description:
       "Elegir un museo protagonista por día y, si queda energía, añadir otro muy breve o solo el exterior.",
-    pace: "Este tour debe ser cultural y contenido, no una acumulación de entradas.",
+    pace: "Los museos aquí son gigantescos. Elijan solo las dos o tres salas que más les interesen en el mapa del museo para no agotar las piernas.",
     places: [
       { id: "the-met", name: "The Met", category: "museo", lat: 40.779437, lng: -73.963244, order: 1, description: "Uno de los grandes imprescindibles: un gran museo con piezas muy reconocibles y visita elegante. Sobre la Museum Mile.", seeWhat: ["Templo de Dendur", "Galerías europeas", "Terraza con vistas"], food: "Cafetería dentro o almuerzo cerca.", curiosity: "Dentro del Met se encuentra el Templo de Dendur, un templo egipcio real del año 15 a.C. regalado a EE.UU. para evitar que quedara hundido por la presa de Asuán en el Nilo." },
       { id: "moma", name: "MoMA", category: "museo", lat: 40.761436, lng: -73.977621, order: 4, description: "Encaja con un día de Midtown, muy cerca de Rockefeller y 5th Avenue. Haced selección interna.", seeWhat: ["La noche estrellada", "Las señoritas de Aviñón"], curiosity: "El MoMA fue el primer museo del mundo en incluir 'Videojuegos' (como Pac-Man o Tetris) dentro de su colección permanente de arte y diseño." },
@@ -204,7 +204,7 @@ export const days: DayPlan[] = [
     color: "#3b82f6",
     description:
       "Una de las zonas más agradables y actuales de Manhattan. Combina muy bien paseo, comida y miradores sin la locura de Midtown.",
-    pace: "Muy bueno para adultos porque es modular: solo Chelsea + High Line, o todo con Edge si estáis fuertes.",
+    pace: "El High Line tiene muchísimas banquitas. Si sienten que la caminata es larga, siéntense a disfrutar de los jardines y las vistas sin prisa.",
     places: [
       { id: "chelsea-market", name: "Chelsea Market", category: "restaurante", lat: 40.742400, lng: -74.006100, order: 2, description: "Perfecto para desayunar tarde o comer pronto.", seeWhat: ["Mercado gastronómico", "Puestos artesanales"], food: "Donde mejor funciona el tour: comer bien sin restaurante formal.", curiosity: "Este edificio era la fábrica original de Nabisco. Exactamente en este lugar es donde se inventaron, hornearon y probaron las primeras galletas Oreo en 1912." },
       { id: "high-line", name: "High Line", category: "parque", lat: 40.748000, lng: -74.004800, order: 3, description: "Paseo elevado de unos 3 km con otra perspectiva de la ciudad.", seeWhat: ["Jardines elevados", "Vistas del Hudson"], curiosity: "Antes de ser parque, fue una vía de tren de carga muy peligrosa que pasaba a nivel de calle. La elevaron en los años 30 para evitar accidentes mortales." },
@@ -222,7 +222,7 @@ export const days: DayPlan[] = [
     color: "#8b5cf6",
     description:
       "Una Nueva York distinta, menos de postal y más de barrio con identidad. Si os interesa, mejor en domingo para la misa góspel.",
-    pace: "Muy recomendable, pero solo si os atrae de verdad la parte cultural y no vais con prisa por tachar sitios.",
+    pace: "Un día para disfrutar de la música y la comida sin estrés. La misa góspel es una experiencia inmersiva donde estarán sentados la mayor parte del tiempo.",
     places: [
       { id: "harlem", name: "Harlem", category: "barrio", lat: 40.811600, lng: -73.946500, order: 2, description: "Subir por la mañana en metro y pasear por sus calles clásicas.", seeWhat: ["Brownstones", "Arquitectura residencial"], curiosity: "Durante la Prohibición (los años 20), Harlem tenía cientos de clubes clandestinos, como el famoso Cotton Club, donde actuaban leyendas del jazz mientras que el alcohol fluía en secreto." },
       { id: "gospel-church", name: "Misa góspel (Abyssinian Baptist)", category: "iglesia", lat: 40.815800, lng: -73.941200, order: 1, description: "Asistir respetando que es un acto religioso y no solo un espectáculo turístico.", curiosity: "La música góspel tiene raíces tan profundas que muchos de sus himnos tradicionales ocultaban mensajes secretos y mapas cantados para guiar a los esclavos prófugos hacia la libertad." },
@@ -238,7 +238,7 @@ export const days: DayPlan[] = [
     color: "#ec4899",
     description:
       "Separar tres categorías: compras urbanas en Manhattan, outlet fácil y outlet grande pero cansado. Así evitáis trayectos larguísimos.",
-    pace: "Para padres mayores, lo mejor suele ser Manhattan + SoHo o Empire Outlets. Jersey Gardens sería la opción intermedia.",
+    pace: "Ir de compras agota rápido. Prioricen una o dos tiendas específicas y hagan varias 'paradas técnicas' para tomar café y descansar.",
     places: [
       { id: "herald-square", name: "Herald Square", category: "compras", lat: 40.750500, lng: -73.987900, order: 1, description: "Centro comercial urbano en pleno Midtown.", curiosity: "La plaza lleva el nombre de un periódico extinto (el New York Herald). Su reloj central cuenta con búhos mecánicos con ojos que brillan intermitentemente." },
       { id: "macys", name: "Macy's", category: "compras", lat: 40.751000, lng: -73.988800, order: 2, description: "Los grandes almacenes más famosos de Nueva York.", curiosity: "Macy's de Herald Square fue durante décadas la tienda más grande del mundo. Todavía conserva algunas de sus escaleras mecánicas originales hechas totalmente de madera." },
@@ -255,7 +255,7 @@ export const days: DayPlan[] = [
     color: "#64748b",
     description:
       "No es relleno: es esencial para que Nueva York no os pase factura. Evitad el error de intentar hacer Manhattan todos los días.",
-    pace: "Los itinerarios largos funcionan mejor con días domésticos y sencillos.",
+    pace: "Día libre para recargar baterías. Un paseo lento por la costa o simplemente descansar es fundamental para recuperar energía.",
     places: [
       { id: "stamford-station", name: "Stamford Train Station", category: "estacion", lat: 41.046900, lng: -73.542000, order: 1, description: "Base del viaje. El tren a Grand Central tarda unos 55–60 minutos.", seeWhat: ["Metro-North New Haven Line"], curiosity: "Es la estación más concurrida de la red ferroviaria Metro-North fuera de la ciudad de Nueva York. Conecta la tranquilidad de Connecticut con la locura de Manhattan en solo una hora." },
       { id: "stamford-downtown", name: "Stamford", category: "barrio", lat: 41.053400, lng: -73.538700, order: 2, description: "Mañana lenta, paseo local y comida en casa.", curiosity: "Conocida históricamente como la 'Ciudad de las Cerraduras', Stamford albergaba a la compañía Yale & Towne, que llegó a fabricar candados y cerraduras para todo el mundo." },
@@ -270,7 +270,7 @@ export const days: DayPlan[] = [
     color: "#0ea5e9",
     description:
       "Niágara en bus nocturno y volver el mismo día es una paliza, pero reduce gasto. Concentrarse en el lado estadounidense, miradores gratuitos.",
-    pace: "No colocar pegado a un día fuerte de Manhattan. Mejor con un día de descanso antes o después.",
+    pace: "Una excursión que requiere algo de viaje. Aprovechen el transporte para dormir y caminen únicamente por los miradores principales de las cataratas.",
     places: [
       { id: "niagara-park", name: "Niagara Falls State Park", category: "parque", lat: 43.082800, lng: -79.065300, order: 1, description: "El acceso a miradores y zona exterior es gratuito. Se pagan atracciones concretas.", seeWhat: ["Miradores exteriores", "Observation Tower"], curiosity: "Es el parque estatal más antiguo de todos los Estados Unidos. Fue fundado en 1885 para proteger las cataratas de la explotación comercial masiva y la industrialización." },
       { id: "american-falls", name: "American Falls", category: "atraccion", lat: 43.084000, lng: -79.068600, order: 2, description: "Las cataratas del lado estadounidense, perfectas para fotos.", curiosity: "Solo el 10% del caudal total del río Niágara pasa por el lado estadounidense (American Falls); el 90% restante cae por la herradura canadiense." },
