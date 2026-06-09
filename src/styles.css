@@ -114,9 +114,9 @@
 .dark {
   /* Complementary Dark Palette (Warm Dark Taupe) */
   --dark-bg: #2e282a;
-  --dark-surface: #3a3335;
-  --dark-surface-dim: #453c3f;
-  --dark-border: #5a4f53;
+  --dark-surface: #4a4245;
+  --dark-surface-dim: #554d50;
+  --dark-border: #6a6064;
   --dark-text: var(--paper-1);
   --dark-text-muted: var(--paper-2);
 
