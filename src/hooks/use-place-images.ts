@@ -32,9 +32,9 @@ export function usePlaceImages(placeName: string | undefined) {
       try {
         // Query Wikimedia Commons for "New York [Place Name]"
         const query = encodeURIComponent(`New York ${placeName}`);
-        // gsrnamespace=6 means "File:" namespace. gsrlimit=4 limits to 4 images.
-        // prop=imageinfo&iiprop=url gets the URL, and iiurlwidth=400 gets a 400px thumbnail (faster loading).
-        const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=3&prop=imageinfo&iiprop=url&iiurlwidth=400&format=json&origin=*`;
+        // gsrnamespace=6 means "File:" namespace. We fetch up to 8 images to have enough after deduplication.
+        // prop=imageinfo&iiprop=url|sha1 gets the URL, 400px thumbnail, and SHA1 hash for deduplication.
+        const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|sha1&iiurlwidth=400&format=json&origin=*`;
         
         const res = await fetch(url);
         const data = await res.json();
@@ -51,17 +51,20 @@ export function usePlaceImages(placeName: string | undefined) {
         const results: PlaceImage[] = [];
 
         const sortedPages = Object.values(pages).sort((a: any, b: any) => a.index - b.index);
-        const uniqueUrls = new Set<string>();
+        const uniqueHashes = new Set<string>();
 
         for (const page of sortedPages as any[]) {
           const imageInfo = page.imageinfo?.[0];
-          if (imageInfo?.thumburl && !uniqueUrls.has(imageInfo.url)) {
-            uniqueUrls.add(imageInfo.url);
+          // Use SHA1 hash to ensure exact image contents are not duplicated, even if filenames differ
+          if (imageInfo?.thumburl && imageInfo?.sha1 && !uniqueHashes.has(imageInfo.sha1)) {
+            uniqueHashes.add(imageInfo.sha1);
             results.push({
               url: imageInfo.url, // Original full size
               thumb: imageInfo.thumburl, // 800px width
               title: page.title.replace('File:', '').replace(/\.[^/.]+$/, ''), // Clean title
             });
+            // Stop once we have 4 good unique images
+            if (results.length >= 4) break;
           }
         }
         if (mounted) {
