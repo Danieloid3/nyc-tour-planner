@@ -82,26 +82,25 @@ function Index() {
   };
 
   useEffect(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      if (selectedPlace) {
+    const handleHashChange = () => {
+      if (window.location.hash !== '#place' && selectedPlace) {
         setSelectedPlace(null);
       }
     };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, [selectedPlace]);
 
   const selectPlace = (p: Place & { dayId: string } | null) => {
-    if (p && !selectedPlace) {
-      const currentState = window.history.state || {};
-      window.history.pushState({ ...currentState, placeDrawer: true }, '');
+    if (p && !selectedPlace && window.location.hash !== '#place') {
+      window.location.hash = 'place';
     }
     setSelectedPlace(p);
     if (p) setView("map");
   };
 
   const closePlace = () => {
-    if (window.history.state?.placeDrawer) {
+    if (window.location.hash === '#place') {
       window.history.back();
     } else {
       setSelectedPlace(null);
