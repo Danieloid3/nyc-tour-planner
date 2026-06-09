@@ -19,7 +19,16 @@ interface Props {
 export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress }: Props) {
   const isOpen = !!place;
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
+  const closingFullscreenRef = React.useRef(false);
   const { images, loading } = usePlaceImages(place?.name);
+
+  const closeFullscreen = React.useCallback(() => {
+    closingFullscreenRef.current = true;
+    setFullscreenIndex(null);
+    setTimeout(() => {
+      closingFullscreenRef.current = false;
+    }, 200);
+  }, []);
 
   // Clear fullscreen image when place changes or closes
   React.useEffect(() => {
@@ -38,7 +47,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
   React.useEffect(() => {
     const onHashChange = () => {
       if (window.location.hash !== '#image' && fullscreenIndex !== null) {
-        setFullscreenIndex(null);
+        closeFullscreen();
       }
     };
     window.addEventListener('hashchange', onHashChange);
@@ -85,7 +94,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
         <Drawer.Overlay className="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm transition-all" />
         <Drawer.Content 
           onInteractOutside={(e) => {
-            if (fullscreenIndex !== null) {
+            if (fullscreenIndex !== null || closingFullscreenRef.current) {
               e.preventDefault();
             }
           }}
@@ -286,7 +295,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
       {fullscreenIndex !== null && images.length > 0 && (
         <SingleImageViewer 
           image={images[fullscreenIndex]} 
-          onClose={() => setFullscreenIndex(null)} 
+          onClose={closeFullscreen} 
         />
       )}
     </>
