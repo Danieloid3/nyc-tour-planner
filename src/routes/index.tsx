@@ -172,24 +172,6 @@ function Index() {
           </Popover.Root>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex rounded-xl sm:rounded-2xl border border-border/50 bg-background/85 p-1 shadow-sm backdrop-blur-xl">
-              <button
-                onClick={() => setView("map")}
-                className={`grid h-7 w-7 sm:h-8 sm:w-auto place-items-center sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold transition ${
-                  view === "map" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <MapIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-1.5 inline-block" /> <span className="hidden sm:inline">Mapa</span>
-              </button>
-              <button
-                onClick={() => setView("timeline")}
-                className={`grid h-7 w-7 sm:h-8 sm:w-auto place-items-center sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold transition ${
-                  view === "timeline" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <ListOrdered className="h-3.5 w-3.5 sm:h-4 sm:w-4 sm:mr-1.5 inline-block" /> <span className="hidden sm:inline">Lista</span>
-              </button>
-            </div>
 
             <WeatherWidget />
 
@@ -243,6 +225,24 @@ function Index() {
           </div>
         )}
       </main>
+
+      {/* Floating Action Button for View Toggle */}
+      <div className="pointer-events-none absolute bottom-8 left-0 right-0 z-[1500] flex justify-center">
+        <button
+          onClick={() => setView(view === "map" ? "timeline" : "map")}
+          className="pointer-events-auto flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background shadow-2xl transition hover:scale-105 active:scale-95"
+        >
+          {view === "map" ? (
+            <>
+              <ListOrdered className="h-4 w-4" /> Mostrar lista
+            </>
+          ) : (
+            <>
+              <MapIcon className="h-4 w-4" /> Mostrar mapa
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 }
