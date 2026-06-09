@@ -71,9 +71,14 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                   <button
                     onClick={() => toggleExpanded(t.id)}
                     className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-xl ${
-                      isSelected ? "ring-2 ring-primary ring-offset-2 border-primary bg-primary/5" :
+                      isSelected ? "" :
                       isDayCompleted ? "border-primary/50 opacity-80 bg-card" : "border-border bg-card"
                     }`}
+                    style={isSelected ? {
+                      borderColor: t.color,
+                      boxShadow: `0 0 0 2px ${t.color}40`,
+                      backgroundColor: `${t.color}10`
+                    } : undefined}
                   >
                   <div className="h-1.5 w-full" style={{ background: t.color }} />
                   <div className="p-4">
