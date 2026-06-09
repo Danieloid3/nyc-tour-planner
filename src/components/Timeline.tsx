@@ -161,39 +161,41 @@ export function Timeline({ onSelectDay, progress, selectedDayId }: Props) {
                     const visited = progress.isVisited(p.id);
 
                     return (
-                      <div key={p.id} className={`relative transition-opacity ${visited ? 'opacity-50' : 'opacity-100'}`}>
-                        <div className="flex items-start gap-3">
-                          
-                          {/* Checkbox Button */}
+                      <div key={p.id} className={`relative flex gap-3 transition-opacity ${visited ? 'opacity-50' : 'opacity-100'}`}>
+                        {/* Checkbox column (Left) */}
+                        <div className="flex flex-col items-center pt-0.5">
                           <button 
                             onClick={() => progress.togglePlace(p.id)}
-                            className="relative mt-0.5 flex flex-col items-center group/check"
+                            className="group/check transition-transform active:scale-95"
                           >
                             {visited ? (
                               <CheckCircle2 className="h-6 w-6 text-primary fill-primary/20" />
                             ) : (
-                              <Circle className="h-6 w-6 text-muted-foreground group-hover/check:text-primary transition" />
-                            )}
-                            {distToNext !== null && (
-                              <div className="my-1 h-10 w-0.5 border-l-2 border-dashed border-border" />
+                              <Circle className="h-6 w-6 text-muted-foreground group-hover/check:text-primary transition-colors" />
                             )}
                           </button>
-                          
-                          <div className="flex-1 pb-4">
-                            <h4 className={`text-sm font-bold ${visited ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
-                              {p.order}. {p.name}
-                            </h4>
-                            <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                              <PlaceIcon className="h-3 w-3" /> {CATEGORY_LABELS[p.category]}
-                            </p>
-                          </div>
+                          {distToNext !== null && (
+                            <div className="flex-1 w-0.5 border-l-2 border-dashed border-border my-1 min-h-[1.5rem]" />
+                          )}
                         </div>
-                        {distToNext !== null && (
-                          <div className="absolute left-7 top-10 flex items-center gap-1 rounded-full bg-secondary/80 px-2 py-0.5 text-[10px] font-bold text-secondary-foreground">
-                            <Clock className="h-3 w-3" />
-                            {formatDistance(distToNext)} · {walkingTime(distToNext)}
-                          </div>
-                        )}
+                        
+                        {/* Content column (Right) */}
+                        <div className="flex-1 pb-5">
+                          <h4 className={`text-[15px] font-bold leading-tight ${visited ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
+                            {p.order}. {p.name}
+                          </h4>
+                          <p className="text-[13px] text-muted-foreground flex items-center gap-1.5 mt-1 font-medium">
+                            <PlaceIcon className="h-3.5 w-3.5" /> {CATEGORY_LABELS[p.category]}
+                          </p>
+
+                          {/* Walking distance below */}
+                          {distToNext !== null && (
+                            <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-secondary/80 px-3 py-1 text-[11px] font-bold text-secondary-foreground">
+                              <Clock className="h-3 w-3" />
+                              {formatDistance(distToNext)} · {walkingTime(distToNext)}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
