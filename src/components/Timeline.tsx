@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function Timeline({ onSelectDay, progress }: Props) {
-  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set([days[0].id])); // Expand first day by default
+  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set()); // All days collapsed by default
 
   const toggleExpanded = (id: string) => {
     setExpandedDays(prev => {
@@ -91,7 +91,7 @@ export function Timeline({ onSelectDay, progress }: Props) {
                         <ChevronDown className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
                       </div>
                     </div>
-                    <p className="mt-2 line-clamp-2 text-sm text-foreground/80">{t.description}</p>
+                    <p className={`mt-2 text-sm text-foreground/80 ${isExpanded ? "" : "line-clamp-2"}`}>{t.description}</p>
                     <div className="mt-3 flex flex-wrap items-center gap-3">
                       <div className="flex -space-x-1">
                         {cats.map((c) => {
