@@ -19,6 +19,7 @@ interface Props {
 export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress }: Props) {
   const isOpen = !!place;
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const { images, loading } = usePlaceImages(place?.name);
 
   if (!place) {
     return (
@@ -50,13 +51,13 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
     ? { lat: userLocation.lat, lng: userLocation.lng } 
     : null;
 
-  const { images, loading } = usePlaceImages(place?.name);
   const mainImage = images.length > 0 ? images[0] : null;
   const galleryImages = images.length > 1 ? images.slice(1) : [];
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <Drawer.Portal>
+    <>
+      <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm transition-all" />
         <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden">
           {/* Header background with image */}
@@ -248,33 +249,32 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           </div>
         </Drawer.Content>
       </Drawer.Portal>
+    </Drawer.Root>
 
       {/* Fullscreen Image Viewer Modal */}
       {fullscreenImage && (
-        <Drawer.Portal>
-          <div 
-            className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
-            onClick={() => setFullscreenImage(null)}
-          >
-            <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-10 bg-gradient-to-b from-black/50 to-transparent pb-8">
-              <button 
-                className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95"
-                onClick={(e) => { e.stopPropagation(); setFullscreenImage(null); }}
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
-            <div className="flex-1 flex items-center justify-center p-2">
-              <img 
-                src={fullscreenImage} 
-                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in fade-in zoom-in-95 duration-300" 
-                alt="Fullscreen view"
-                onClick={(e) => e.stopPropagation()} 
-              />
-            </div>
+        <div 
+          className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
+          onClick={() => setFullscreenImage(null)}
+        >
+          <div className="absolute top-0 left-0 right-0 p-4 flex justify-end z-10 bg-gradient-to-b from-black/50 to-transparent pb-8">
+            <button 
+              className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95"
+              onClick={(e) => { e.stopPropagation(); setFullscreenImage(null); }}
+            >
+              <X className="h-6 w-6" />
+            </button>
           </div>
-        </Drawer.Portal>
+          <div className="flex-1 flex items-center justify-center p-2">
+            <img 
+              src={fullscreenImage} 
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in fade-in zoom-in-95 duration-300" 
+              alt="Fullscreen view"
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
+        </div>
       )}
-    </Drawer.Root>
+    </>
   );
 }
