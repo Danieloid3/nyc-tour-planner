@@ -246,19 +246,7 @@ export default function TravelMap({
     }
   }, [activeDayIds, selectedDayId, selectedPlaceId, showRoutes, searchMatchIds, visitedIds]);
 
-  // pan to selected place
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !selectedPlaceId) return;
-    const p = allPlaces.find((x) => x.id === selectedPlaceId);
-    if (p) {
-      setTimeout(() => {
-        if (mapRef.current) {
-          mapRef.current.flyTo([p.lat, p.lng], Math.max(mapRef.current.getZoom(), 15), { duration: 0.4 });
-        }
-      }, 300); // Wait for the drawer animation to mostly finish
-    }
-  }, [selectedPlaceId]);
+  // pan to selected place removed to prevent map jump
 
   // reset view when deselecting day
   useEffect(() => {

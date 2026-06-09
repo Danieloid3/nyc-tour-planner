@@ -132,7 +132,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           
           <div 
             ref={scrollRef}
-            className="flex-1 overflow-y-auto thin-scroll pb-56 isolate"
+            className="flex-1 overflow-y-auto thin-scroll pb-56"
           >
             <div className="relative z-20 px-6 pt-16 pb-5">
               <div className="flex items-start gap-4">
