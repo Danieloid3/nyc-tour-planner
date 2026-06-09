@@ -83,7 +83,14 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
       <Drawer.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm transition-all" />
-        <Drawer.Content className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden">
+        <Drawer.Content 
+          onInteractOutside={(e) => {
+            if (fullscreenIndex !== null) {
+              e.preventDefault();
+            }
+          }}
+          className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden"
+        >
           {/* Header background with image */}
           <div 
             className="absolute top-0 left-0 right-0 h-[220px] transition-all duration-500 bg-muted cursor-pointer"
@@ -275,11 +282,10 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
       </Drawer.Portal>
     </Drawer.Root>
 
-      {/* Fullscreen Image Viewer Carousel */}
+      {/* Fullscreen Image Viewer */}
       {fullscreenIndex !== null && images.length > 0 && (
-        <ImageCarousel 
-          images={images} 
-          initialIndex={fullscreenIndex} 
+        <SingleImageViewer 
+          image={images[fullscreenIndex]} 
           onClose={() => setFullscreenIndex(null)} 
         />
       )}
@@ -287,52 +293,16 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
   );
 }
 
-// Subcomponent for the full-screen image carousel
-function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initialIndex: number, onClose: () => void }) {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [dragStart, setDragStart] = useState<number | null>(null);
-  const [dragOffset, setDragOffset] = useState<number>(0);
-
-  const next = () => setCurrentIndex(i => Math.min(i + 1, images.length - 1));
-  const prev = () => setCurrentIndex(i => Math.max(i - 1, 0));
-
-  const handlePointerDown = (e: React.PointerEvent) => {
-    e.stopPropagation();
-    setDragStart(e.clientX);
-    setDragOffset(0);
-  };
-
-  const handlePointerMove = (e: React.PointerEvent) => {
-    e.stopPropagation();
-    if (dragStart !== null) {
-      setDragOffset(e.clientX - dragStart);
-    }
-  };
-
-  const handlePointerUp = (e: React.PointerEvent) => {
-    e.stopPropagation();
-    if (dragStart === null) return;
-    
-    // Swipe left (next image)
-    if (dragOffset < -50) next();
-    // Swipe right (prev image)
-    if (dragOffset > 50) prev();
-    
-    setDragStart(null);
-    setDragOffset(0);
-  };
-
+// Subcomponent for the full-screen image viewer
+function SingleImageViewer({ image, onClose }: { image: any, onClose: () => void }) {
   return (
     <div 
       className="fixed inset-0 z-[10000] flex flex-col bg-black/95 backdrop-blur-xl animate-fade-in"
       onPointerDown={(e) => { e.stopPropagation(); onClose(); }}
     >
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-10 bg-gradient-to-b from-black/50 to-transparent pb-8 pointer-events-none">
-        <div className="px-4 py-2 text-white/80 font-black text-xs tracking-widest uppercase bg-black/30 rounded-full backdrop-blur-md pointer-events-auto">
-          {currentIndex + 1} / {images.length}
-        </div>
+      <div className="absolute top-6 right-6 z-10">
         <button 
-          className="p-2 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
+          className="p-3 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
           onPointerDown={(e) => { e.stopPropagation(); onClose(); }}
         >
           <X className="h-6 w-6" />
@@ -340,38 +310,14 @@ function ImageCarousel({ images, initialIndex, onClose }: { images: any[], initi
       </div>
       
       <div 
-        className="flex-1 flex items-center justify-center p-4 relative overflow-hidden"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        className="flex-1 flex items-center justify-center p-4 relative"
+        onPointerDown={(e) => e.stopPropagation()}
       >
-        {currentIndex > 0 && (
-          <button 
-            className="absolute left-4 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-20 shadow-lg"
-            onPointerDown={(e) => { e.stopPropagation(); prev(); }}
-          >
-            <ChevronLeft className="w-8 h-8" />
-          </button>
-        )}
-        
         <img 
-          key={currentIndex} // forces re-animation when index changes
-          src={images[currentIndex].url} 
-          className="max-w-full max-h-[90vh] object-contain shadow-2xl transition-transform duration-200" 
-          style={{ transform: dragStart !== null ? `translateX(${dragOffset}px)` : 'translateX(0px)', transition: dragStart !== null ? 'none' : 'transform 0.2s ease-out' }}
-          alt={`Fullscreen view ${currentIndex + 1}`}
-          draggable={false}
+          src={image.url} 
+          className="max-w-full max-h-[90vh] object-contain shadow-2xl animate-in fade-in zoom-in-95 duration-200 rounded-lg" 
+          alt="Fullscreen view"
         />
-        
-        {currentIndex < images.length - 1 && (
-          <button 
-            className="absolute right-4 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors z-20 shadow-lg"
-            onPointerDown={(e) => { e.stopPropagation(); next(); }}
-          >
-            <ChevronRight className="w-8 h-8" />
-          </button>
-        )}
       </div>
     </div>
   );
