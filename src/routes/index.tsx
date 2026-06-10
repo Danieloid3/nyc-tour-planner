@@ -277,7 +277,7 @@ function Index() {
 
       {/* Floating Action Button for View Toggle */}
       {onboardingDone && (
-        <div className="pointer-events-none fixed bottom-10 left-0 right-0 z-[1500] flex justify-center">
+        <div className="pointer-events-none fixed bottom-12 left-0 right-0 z-[1500] flex justify-center">
           <button
             onClick={() => setView(view === "map" ? "timeline" : "map")}
             className="pointer-events-auto flex items-center gap-3 rounded-full bg-foreground px-8 py-4 text-base font-black text-background shadow-2xl transition hover:scale-105 active:scale-95"
