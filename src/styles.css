@@ -318,3 +318,36 @@
 .subway-tooltip::before {
   border-top-color: var(--card) !important;
 }
+
+/* Custom Subway Icons */
+.subway-icon-wrapper {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subway-icon-svg {
+  transition: all 0.2s ease;
+  width: 14px;
+  height: 14px;
+}
+
+.map-zoom-low .subway-icon-svg {
+  width: 10px;
+  height: 10px;
+  stroke-width: 1px;
+}
+
+.map-zoom-mid .subway-icon-svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.5px;
+}
+
+.map-zoom-high .subway-icon-svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2px;
+}

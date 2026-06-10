@@ -115,21 +115,6 @@ export default function TravelMap({
     
     // Add subway stations
     const subwayLayerRef = L.layerGroup().addTo(map);
-    const subwayMarkers: L.CircleMarker[] = [];
-
-    const getSubwayRadius = (z: number) => {
-      if (z <= 11) return 1.5;
-      if (z === 12) return 2.5;
-      if (z === 13) return 3.5;
-      if (z === 14) return 4.5;
-      return 5.5;
-    };
-
-    const getSubwayWeight = (z: number) => {
-      if (z <= 12) return 0.5;
-      if (z <= 14) return 1;
-      return 1.5;
-    };
 
     fetch('/subway-stations-clean.geojson')
       .then(res => res.json())
@@ -151,21 +136,22 @@ export default function TravelMap({
             else if (['4', '5', '6'].includes(l)) color = '#00933C';
             else if (['7'].includes(l)) color = '#B933AD';
 
-            const z = map.getZoom();
-            const marker = L.circleMarker(latlng, {
-              radius: getSubwayRadius(z),
-              fillColor: color,
-              color: '#ffffff',
-              weight: getSubwayWeight(z),
-              opacity: 1,
-              fillOpacity: 1,
+            const svgTrain = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" class="subway-icon-svg"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg>`;
+
+            const marker = L.marker(latlng, {
+              icon: L.divIcon({
+                className: 'subway-icon-wrapper',
+                html: svgTrain,
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+              }),
+              zIndexOffset: -500 // Subways stay beneath places
             }).bindTooltip(`<div style="text-align:center"><strong>${name}</strong><br/><span style="font-size:11px;color:#888">Líneas: ${line}</span></div>`, { 
               direction: 'top', 
-              offset: [0, -5],
+              offset: [0, -10],
               className: 'subway-tooltip'
             });
             
-            subwayMarkers.push(marker);
             return marker;
           }
         }).addTo(subwayLayerRef);
@@ -174,22 +160,20 @@ export default function TravelMap({
 
     map.on('zoomend', () => {
       const z = map.getZoom();
-      const r = getSubwayRadius(z);
-      const w = getSubwayWeight(z);
-      
-      // Update labels
-      if (z >= 15) {
-        containerRef.current?.classList.add('show-labels');
-      } else {
-        containerRef.current?.classList.remove('show-labels');
+      const el = containerRef.current;
+      if (el) {
+        if (z >= 15) el.classList.add('show-labels');
+        else el.classList.remove('show-labels');
+        
+        el.classList.remove('map-zoom-low', 'map-zoom-mid', 'map-zoom-high');
+        if (z <= 12) el.classList.add('map-zoom-low');
+        else if (z <= 14) el.classList.add('map-zoom-mid');
+        else el.classList.add('map-zoom-high');
       }
-      
-      // Update subway markers
-      subwayMarkers.forEach(m => {
-        m.setRadius(r);
-        m.setStyle({ weight: w });
-      });
     });
+    
+    // Trigger once to set initial classes
+    map.fire('zoomend');
 
     if (onMapInstance) onMapInstance(map);
     return () => {
