@@ -73,6 +73,7 @@ export default function TravelMap({
   const tileRef = useRef<L.TileLayer | null>(null);
   const clusterRef = useRef<L.MarkerClusterGroup | null>(null);
   const plainLayerRef = useRef<L.LayerGroup | null>(null);
+  const prevDayIdRef = useRef<string | null>(null);
   const routeLayerRef = useRef<L.LayerGroup | null>(null);
   const userMarkerRef = useRef<L.CircleMarker | null>(null);
   const userAccuracyRef = useRef<L.Circle | null>(null);
@@ -228,10 +229,12 @@ export default function TravelMap({
         ]
       }).addTo(routes);
 
-      if (latlngs.length) {
+      if (latlngs.length && prevDayIdRef.current !== selectedDayId) {
         map.flyToBounds(L.latLngBounds(latlngs).pad(0.25), { duration: 0.4, maxZoom: 15 });
       }
+      prevDayIdRef.current = selectedDayId || null;
     } else {
+      prevDayIdRef.current = null;
       // overview: clustered markers for active days
       visible.forEach((p) => addMarker(p, cluster));
       if (showRoutes) {

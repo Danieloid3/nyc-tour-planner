@@ -156,13 +156,20 @@ function Index() {
         <header className="absolute left-4 right-4 top-4 z-[1000] flex items-center justify-between gap-3 pointer-events-none">
           
           {/* Left Side: Logo & Title inside a glass pill */}
-          <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-border/50 bg-card px-2 sm:px-3 py-1.5 sm:py-2 shadow-sm">
+          <button 
+            onClick={() => {
+              setView("timeline");
+              setSelectedDayId(null);
+              setSelectedPlace(null);
+            }}
+            className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-xl sm:rounded-2xl border border-border/50 bg-card px-2 sm:px-3 py-1.5 sm:py-2 shadow-sm transition hover:bg-muted active:scale-95 text-left"
+          >
             <img src="/pwa-192x192.png" className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl shadow object-cover" alt="Wander Logo" />
             <div className="pr-1 leading-tight">
               <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">Wander</h1>
               <p className="hidden text-[10px] font-semibold text-muted-foreground sm:block">12 días de viaje</p>
             </div>
-          </div>
+          </button>
 
           {/* Right Side: Tools inside glass pills */}
           <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2">
