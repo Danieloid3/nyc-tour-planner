@@ -91,14 +91,6 @@ export default function TravelMap({
     });
     L.control.zoom({ position: 'bottomleft' }).addTo(map);
 
-    // Toggle labels when zoomed in closely (zoom >= 15)
-    map.on('zoomend', () => {
-      if (map.getZoom() >= 15) {
-        containerRef.current?.classList.add('show-labels');
-      } else {
-        containerRef.current?.classList.remove('show-labels');
-      }
-    });
 
     mapRef.current = map;
     tileRef.current = L.tileLayer(TILE[theme], {
@@ -120,9 +112,25 @@ export default function TravelMap({
       },
     });
     map.addLayer(clusterRef.current);
-
+    
     // Add subway stations
     const subwayLayerRef = L.layerGroup().addTo(map);
+    const subwayMarkers: L.CircleMarker[] = [];
+
+    const getSubwayRadius = (z: number) => {
+      if (z <= 11) return 1.5;
+      if (z === 12) return 2.5;
+      if (z === 13) return 3.5;
+      if (z === 14) return 4.5;
+      return 5.5;
+    };
+
+    const getSubwayWeight = (z: number) => {
+      if (z <= 12) return 0.5;
+      if (z <= 14) return 1;
+      return 1.5;
+    };
+
     fetch('/subway-stations-clean.geojson')
       .then(res => res.json())
       .then(data => {
@@ -143,11 +151,12 @@ export default function TravelMap({
             else if (['4', '5', '6'].includes(l)) color = '#00933C';
             else if (['7'].includes(l)) color = '#B933AD';
 
-            return L.circleMarker(latlng, {
-              radius: 4.5,
+            const z = map.getZoom();
+            const marker = L.circleMarker(latlng, {
+              radius: getSubwayRadius(z),
               fillColor: color,
               color: '#ffffff',
-              weight: 1.5,
+              weight: getSubwayWeight(z),
               opacity: 1,
               fillOpacity: 1,
             }).bindTooltip(`<div style="text-align:center"><strong>${name}</strong><br/><span style="font-size:11px;color:#888">Líneas: ${line}</span></div>`, { 
@@ -155,10 +164,32 @@ export default function TravelMap({
               offset: [0, -5],
               className: 'subway-tooltip'
             });
+            
+            subwayMarkers.push(marker);
+            return marker;
           }
         }).addTo(subwayLayerRef);
       })
       .catch(e => console.error('Error loading subways', e));
+
+    map.on('zoomend', () => {
+      const z = map.getZoom();
+      const r = getSubwayRadius(z);
+      const w = getSubwayWeight(z);
+      
+      // Update labels
+      if (z >= 15) {
+        containerRef.current?.classList.add('show-labels');
+      } else {
+        containerRef.current?.classList.remove('show-labels');
+      }
+      
+      // Update subway markers
+      subwayMarkers.forEach(m => {
+        m.setRadius(r);
+        m.setStyle({ weight: w });
+      });
+    });
 
     if (onMapInstance) onMapInstance(map);
     return () => {
