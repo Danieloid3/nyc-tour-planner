@@ -201,6 +201,17 @@
   font-size: 15px;
   line-height: 1;
 }
+.travel-marker > span.visited-icon {
+  background: white;
+  color: #10b981; /* emerald-500 */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
 .travel-marker.dimmed {
   opacity: 0.28;
   filter: grayscale(0.6);

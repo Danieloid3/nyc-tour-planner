@@ -42,14 +42,14 @@ function placeIcon(p: (typeof allPlaces)[number], opts: { active?: boolean; dimm
     .join(" ");
   
   const content = opts.visited 
-    ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>` 
+    ? `<span class="visited-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>` 
     : `<span style="font-weight:bold; font-size:16px;">${p.order}</span>`;
 
   const label = `<div class="marker-label">${p.name}</div>`;
 
   return L.divIcon({
     className: "",
-    html: `<div class="${cls}" style="background:${opts.visited ? '#16a34a' : p.dayColor}">${content}</div>${label}`,
+    html: `<div class="${cls}" style="background:${p.dayColor}">${content}</div>${label}`,
     iconSize: [34, 34],
     iconAnchor: [17, 34],
     popupAnchor: [0, -34],
