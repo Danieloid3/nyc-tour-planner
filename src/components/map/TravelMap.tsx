@@ -120,6 +120,42 @@ export default function TravelMap({
       },
     });
     map.addLayer(clusterRef.current);
+
+    // Add subway stations
+    const subwayLayerRef = L.layerGroup().addTo(map);
+    fetch('/subway-stations-clean.geojson')
+      .then(res => res.json())
+      .then(data => {
+        L.geoJSON(data, {
+          pointToLayer: (feature, latlng) => {
+            const line = feature.properties?.line || '';
+            const name = feature.properties?.name || '';
+            
+            let color = '#808183';
+            const l = line.split('-')[0];
+            if (['A', 'C', 'E'].includes(l)) color = '#0039A6';
+            else if (['B', 'D', 'F', 'M'].includes(l)) color = '#FF6319';
+            else if (['G'].includes(l)) color = '#6CBE45';
+            else if (['J', 'Z'].includes(l)) color = '#996633';
+            else if (['L'].includes(l)) color = '#A7A9AC';
+            else if (['N', 'Q', 'R', 'W'].includes(l)) color = '#FCCC0A';
+            else if (['1', '2', '3'].includes(l)) color = '#EE352E';
+            else if (['4', '5', '6'].includes(l)) color = '#00933C';
+            else if (['7'].includes(l)) color = '#B933AD';
+
+            return L.circleMarker(latlng, {
+              radius: 4.5,
+              fillColor: color,
+              color: '#ffffff',
+              weight: 1.5,
+              opacity: 1,
+              fillOpacity: 1,
+            }).bindTooltip(`<div style="text-align:center"><strong>${name}</strong><br/><span style="font-size:11px;color:#666">Líneas: ${line}</span></div>`, { direction: 'top', offset: [0, -5] });
+          }
+        }).addTo(subwayLayerRef);
+      })
+      .catch(e => console.error('Error loading subways', e));
+
     if (onMapInstance) onMapInstance(map);
     return () => {
       map.remove();
