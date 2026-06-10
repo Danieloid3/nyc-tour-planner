@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowRight, MapPin, Clock, CheckCircle2, Circle, ChevronDown, Map as MapIcon, Lightbulb } from "lucide-react";
 import { days, allPlaces, CATEGORY_LABELS } from "@/data/itinerary";
 import { CATEGORY_META } from "@/lib/categories";
@@ -10,10 +10,28 @@ interface Props {
   onSelectPlace?: (place: Place & { dayId: string }) => void;
   progress: ReturnType<typeof useProgress>;
   selectedDayId: string | null;
+  selectedPlaceId?: string | null;
 }
 
-export function Timeline({ onSelectDay, onSelectPlace, progress, selectedDayId }: Props) {
-  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set()); // All days collapsed by default
+export function Timeline({ onSelectDay, onSelectPlace, progress, selectedDayId, selectedPlaceId }: Props) {
+  const [expandedDays, setExpandedDays] = useState<Set<string>>(() => {
+    const init = new Set<string>();
+    if (selectedDayId) init.add(selectedDayId);
+    return init;
+  });
+
+  // Auto-scroll on mount if returning from map
+  useEffect(() => {
+    const targetId = selectedPlaceId ? `place-${selectedPlaceId}` : (selectedDayId ? `day-${selectedDayId}` : null);
+    if (targetId) {
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 300); // 300ms to allow expanded animation to finish
+    }
+  }, [selectedPlaceId, selectedDayId]);
 
   const toggleExpanded = (id: string) => {
     setExpandedDays(prev => {
@@ -67,7 +85,7 @@ export function Timeline({ onSelectDay, onSelectPlace, progress, selectedDayId }
             const isSelected = t.id === selectedDayId;
 
             return (
-              <div key={t.id} className="relative flex gap-4" style={{ animationDelay: `${i * 40}ms` }}>
+              <div key={t.id} id={`day-${t.id}`} className="relative flex gap-4" style={{ animationDelay: `${i * 40}ms` }}>
                 <div className="flex-1">
                   <div
                     className={`animate-fade-in-up group w-full overflow-hidden rounded-2xl border text-left shadow-sm transition bg-card ${
@@ -162,7 +180,7 @@ export function Timeline({ onSelectDay, onSelectPlace, progress, selectedDayId }
                     const visited = progress.isVisited(p.id);
 
                     return (
-                      <div key={p.id} className={`relative flex gap-3 transition-opacity ${visited ? 'opacity-50' : 'opacity-100'}`}>
+                      <div key={p.id} id={`place-${p.id}`} className={`relative flex gap-3 transition-opacity ${visited ? 'opacity-50' : 'opacity-100'}`}>
                         {/* Checkbox column (Left) */}
                         <div className="flex flex-col items-center pt-0.5">
                           <button 

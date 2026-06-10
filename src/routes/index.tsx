@@ -267,7 +267,8 @@ function Index() {
                  onSelectDay={(id) => focusDay(id)} 
                  onSelectPlace={selectPlace}
                  progress={progress} 
-                 selectedDayId={selectedDayId} 
+                 selectedDayId={selectedPlace?.dayId || selectedDayId} 
+                 selectedPlaceId={selectedPlace?.id}
                />
              </div>
           </div>
