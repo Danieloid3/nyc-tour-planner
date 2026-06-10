@@ -266,7 +266,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
           </div>
 
           {/* Bottom Actions Area */}
-          <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-background p-4 pt-4 pb-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+          <div className="absolute bottom-0 left-0 right-0 z-50 border-t border-border bg-background p-4 pt-4 pb-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
             
             <a
               href={googleMapsNavigationLink(place, origin)}
