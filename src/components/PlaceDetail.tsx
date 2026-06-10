@@ -39,7 +39,12 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
   
   React.useEffect(() => {
     if (isOpen && scrollRef.current) {
-      scrollRef.current.scrollTop = 0;
+      // Small timeout to ensure DOM has updated and animation started
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = 0;
+        }
+      }, 50);
     }
   }, [place?.id, isOpen]);
 
@@ -130,40 +135,41 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
 
           <div className="relative z-[15] mx-auto mt-3 mb-2 h-1.5 w-12 flex-shrink-0 rounded-full bg-white/40 shadow-sm" />
           
-          <div 
-            ref={scrollRef}
-            className="flex-1 overflow-y-auto thin-scroll pb-56"
-          >
-            <div className="relative z-20 px-6 pt-16 pb-5">
-              <div className="flex items-start gap-4">
-                <span
-                  className="mt-1 grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-white shadow-md"
-                  style={{ background: day.color }}
-                >
-                  <Icon className="h-6 w-6" />
-                </span>
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-white/80 drop-shadow-md">
-                    {CATEGORY_LABELS[place.category]}
-                  </span>
-                  <Drawer.Title className="text-2xl font-black leading-tight text-white drop-shadow-md">
-                    {place.name}
-                  </Drawer.Title>
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  onClose();
-                  setTimeout(() => onFocusDay(day.id), 300);
-                }}
-                className="mt-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold text-white transition hover:opacity-90 shadow-sm"
+          {/* Static Title Area */}
+          <div className="relative z-20 px-6 pt-6 pb-2 shrink-0">
+            <div className="flex items-start gap-4">
+              <span
+                className="mt-1 grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-white shadow-md"
                 style={{ background: day.color }}
               >
-                Día {day.number}: {day.title}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
+                <Icon className="h-6 w-6" />
+              </span>
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-white/80 drop-shadow-md">
+                  {CATEGORY_LABELS[place.category]}
+                </span>
+                <Drawer.Title className="text-2xl font-black leading-tight text-white drop-shadow-md">
+                  {place.name}
+                </Drawer.Title>
+              </div>
             </div>
+            <button
+              onClick={() => {
+                onClose();
+                setTimeout(() => onFocusDay(day.id), 300);
+              }}
+              className="mt-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold text-white transition hover:opacity-90 shadow-sm"
+              style={{ background: day.color }}
+            >
+              Día {day.number}: {day.title}
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
 
+          <div 
+            ref={scrollRef}
+            className="flex-1 overflow-y-auto thin-scroll pb-56 relative z-20"
+          >
             <div className="space-y-6 px-6 pt-4">
               <p className="text-[16px] leading-relaxed text-foreground/90 font-medium">{place.description}</p>
 

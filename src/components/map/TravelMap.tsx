@@ -150,7 +150,11 @@ export default function TravelMap({
               weight: 1.5,
               opacity: 1,
               fillOpacity: 1,
-            }).bindTooltip(`<div style="text-align:center"><strong>${name}</strong><br/><span style="font-size:11px;color:#666">Líneas: ${line}</span></div>`, { direction: 'top', offset: [0, -5] });
+            }).bindTooltip(`<div style="text-align:center"><strong>${name}</strong><br/><span style="font-size:11px;color:#888">Líneas: ${line}</span></div>`, { 
+              direction: 'top', 
+              offset: [0, -5],
+              className: 'subway-tooltip'
+            });
           }
         }).addTo(subwayLayerRef);
       })
