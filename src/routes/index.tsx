@@ -54,7 +54,7 @@ function Index() {
   const [forceOnboarding, setForceOnboarding] = useState(false);
   useEffect(() => {
     const checkOnboarding = () => {
-      if (localStorage.getItem('nyc-onboarding-seen-v5')) {
+      if (localStorage.getItem('nyc-onboarding-seen-v6')) {
         setOnboardingDone(true);
       }
     };
