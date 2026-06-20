@@ -405,7 +405,7 @@ export default function Onboarding({
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-end sm:items-center justify-center transition-opacity duration-350 ${
+      className={`fixed inset-0 z-[10000] flex items-end sm:items-center justify-center transition-opacity duration-350 ${
         isClosing ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >

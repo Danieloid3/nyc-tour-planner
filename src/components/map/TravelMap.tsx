@@ -136,6 +136,29 @@ export default function TravelMap({
     
     // Add subway stations (from module-level cache)
     const subwayLayerRef = L.layerGroup();
+    const allSubwayMarkers: L.Marker[] = [];
+
+    const updateSubwayVisibility = () => {
+      const m = mapRef.current;
+      if (!m) return;
+      const z = m.getZoom();
+      
+      if (z < 14) {
+        if (m.hasLayer(subwayLayerRef)) m.removeLayer(subwayLayerRef);
+        return;
+      }
+      
+      if (!m.hasLayer(subwayLayerRef)) m.addLayer(subwayLayerRef);
+
+      const bounds = m.getBounds().pad(0.2); // 20% margin
+      allSubwayMarkers.forEach(marker => {
+        if (bounds.contains(marker.getLatLng())) {
+          if (!subwayLayerRef.hasLayer(marker)) subwayLayerRef.addLayer(marker);
+        } else {
+          if (subwayLayerRef.hasLayer(marker)) subwayLayerRef.removeLayer(marker);
+        }
+      });
+    };
 
     getSubwayGeoJson()
       .then(data => {
@@ -203,11 +226,15 @@ export default function TravelMap({
               className: 'custom-subway-popup rounded-2xl overflow-hidden'
             });
             
+            allSubwayMarkers.push(marker);
             return marker;
           }
-        }).addTo(subwayLayerRef);
+        });
+        updateSubwayVisibility();
       })
       .catch(e => console.error('Error loading subways', e));
+
+    map.on('moveend', updateSubwayVisibility);
 
     map.on('zoomend', () => {
       const z = map.getZoom();
@@ -221,12 +248,7 @@ export default function TravelMap({
         else if (z === 14) el.classList.add('map-zoom-mid');
         else el.classList.add('map-zoom-high');
       }
-
-      if (z >= 14) {
-        if (!map.hasLayer(subwayLayerRef)) map.addLayer(subwayLayerRef);
-      } else {
-        if (map.hasLayer(subwayLayerRef)) map.removeLayer(subwayLayerRef);
-      }
+      updateSubwayVisibility();
     });
     
     // Trigger once to set initial classes
