@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 /* ─── Palette (matches app theme) ─── */
-const DAY_COLORS = ['#c17c74', '#7c9c74', '#7474c1', '#c1a474', '#74a4c1'];
+const DAY_COLORS = ['#c17c74', '#7c9c74', '#7474c1', '#c1a474', '#74a4c1', '#a474c1'];
 
 /* ─── Mini-UI building blocks ─── */
 
@@ -317,7 +317,74 @@ function buildSlides(): Slide[] {
       subtitle: 'Si quieren cambiar el orden del día, mantengan presionado un lugar y arrástrenlo a donde quieran.',
       visual: <DragDemo color={c[4]} />,
     },
+    {
+      key: 'subway',
+      color: c[5],
+      title: 'El Metro a tu alcance',
+      subtitle: 'Al hacer zoom en el mapa podrán ver y ubicar fácilmente las estaciones de metro cercanas.',
+      visual: <SubwayDemo color={c[5]} />,
+    },
   ];
+}
+
+/** Animated subway demo for slide 6 */
+function SubwayDemo({ color }: { color: string }) {
+  const [zoomed, setZoomed] = useState(false);
+  const [showSubway, setShowSubway] = useState(false);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setZoomed(true), 400);
+    const t2 = setTimeout(() => setShowSubway(true), 1000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  return (
+    <div className="relative w-full h-44 rounded-2xl overflow-hidden border border-border/60 shadow-inner bg-[#e8e0d4]">
+      {/* Fake grid streets */}
+      <div className={`absolute inset-0 transition-transform duration-1000 ease-in-out ${zoomed ? 'scale-[2.0]' : 'scale-100'} origin-center`}>
+        {[20, 35, 50, 65, 80].map(y => (
+          <div key={y} className="absolute left-0 right-0 border-t border-[#d5c8b8]" style={{ top: `${y}%` }} />
+        ))}
+        {[15, 30, 50, 70, 85].map(x => (
+          <div key={x} className="absolute top-0 bottom-0 border-l border-[#d5c8b8]" style={{ left: `${x}%` }} />
+        ))}
+
+        {/* Place marker */}
+        <div className="absolute left-[40%] top-[40%] -translate-x-1/2 -translate-y-[120%]">
+          <div
+            className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white shadow-md text-white text-[10px] font-black"
+            style={{ background: color }}
+          >
+            4
+          </div>
+        </div>
+
+        {/* Subway marker popping in */}
+        <div 
+          className={`absolute left-[58%] top-[55%] -translate-x-1/2 -translate-y-1/2 transition-all duration-500 delay-300 ${
+            showSubway ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+          }`}
+        >
+          <div className="bg-background rounded shadow-sm p-0.5 flex items-center justify-center border border-border/50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EE352E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="16" height="16" x="4" y="3" rx="2"></rect>
+              <path d="M4 11h16"></path>
+              <path d="M12 3v8"></path>
+              <path d="m8 19-2 3"></path>
+              <path d="m18 22-2-3"></path>
+              <path d="M8 15h.01"></path>
+              <path d="M16 15h.01"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      {/* Label overlay */}
+      <div className={`absolute bottom-2 right-2 rounded-lg bg-card/90 px-2 py-1 text-[10px] font-bold text-foreground border border-border/50 shadow transition-opacity duration-500 delay-500 ${showSubway ? 'opacity-100' : 'opacity-0'}`}>
+        Estaciones de metro
+      </div>
+    </div>
+  );
 }
 
 /** Separate component so it can use hooks with proper key reset */
