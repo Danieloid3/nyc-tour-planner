@@ -24,6 +24,9 @@ export function usePlaceImages(placeName: string | undefined) {
     setLoading(true);
     setError(null);
 
+    // Capture as non-undefined const — TypeScript narrowing doesn't cross async boundaries
+    const name = placeName;
+
     async function load() {
       if (!preloadedImagesDb) {
         if (!preloadingPromise) {
@@ -33,9 +36,9 @@ export function usePlaceImages(placeName: string | undefined) {
                return r.json();
             })
             .then(db => { preloadedImagesDb = db; })
-            .catch(e => { 
+            .catch(e => {
                console.error('Failed to load images library', e);
-               preloadedImagesDb = {}; 
+               preloadedImagesDb = {};
             });
         }
         await preloadingPromise;
@@ -43,8 +46,8 @@ export function usePlaceImages(placeName: string | undefined) {
 
       if (!mounted) return;
 
-      if (preloadedImagesDb && preloadedImagesDb[placeName] && preloadedImagesDb[placeName].length > 0) {
-        setImages(preloadedImagesDb[placeName]);
+      if (preloadedImagesDb && preloadedImagesDb[name] && preloadedImagesDb[name].length > 0) {
+        setImages(preloadedImagesDb[name]);
       } else {
         setImages([]);
       }

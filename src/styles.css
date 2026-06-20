@@ -340,6 +340,12 @@
   border-top-color: var(--card) !important;
 }
 
+/* CSS containment for timeline card expand/collapse — limits browser recalc scope */
+.timeline-expandable {
+  contain: layout style;
+  will-change: grid-template-rows;
+}
+
 /* Custom Subway Icons */
 .subway-icon-wrapper {
   background: transparent;
@@ -349,11 +355,7 @@
   justify-content: center;
 }
 
-.subway-icon-svg {
-  transition: all 0.2s ease;
-  width: 14px;
-  height: 14px;
-}
+/* Note: .subway-icon-svg transition is defined above at line ~229, not duplicated here */
 
 .map-zoom-low .subway-icon-svg {
   width: 10px;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, MapPin, Clock, CheckCircle2, Circle, ChevronDown, Map as MapIcon, Lightbulb, GripVertical } from "lucide-react";
+import { RotateCcw, AlertTriangle, X } from "lucide-react";
+import { MapPin, Clock, CheckCircle2, Circle, ChevronDown, Map as MapIcon, Lightbulb, GripVertical } from "lucide-react";
 import { allPlaces, CATEGORY_LABELS, type Place, type DayPlan } from "@/data/itinerary";
 import { CATEGORY_META } from "@/lib/categories";
 import { dayTotalDistance, formatDistance, walkingTime, haversine } from "@/lib/geo";
@@ -120,12 +121,65 @@ function SortablePlaceItem({ p, dayId, next, distToNext, progress, onSelectPlace
   );
 }
 
+function ResetConfirmDialog({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[2000] flex items-end sm:items-center justify-center p-4 animate-fade-in">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onCancel}
+      />
+      {/* Card */}
+      <div className="relative w-full max-w-sm rounded-3xl bg-card border border-border shadow-2xl p-6 animate-fade-in-up">
+        {/* Close button */}
+        <button
+          onClick={onCancel}
+          className="absolute top-4 right-4 grid h-8 w-8 place-items-center rounded-full bg-secondary text-muted-foreground hover:text-foreground transition active:scale-95"
+          aria-label="Cerrar"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        {/* Icon */}
+        <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-destructive/10">
+          <AlertTriangle className="h-7 w-7 text-destructive" />
+        </div>
+
+        {/* Content */}
+        <h2 className="text-xl font-black text-foreground mb-2">¿Borrar el progreso?</h2>
+        <p className="text-[15px] text-muted-foreground leading-relaxed mb-6">
+          Esto borrará todas las palomitas verdes de los lugares que ya visitaron.
+          <strong className="text-foreground"> No se puede deshacer.</strong>
+        </p>
+
+        {/* Actions */}
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={onConfirm}
+            className="flex h-13 w-full items-center justify-center gap-2 rounded-2xl bg-destructive px-4 py-3.5 text-[15px] font-black text-white shadow-sm transition hover:opacity-90 active:scale-95"
+          >
+            <RotateCcw className="h-4 w-4" />
+            Sí, borrar todo
+          </button>
+          <button
+            onClick={onCancel}
+            className="flex h-13 w-full items-center justify-center rounded-2xl bg-secondary px-4 py-3.5 text-[15px] font-bold text-secondary-foreground transition hover:bg-secondary/80 active:scale-95"
+          >
+            Cancelar, mantener progreso
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onSelectPlace, progress, selectedDayId, selectedPlaceId }: Props) {
   const [expandedDays, setExpandedDays] = useState<Set<string>>(() => {
     const init = new Set<string>();
     if (selectedDayId) init.add(selectedDayId);
     return init;
   });
+  const [showResetDialog, setShowResetDialog] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const activePlace = allPlaces.find(p => p.id === activeId);
 
@@ -316,30 +370,36 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
                         )}
                       </div>
                     </div>
-                  <div 
-                    className={`pl-2 sm:pl-6 pr-2 sm:pr-4 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[3000px] pb-4 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
-                  >
-                    <div className="relative ml-1 sm:ml-2 pl-2 sm:pl-4 pb-4">
-                      <SortableContext items={t.places.map(p => p.id)} strategy={verticalListSortingStrategy}>
-                        {t.places.map((p, idx, arr) => {
-                          const next = arr[idx + 1];
-                          const distToNext = next ? haversine(p, next) : null;
+                    {/* Expandable places section — inside the card, sibling to the header */}
+                    <div
+                      className="timeline-expandable grid transition-[grid-template-rows] duration-300 ease-in-out"
+                      style={{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
+                    >
+                      <div className={`overflow-hidden transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                        <div className="pl-2 sm:pl-6 pr-2 sm:pr-4 pb-4">
+                          <div className="relative ml-1 sm:ml-2 pl-2 sm:pl-4 pb-4">
+                            <SortableContext items={t.places.map(p => p.id)} strategy={verticalListSortingStrategy}>
+                              {t.places.map((p, idx, arr) => {
+                                const next = arr[idx + 1];
+                                const distToNext = next ? haversine(p, next) : null;
 
-                          return (
-                            <SortablePlaceItem 
-                              key={p.id}
-                              p={p}
-                              dayId={t.id}
-                              next={next}
-                              distToNext={distToNext}
-                              progress={progress}
-                              onSelectPlace={onSelectPlace}
-                            />
-                          );
-                        })}
-                      </SortableContext>
+                                return (
+                                  <SortablePlaceItem
+                                    key={p.id}
+                                    p={p}
+                                    dayId={t.id}
+                                    next={next}
+                                    distToNext={distToNext}
+                                    progress={progress}
+                                    onSelectPlace={onSelectPlace}
+                                  />
+                                );
+                              })}
+                            </SortableContext>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
                   </div>
                   </div>
                 </div>
@@ -368,16 +428,23 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
         {progress.visitedIds.size > 0 && (
           <div className="mt-10 mb-8 flex justify-center animate-fade-in">
             <button
-              onClick={() => {
-                if (window.confirm("¿Están seguros de que quieren borrar todas las palomitas verdes y volver a empezar? Esto no se puede deshacer.")) {
-                  progress.clearAll();
-                }
-              }}
+              onClick={() => setShowResetDialog(true)}
               className="text-xs font-bold text-destructive/80 hover:text-destructive hover:bg-destructive/10 px-5 py-2.5 rounded-full transition-all active:scale-95 border border-transparent hover:border-destructive/20"
             >
               Reiniciar todo el progreso
             </button>
           </div>
+        )}
+
+        {/* Reset Confirmation Dialog */}
+        {showResetDialog && (
+          <ResetConfirmDialog
+            onConfirm={() => {
+              progress.clearAll();
+              setShowResetDialog(false);
+            }}
+            onCancel={() => setShowResetDialog(false)}
+          />
         )}
       </div>
     </div>

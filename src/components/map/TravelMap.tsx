@@ -1,10 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import L from "leaflet";
 import "leaflet.markercluster";
 import "leaflet-polylinedecorator";
 import { allPlaces, type Place, type DayPlan } from "@/data/itinerary";
 import type { Theme } from "@/hooks/use-theme";
 import type { GeolocationState } from "@/hooks/use-geolocation";
+
+// Module-level cache for subway GeoJSON — fetched once for the entire app lifetime
+let subwayGeoJsonCache: any = null;
+let subwayFetchPromise: Promise<any> | null = null;
+
+function getSubwayGeoJson(): Promise<any> {
+  if (subwayGeoJsonCache) return Promise.resolve(subwayGeoJsonCache);
+  if (subwayFetchPromise) return subwayFetchPromise;
+  subwayFetchPromise = fetch('/subway-stations-clean.geojson')
+    .then(res => res.json())
+    .then(data => { subwayGeoJsonCache = data; return data; })
+    .catch(e => { subwayFetchPromise = null; throw e; });
+  return subwayFetchPromise;
+}
 
 interface TravelMapProps {
   theme: Theme;
@@ -70,7 +84,11 @@ export default function TravelMap({
   onMapInstance,
   onSelectPlace,
 }: TravelMapProps) {
-  const currentPlaces = React.useMemo(() => days.flatMap((d) => d.places.map((p) => ({ ...p, dayId: d.id, dayColor: d.color }))), [days]);
+  // Include dayTitle so the type satisfies addMarker's expected shape
+  const currentPlaces = React.useMemo(
+    () => days.flatMap((d) => d.places.map((p) => ({ ...p, dayId: d.id, dayTitle: d.title, dayColor: d.color }))),
+    [days]
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const tileRef = useRef<L.TileLayer | null>(null);
@@ -116,11 +134,10 @@ export default function TravelMap({
     });
     map.addLayer(clusterRef.current);
     
-    // Add subway stations
+    // Add subway stations (from module-level cache)
     const subwayLayerRef = L.layerGroup().addTo(map);
 
-    fetch('/subway-stations-clean.geojson')
-      .then(res => res.json())
+    getSubwayGeoJson()
       .then(data => {
         L.geoJSON(data, {
           pointToLayer: (feature, latlng) => {
@@ -252,8 +269,8 @@ export default function TravelMap({
         fillColor: '#2563eb',
         fillOpacity: 1,
         weight: 2,
-        zIndexOffset: 2000,
-        interactive: false
+        interactive: false,
+        // Note: zIndexOffset is a Marker option, not valid on CircleMarker
       }).addTo(map);
     } else {
       userMarkerRef.current.setLatLng(latlng);
@@ -264,79 +281,86 @@ export default function TravelMap({
     }
   }, [userLocation?.lat, userLocation?.lng, userLocation?.accuracy]);
 
-  // render markers + routes whenever state changes
+  // Stable marker adder — doesn't change between renders
+  const addMarker = useCallback((p: (typeof allPlaces)[number], target: L.LayerGroup | L.MarkerClusterGroup, opts: { dimmed: boolean; active: boolean; visited: boolean }) => {
+    const m = L.marker([p.lat, p.lng], { icon: placeIcon(p, opts), zIndexOffset: opts.active ? 1000 : 0 });
+    m.on("click", () => onSelectRef.current(p));
+    target.addLayer(m as unknown as L.Layer);
+  }, []);
+
+  // Effect 1: Render markers — runs when days, active filters, selected place, or visited state changes
   useEffect(() => {
     const map = mapRef.current;
     const cluster = clusterRef.current;
     const plain = plainLayerRef.current;
-    const routes = routeLayerRef.current;
-    if (!map || !cluster || !plain || !routes) return;
+    if (!map || !cluster || !plain) return;
 
     cluster.clearLayers();
     plain.clearLayers();
-    routes.clearLayers();
 
     const focus = selectedDayId;
-
-    // Which places are visible
     const visible = currentPlaces.filter((p) => {
       if (focus) return p.dayId === focus;
-      if (searchMatchIds) return true; // show all, dim non-matches
+      if (searchMatchIds) return true;
       return activeDayIds.has(p.dayId);
     });
 
-    const addMarker = (p: (typeof allPlaces)[number], target: L.LayerGroup | L.MarkerClusterGroup) => {
-      const dimmed = !!searchMatchIds && !searchMatchIds.has(p.id);
-      const active = selectedPlaceId === p.id;
-      const visited = visitedIds.has(p.id);
-      const m = L.marker([p.lat, p.lng], { icon: placeIcon(p, { active, dimmed, visited }), zIndexOffset: active ? 1000 : 0 });
-      m.on("click", () => onSelectRef.current(p));
-      // No bindTooltip needed anymore since we embedded the label in the icon HTML
-      target.addLayer(m as unknown as L.Layer);
-    };
+    if (focus) {
+      visible.forEach((p) => addMarker(p, plain, {
+        dimmed: false,
+        active: selectedPlaceId === p.id,
+        visited: visitedIds.has(p.id),
+      }));
+    } else {
+      visible.forEach((p) => addMarker(p, cluster, {
+        dimmed: !!searchMatchIds && !searchMatchIds.has(p.id),
+        active: selectedPlaceId === p.id,
+        visited: visitedIds.has(p.id),
+      }));
+    }
+  }, [activeDayIds, selectedDayId, selectedPlaceId, searchMatchIds, visitedIds, days, currentPlaces, addMarker]);
+
+  // Effect 2: Render routes + arrows — does NOT depend on visitedIds, avoids recreating decorators on check-off
+  useEffect(() => {
+    const map = mapRef.current;
+    const routes = routeLayerRef.current;
+    if (!map || !routes) return;
+
+    routes.clearLayers();
+    const focus = selectedDayId;
 
     if (focus) {
-      // focus mode: plain markers + route for the selected day
-      const day = days.find((t) => t.id === focus)!;
+      const day = days.find((t) => t.id === focus);
+      if (!day) return;
       const ordered = [...day.places].sort((a, b) => a.order - b.order);
-      visible.forEach((p) => addMarker(p, plain));
       const latlngs = ordered.map((p) => [p.lat, p.lng]) as L.LatLngTuple[];
       const pline = L.polyline(latlngs, { color: day.color, weight: 4, opacity: 0.9, dashArray: "1 0" }).addTo(routes);
-      
-      // Vector arrows using polyline decorator
       L.polylineDecorator(pline, {
-        patterns: [
-          {
-            offset: '10%',
-            repeat: '100px',
-            symbol: L.Symbol.arrowHead({
-              pixelSize: 14,
-              polygon: true,
-              pathOptions: { stroke: true, weight: 2, color: day.color, fillOpacity: 1, fillColor: '#ffffff' }
-            })
-          }
-        ]
+        patterns: [{
+          offset: '10%',
+          repeat: '100px',
+          symbol: L.Symbol.arrowHead({
+            pixelSize: 14,
+            polygon: true,
+            pathOptions: { stroke: true, weight: 2, color: day.color, fillOpacity: 1, fillColor: '#ffffff' }
+          })
+        }]
       }).addTo(routes);
-
       if (latlngs.length && prevDayIdRef.current !== selectedDayId) {
         map.flyToBounds(L.latLngBounds(latlngs).pad(0.25), { duration: 0.4, maxZoom: 15 });
       }
       prevDayIdRef.current = selectedDayId || null;
     } else {
       prevDayIdRef.current = null;
-      // overview: clustered markers for active days
-      visible.forEach((p) => addMarker(p, cluster));
       if (showRoutes) {
-        days
-          .filter((t) => activeDayIds.has(t.id))
-          .forEach((t) => {
-            const ordered = [...t.places].sort((a, b) => a.order - b.order);
-            const latlngs = ordered.map((p) => [p.lat, p.lng]) as L.LatLngTuple[];
-            L.polyline(latlngs, { color: t.color, weight: 3, opacity: 0.55 }).addTo(routes);
-          });
+        days.filter((t) => activeDayIds.has(t.id)).forEach((t) => {
+          const ordered = [...t.places].sort((a, b) => a.order - b.order);
+          const latlngs = ordered.map((p) => [p.lat, p.lng]) as L.LatLngTuple[];
+          L.polyline(latlngs, { color: t.color, weight: 3, opacity: 0.55 }).addTo(routes);
+        });
       }
     }
-  }, [activeDayIds, selectedDayId, selectedPlaceId, showRoutes, searchMatchIds, visitedIds, days, currentPlaces]);
+  }, [activeDayIds, selectedDayId, showRoutes, days]);
 
   // pan to selected place removed to prevent map jump
 

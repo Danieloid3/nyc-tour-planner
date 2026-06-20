@@ -12,6 +12,7 @@ interface Props {
   showRoutes: boolean;
   searchMatchIds: Set<string> | null;
   userLocation?: GeolocationState;
+  visitedIds: Set<string>;
   onMapInstance?: (map: any) => void;
   onSelectPlace: (place: Place & { dayId: string }) => void;
 }
@@ -22,7 +23,7 @@ export default function MapView(props: Props) {
   useEffect(() => {
     let mounted = true;
     import("./TravelMap").then((m) => {
-      if (mounted) setComp(() => m.default);
+      if (mounted) setComp(() => m.default as unknown as ComponentType<Props>);
     });
     return () => {
       mounted = false;
