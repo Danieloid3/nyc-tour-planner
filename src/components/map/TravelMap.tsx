@@ -152,26 +152,53 @@ export default function TravelMap({
     };
 
     const CloseRouteControl = L.Control.extend({
-      options: { position: 'topright' },
+      options: { 
+        position: 'topright',
+        bgColor: 'var(--card, #fff)',
+        textColor: 'var(--foreground, #000)'
+      },
       onAdd: function () {
         const btn = L.DomUtil.create('button', 'custom-close-subway-btn');
-        btn.innerHTML = '✕ Cerrar ruta de metro';
-        btn.style.backgroundColor = 'var(--card, #fff)';
-        btn.style.color = 'var(--foreground, #000)';
-        btn.style.padding = '8px 12px';
-        btn.style.fontSize = '13px';
-        btn.style.fontWeight = '700';
-        btn.style.borderRadius = '20px';
-        btn.style.border = '2px solid var(--border, #e5e7eb)';
+        btn.innerHTML = '✕ Cerrar ruta';
+        btn.style.backgroundColor = this.options.bgColor;
+        btn.style.color = this.options.textColor;
+        btn.style.padding = '8px 16px';
+        btn.style.fontSize = '14px';
+        btn.style.fontWeight = '800';
+        btn.style.borderRadius = '24px';
+        btn.style.border = '2px solid rgba(255,255,255,0.2)';
         btn.style.cursor = 'pointer';
-        btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.15)';
+        btn.style.boxShadow = '0 8px 16px rgba(0,0,0,0.25)';
         btn.style.marginTop = '80px';
         btn.style.marginRight = '12px';
+        btn.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        btn.style.opacity = '0';
+        btn.style.transform = 'translateX(20px) scale(0.9)';
+        
+        setTimeout(() => {
+          btn.style.opacity = '1';
+          btn.style.transform = 'translateX(0) scale(1)';
+        }, 10);
         
         L.DomEvent.on(btn, 'click', function (e) {
           L.DomEvent.stopPropagation(e);
-          clearSubwayLine();
+          btn.style.opacity = '0';
+          btn.style.transform = 'scale(0.8)';
+          setTimeout(() => {
+            clearSubwayLine();
+          }, 200);
         });
+
+        L.DomEvent.on(btn, 'mouseover', () => {
+          btn.style.transform = 'translateY(-2px) scale(1.05)';
+          btn.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+        });
+        
+        L.DomEvent.on(btn, 'mouseout', () => {
+          btn.style.transform = 'translateY(0) scale(1)';
+          btn.style.boxShadow = '0 8px 16px rgba(0,0,0,0.25)';
+        });
+
         // Prevent map clicks when clicking the button
         L.DomEvent.disableClickPropagation(btn);
         
@@ -311,7 +338,10 @@ export default function TravelMap({
                   lineCap: 'round'
                 }).addTo(map);
 
-                subwayCloseControlRef.current = new CloseRouteControl();
+                subwayCloseControlRef.current = new CloseRouteControl({
+                  bgColor: primaryColor,
+                  textColor: primaryTextColor
+                });
                 map.addControl(subwayCloseControlRef.current);
               }
             });
