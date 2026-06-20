@@ -98,6 +98,7 @@ export default function TravelMap({
   const routeLayerRef = useRef<L.LayerGroup | null>(null);
   const userMarkerRef = useRef<L.CircleMarker | null>(null);
   const userAccuracyRef = useRef<L.Circle | null>(null);
+  const subwayPolylineRef = useRef<L.Polyline | null>(null);
   const onSelectRef = useRef(onSelectPlace);
   onSelectRef.current = onSelectPlace;
 
@@ -226,6 +227,55 @@ export default function TravelMap({
               className: 'custom-subway-popup rounded-2xl overflow-hidden'
             });
             
+            (marker as any).feature = feature;
+            
+            marker.on('click', () => {
+              if (subwayPolylineRef.current) {
+                map.removeLayer(subwayPolylineRef.current);
+                subwayPolylineRef.current = null;
+              }
+              
+              // We'll match against the specific primary line (e.g. '1', 'A')
+              const sameLineMarkers = allSubwayMarkers.filter(m => {
+                const f = (m as any).feature;
+                if (!f) return false;
+                // Properties line might look like '1-2' or 'A-C-E'. We split and check if it includes our primary line
+                const lines = f.properties.line.split('-').map((l: string) => l.replace(/ Express/i, '').trim());
+                return lines.includes(primaryLine);
+              });
+              
+              if (sameLineMarkers.length > 1) {
+                let unvisited = [...sameLineMarkers];
+                unvisited.sort((a,b) => b.getLatLng().lat - a.getLatLng().lat);
+                
+                const sorted = [unvisited.shift() as L.Marker];
+                
+                while (unvisited.length > 0) {
+                  const last = sorted[sorted.length - 1].getLatLng();
+                  let closestIdx = 0;
+                  let minDist = Infinity;
+                  for (let i = 0; i < unvisited.length; i++) {
+                    const dist = last.distanceTo(unvisited[i].getLatLng());
+                    if (dist < minDist) {
+                      minDist = dist;
+                      closestIdx = i;
+                    }
+                  }
+                  sorted.push(unvisited[closestIdx]);
+                  unvisited.splice(closestIdx, 1);
+                }
+                
+                const latlngs = sorted.map(m => m.getLatLng());
+                subwayPolylineRef.current = L.polyline(latlngs, {
+                  color: primaryColor,
+                  weight: 5,
+                  opacity: 0.8,
+                  dashArray: '1, 10',
+                  lineCap: 'round'
+                }).addTo(map);
+              }
+            });
+            
             allSubwayMarkers.push(marker);
             return marker;
           }
@@ -235,6 +285,16 @@ export default function TravelMap({
       .catch(e => console.error('Error loading subways', e));
 
     map.on('moveend', updateSubwayVisibility);
+
+    const clearSubwayLine = () => {
+      if (subwayPolylineRef.current) {
+        map.removeLayer(subwayPolylineRef.current);
+        subwayPolylineRef.current = null;
+      }
+    };
+
+    map.on('popupclose', clearSubwayLine);
+    map.on('click', clearSubwayLine);
 
     map.on('zoomend', () => {
       const z = map.getZoom();
