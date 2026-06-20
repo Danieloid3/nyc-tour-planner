@@ -60,7 +60,7 @@ export default function Onboarding({ forceShow, onComplete }: { forceShow?: bool
     {
       icon: <Heart className="h-12 w-12 text-red-500 animate-pulse" />,
       bg: "bg-red-500/10",
-      title: "Bienvenidos a Nueva York",
+      title: "¡Bienvenidos a Nueva York!",
       description: "Les he preparado esta guía con muchísimo amor para que su viaje a Nueva York sea inolvidable y sin preocupaciones."
     },
     {

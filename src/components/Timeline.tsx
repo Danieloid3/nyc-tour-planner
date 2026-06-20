@@ -36,7 +36,7 @@ function PlaceItemCard({ p, dayId, distToNext, progress, onSelectPlace, isDraggi
   }
 
   return (
-    <div className={`relative flex gap-3 transition-all duration-300 ${visited && !isOverlay ? 'opacity-50' : 'opacity-100'} ${isOverlay ? 'bg-card/95 backdrop-blur-md rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] ring-2 ring-primary/60 p-4 -ml-4 scale-[1.03] rotate-2' : ''}`}>
+    <div className={`relative flex gap-3 transition-all duration-300 ${visited && !isOverlay ? 'opacity-50' : 'opacity-100'} ${isOverlay ? 'will-change-transform bg-card/95 backdrop-blur-md rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] ring-2 ring-primary/60 p-4 -ml-4 scale-[1.03]' : ''}`}>
       {/* drag handle */}
       <div className="flex flex-col justify-start pt-1.5" {...attributes} {...listeners} style={{ touchAction: 'none' }}>
         <GripVertical className={`h-6 w-6 cursor-grab active:cursor-grabbing transition-colors ${isOverlay ? 'text-primary' : 'text-muted-foreground/30 hover:text-foreground'}`} />
