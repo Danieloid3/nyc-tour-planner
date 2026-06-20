@@ -7,6 +7,8 @@ import { googleMapsLink, googleMapsNavigationLink, haversine, formatDistance, wa
 import type { GeolocationState } from "@/hooks/use-geolocation";
 import type { useProgress } from "@/hooks/use-progress";
 import { usePlaceImages } from "@/hooks/use-place-images";
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import useEmblaCarousel from "embla-carousel-react";
 
 interface Props {
   place: (Place & { dayId: string }) | null;
@@ -18,21 +20,12 @@ interface Props {
 
 export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress }: Props) {
   const isOpen = !!place;
-  const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
-  const closingFullscreenRef = React.useRef(false);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const { images, loading } = usePlaceImages(place?.name);
 
-  const closeFullscreen = React.useCallback(() => {
-    closingFullscreenRef.current = true;
-    setFullscreenIndex(null);
-    setTimeout(() => {
-      closingFullscreenRef.current = false;
-    }, 200);
-  }, []);
-
-  // Clear fullscreen image when place changes or closes
+  // Clear expanded image when place changes or closes
   React.useEffect(() => {
-    setFullscreenIndex(null);
+    setExpandedIndex(null);
   }, [place?.id]);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -48,24 +41,6 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
     }
   }, [place?.id, isOpen]);
 
-  // Handle Android back button for Fullscreen Image
-  React.useEffect(() => {
-    if (fullscreenIndex !== null && window.location.hash !== '#image') {
-      window.history.pushState(null, '', window.location.pathname + window.location.search + '#image');
-    } else if (fullscreenIndex === null && window.location.hash === '#image') {
-      window.history.back();
-    }
-  }, [fullscreenIndex]);
-
-  React.useEffect(() => {
-    const onHashChange = () => {
-      if (window.location.hash !== '#image' && fullscreenIndex !== null) {
-        closeFullscreen();
-      }
-    };
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, [fullscreenIndex]);
 
   if (!place) {
     return (
@@ -98,7 +73,7 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
     : null;
 
   const mainImage = images.length > 0 ? images[0] : null;
-  const galleryImages = images.length > 1 ? images.slice(1) : [];
+  const galleryImages = images;
 
   return (
     <>
@@ -106,28 +81,24 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
         <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-[9998] bg-black/60 transition-all" />
         <Drawer.Content 
-          onInteractOutside={(e) => {
-            if (fullscreenIndex !== null || closingFullscreenRef.current) {
-              e.preventDefault();
-            }
-          }}
-          className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] border-t border-border bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden will-change-transform"
+          className="fixed bottom-0 left-0 right-0 z-[9999] mt-24 flex h-[85vh] flex-col rounded-t-[32px] bg-card shadow-[0_-10px_40px_rgba(0,0,0,0.1)] outline-none sm:mx-auto sm:max-w-md overflow-hidden will-change-transform"
         >
           {/* Header background with image */}
           <div 
-            className="absolute top-0 left-0 right-0 h-[220px] z-10 transition-all duration-500 bg-muted cursor-pointer"
-            onClick={() => mainImage && setFullscreenIndex(0)}
+            className="absolute -top-1 -left-1 -right-1 h-[280px] z-10 transition-all duration-500 pointer-events-none rounded-t-[34px]"
             style={{ 
               backgroundImage: mainImage ? `url(${mainImage.thumb})` : `linear-gradient(180deg, ${day.color}30, transparent)`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 30%, transparent 60%)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 30%, transparent 60%)'
             }}
           >
-            {/* Gradient overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-card" />
+            {/* Dark overlay for top title readability */}
+            <div className="absolute inset-0 bg-black/40" />
             
             {loading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-muted/20 animate-pulse">
+              <div className="absolute inset-0 flex items-center justify-center animate-pulse">
                 <ImageIcon className="h-8 w-8 text-white/30" />
               </div>
             )}
@@ -178,24 +149,28 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                   <h3 className="mb-3 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-muted-foreground">
                     <ImageIcon className="h-4 w-4" /> Galería
                   </h3>
-                  <div className="flex w-full gap-3 overflow-x-auto pb-4 snap-x thin-scroll">
-                    {galleryImages.map((img, i) => (
-                      <div 
-                        key={i} 
-                        onClick={() => setFullscreenIndex(i + 1)}
-                        className="snap-center shrink-0 w-[140px] h-[100px] overflow-hidden rounded-2xl bg-muted shadow-sm relative group cursor-pointer"
-                      >
-                        <img 
-                          src={img.thumb} 
-                          alt={`${place.name} - ${i+1}`} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
+                  <Carousel opts={{ align: "start", dragFree: true }} className="w-full relative cursor-grab active:cursor-grabbing">
+                    <CarouselContent className="-ml-3">
+                      {galleryImages.map((img, i) => (
+                        <CarouselItem key={i} className="pl-3 basis-auto">
+                          <div 
+                            onClick={() => setExpandedIndex(i)}
+                            className="w-[140px] h-[100px] overflow-hidden rounded-2xl bg-muted shadow-sm relative group cursor-pointer"
+                          >
+                            <img 
+                              src={img.thumb} 
+                              alt={`${place.name} - ${i+1}`} 
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none" 
+                              loading="lazy"
+                            />
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                  </Carousel>
                 </div>
               )}
+
 
               {place.seeWhat && place.seeWhat.length > 0 && (
                 <div>
@@ -304,46 +279,74 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
               </a>
             </div>
           </div>
+
+          {expandedIndex !== null && (
+            <ExpandedGalleryViewer
+              images={galleryImages}
+              initialIndex={expandedIndex}
+              onClose={() => setExpandedIndex(null)}
+            />
+          )}
         </Drawer.Content>
       </Drawer.Portal>
     </Drawer.Root>
 
-      {/* Fullscreen Image Viewer */}
-      {fullscreenIndex !== null && images.length > 0 && (
-        <SingleImageViewer 
-          image={images[fullscreenIndex]} 
-          onClose={closeFullscreen} 
-        />
-      )}
     </>
   );
 }
 
-// Subcomponent for the full-screen image viewer
-function SingleImageViewer({ image, onClose }: { image: any, onClose: () => void }) {
+// Subcomponent for the expanded image viewer inside the drawer
+function ExpandedGalleryViewer({ images, initialIndex, onClose }: { images: any[], initialIndex: number, onClose: () => void }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "center", startIndex: initialIndex, loop: true });
+  const [current, setCurrent] = React.useState(initialIndex);
+
+  React.useEffect(() => {
+    if (!emblaApi) return;
+    setCurrent(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", () => {
+      setCurrent(emblaApi.selectedScrollSnap());
+    });
+  }, [emblaApi]);
+
   return (
     <div 
-      className="fixed inset-0 z-[10000] flex flex-col bg-black/95 animate-fade-in"
+      className="absolute inset-0 z-[1000] flex flex-col bg-black/40 backdrop-blur-md animate-fade-in rounded-t-[32px] overflow-hidden"
       onClick={(e) => { e.stopPropagation(); onClose(); }}
     >
       <div className="absolute top-6 right-6 z-10">
         <button 
-          className="p-3 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg"
+          className="p-3 rounded-full bg-white/20 text-white hover:bg-white/40 transition active:scale-95 pointer-events-auto shadow-lg backdrop-blur-md"
           onClick={(e) => { e.stopPropagation(); onClose(); }}
         >
           <X className="h-6 w-6" />
         </button>
       </div>
+
+      <div className="absolute top-6 left-6 z-10 text-white font-bold text-[13px] drop-shadow-md bg-black/30 backdrop-blur-md px-4 py-1.5 rounded-full pointer-events-none">
+        {current + 1} / {images.length}
+      </div>
       
       <div 
-        className="flex-1 flex items-center justify-center p-4 relative"
-        onClick={(e) => e.stopPropagation()}
+        className="flex-1 w-full h-full relative overflow-hidden"
+        ref={emblaRef}
       >
-        <img 
-          src={image.url} 
-          className="max-w-full max-h-[90vh] object-contain shadow-2xl animate-in fade-in zoom-in-95 duration-200 rounded-lg" 
-          alt="Fullscreen view"
-        />
+        <div className="flex w-full h-full items-center cursor-grab active:cursor-grabbing">
+          {images.map((img, i) => (
+            <div 
+              key={i} 
+              className="flex-[0_0_100%] min-w-0 h-full flex items-center justify-center p-4"
+              onClick={() => onClose()}
+            >
+              <img 
+                src={img.url} 
+                className="max-w-full max-h-full object-contain rounded-xl shadow-2xl drop-shadow-2xl" 
+                alt={`Expanded view ${i + 1}`}
+                draggable={false}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

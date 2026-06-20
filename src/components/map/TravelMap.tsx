@@ -1,13 +1,14 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet.markercluster";
 import "leaflet-polylinedecorator";
-import { days, allPlaces, type Place } from "@/data/itinerary";
+import { allPlaces, type Place, type DayPlan } from "@/data/itinerary";
 import type { Theme } from "@/hooks/use-theme";
 import type { GeolocationState } from "@/hooks/use-geolocation";
 
 interface TravelMapProps {
   theme: Theme;
+  days: DayPlan[];
   activeDayIds: Set<string>;
   selectedDayId: string | null;
   selectedPlaceId: string | null;
@@ -50,14 +51,15 @@ function placeIcon(p: (typeof allPlaces)[number], opts: { active?: boolean; dimm
   return L.divIcon({
     className: "",
     html: `<div class="${cls}" style="background:${p.dayColor}">${content}</div>${label}`,
-    iconSize: [34, 34],
-    iconAnchor: [17, 34],
-    popupAnchor: [0, -34],
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -20],
   });
 }
 
 export default function TravelMap({
   theme,
+  days,
   activeDayIds,
   selectedDayId,
   selectedPlaceId,
@@ -68,6 +70,7 @@ export default function TravelMap({
   onMapInstance,
   onSelectPlace,
 }: TravelMapProps) {
+  const currentPlaces = React.useMemo(() => days.flatMap((d) => d.places.map((p) => ({ ...p, dayId: d.id, dayColor: d.color }))), [days]);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const tileRef = useRef<L.TileLayer | null>(null);
@@ -121,35 +124,66 @@ export default function TravelMap({
       .then(data => {
         L.geoJSON(data, {
           pointToLayer: (feature, latlng) => {
-            const line = feature.properties?.line || '';
-            const name = feature.properties?.name || '';
+            const { name, line } = feature.properties;
             
-            let color = '#808183';
-            const l = line.split('-')[0];
-            if (['A', 'C', 'E'].includes(l)) color = '#0039A6';
-            else if (['B', 'D', 'F', 'M'].includes(l)) color = '#FF6319';
-            else if (['G'].includes(l)) color = '#6CBE45';
-            else if (['J', 'Z'].includes(l)) color = '#996633';
-            else if (['L'].includes(l)) color = '#A7A9AC';
-            else if (['N', 'Q', 'R', 'W'].includes(l)) color = '#FCCC0A';
-            else if (['1', '2', '3'].includes(l)) color = '#EE352E';
-            else if (['4', '5', '6'].includes(l)) color = '#00933C';
-            else if (['7'].includes(l)) color = '#B933AD';
+            const getMtaColor = (l: string) => {
+              const lineId = l.replace(/ Express/i, '').trim();
+              if (['A', 'C', 'E'].includes(lineId)) return { bg: '#0039A6', text: '#FFFFFF' };
+              if (['B', 'D', 'F', 'M'].includes(lineId)) return { bg: '#FF6319', text: '#FFFFFF' };
+              if (['G'].includes(lineId)) return { bg: '#6CBE45', text: '#FFFFFF' };
+              if (['J', 'Z'].includes(lineId)) return { bg: '#996633', text: '#FFFFFF' };
+              if (['L', 'S'].includes(lineId)) return { bg: '#A7A9AC', text: '#FFFFFF' };
+              if (['N', 'Q', 'R', 'W'].includes(lineId)) return { bg: '#FCCC0A', text: '#000000' };
+              if (['1', '2', '3'].includes(lineId)) return { bg: '#EE352E', text: '#FFFFFF' };
+              if (['4', '5', '6'].includes(lineId)) return { bg: '#00933C', text: '#FFFFFF' };
+              if (['7'].includes(lineId)) return { bg: '#B933AD', text: '#FFFFFF' };
+              return { bg: '#808183', text: '#FFFFFF' };
+            };
 
-            const svgTrain = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" class="subway-icon-svg"><path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg>`;
+            const primaryLine = line.split('-')[0].replace(/ Express/i, '').trim();
+            const { bg: primaryColor, text: primaryTextColor } = getMtaColor(primaryLine);
+
+            const svgTrain = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${primaryColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="subway-icon-svg bg-background/80 rounded backdrop-blur-sm"><rect width="16" height="16" x="4" y="3" rx="2"></rect><path d="M4 11h16"></path><path d="M12 3v8"></path><path d="m8 19-2 3"></path><path d="m18 22-2-3"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>`;
+
+            const linesHtml = line.split('-').map((l: string) => {
+              const rawL = l.trim();
+              const cleanL = rawL.replace(/ Express/i, '').trim();
+              const { bg, text } = getMtaColor(cleanL);
+              const displayTxt = rawL.toLowerCase().includes('express') ? cleanL + 'X' : cleanL;
+              
+              return `<span style="display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; min-width:24px; border-radius:50%; background-color:${bg}; color:${text}; font-size:${displayTxt.length > 1 ? '11px' : '13px'}; font-weight:bold; margin-right:4px; box-shadow: 0 1px 2px rgba(0,0,0,0.15); line-height:1;">${displayTxt}</span>`;
+            }).join('');
+
+            const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${latlng.lat},${latlng.lng}`;
+
+            const popupHtml = `
+              <div style="padding: 16px 18px; min-width: 180px; max-width: 280px; box-sizing: border-box;">
+                <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700; color: var(--foreground); border-bottom: 1px solid var(--border); padding-bottom: 12px; line-height: 1.3; word-wrap: break-word; white-space: normal; display: flex; align-items: center; gap: 8px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6; flex-shrink: 0;"><rect width="16" height="16" x="4" y="3" rx="2"></rect><path d="M4 11h16"></path><path d="M12 3v8"></path><path d="m8 19-2 3"></path><path d="m18 22-2-3"></path><path d="M8 15h.01"></path><path d="M16 15h.01"></path></svg>
+                  <span style="flex: 1;">${name}</span>
+                </h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px;">
+                  ${linesHtml}
+                </div>
+                <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center justify-center gap-2 w-full py-2.5 px-3 hover:opacity-90 active:scale-95 transition-all rounded-xl text-[14px] font-bold shadow-md" style="text-decoration:none; background-color:${primaryColor}; color:${primaryTextColor};">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Llevarme hasta aquí
+                </a>
+              </div>
+            `;
 
             const marker = L.marker(latlng, {
               icon: L.divIcon({
                 className: 'subway-icon-wrapper',
                 html: svgTrain,
                 iconSize: [24, 24],
-                iconAnchor: [12, 12]
+                iconAnchor: [12, 12],
+                popupAnchor: [0, -12]
               }),
               zIndexOffset: -500 // Subways stay beneath places
-            }).bindTooltip(`<div style="text-align:center"><strong>${name}</strong><br/><span style="font-size:11px;color:#888">Líneas: ${line}</span></div>`, { 
-              direction: 'top', 
-              offset: [0, -10],
-              className: 'subway-tooltip'
+            }).bindPopup(popupHtml, {
+              className: 'custom-subway-popup rounded-2xl overflow-hidden'
             });
             
             return marker;
@@ -166,8 +200,8 @@ export default function TravelMap({
         else el.classList.remove('show-labels');
         
         el.classList.remove('map-zoom-low', 'map-zoom-mid', 'map-zoom-high');
-        if (z <= 12) el.classList.add('map-zoom-low');
-        else if (z <= 14) el.classList.add('map-zoom-mid');
+        if (z <= 13) el.classList.add('map-zoom-low');
+        else if (z === 14) el.classList.add('map-zoom-mid');
         else el.classList.add('map-zoom-high');
       }
     });
@@ -245,7 +279,7 @@ export default function TravelMap({
     const focus = selectedDayId;
 
     // Which places are visible
-    const visible = allPlaces.filter((p) => {
+    const visible = currentPlaces.filter((p) => {
       if (focus) return p.dayId === focus;
       if (searchMatchIds) return true; // show all, dim non-matches
       return activeDayIds.has(p.dayId);
@@ -302,7 +336,7 @@ export default function TravelMap({
           });
       }
     }
-  }, [activeDayIds, selectedDayId, selectedPlaceId, showRoutes, searchMatchIds, visitedIds]);
+  }, [activeDayIds, selectedDayId, selectedPlaceId, showRoutes, searchMatchIds, visitedIds, days, currentPlaces]);
 
   // pan to selected place removed to prevent map jump
 
@@ -310,7 +344,7 @@ export default function TravelMap({
   useEffect(() => {
     const map = mapRef.current;
     if (!map || selectedDayId) return;
-    const visible = allPlaces.filter((p) => activeDayIds.has(p.dayId));
+    const visible = currentPlaces.filter((p) => activeDayIds.has(p.dayId));
     if (visible.length === 0) {
       map.flyTo(MANHATTAN, 13, { duration: 0.4 });
       return;
@@ -318,7 +352,7 @@ export default function TravelMap({
     const b = L.latLngBounds(visible.map((p) => [p.lat, p.lng] as L.LatLngTuple));
     map.flyToBounds(b.pad(0.15), { duration: 0.4, maxZoom: 13 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDayId]);
+  }, [selectedDayId, currentPlaces]);
 
   return <div ref={containerRef} className="h-full w-full" />;
 }

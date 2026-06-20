@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
 import { Map as MapIcon, ListOrdered, Moon, Sun, Compass, SlidersHorizontal } from "lucide-react";
-import { allPlaces, days, type Place } from "@/data/itinerary";
+import { allPlaces, type Place } from "@/data/itinerary";
+import { useItinerary } from "@/hooks/use-itinerary";
 import { useTheme } from "@/hooks/use-theme";
 import MapView from "@/components/map/MapView";
 import { Sidebar } from "@/components/Sidebar";
@@ -34,23 +35,30 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const ALL_DAY_IDS = new Set(days.map((t) => t.id));
-
 function Index() {
+  const { days, reorderPlaces, resetOrder } = useItinerary();
+  const ALL_DAY_IDS = useMemo(() => new Set(days.map((t) => t.id)), [days]);
+
   const { theme, toggle } = useTheme();
   // La vista principal por defecto ahora es la lista de días (timeline)
   const [view, setView] = useState<"map" | "timeline">("timeline");
   // Por defecto, solo el Día 1 está activo en el mapa para evitar saturación de puntos
-  const [activeDayIds, setActiveDayIds] = useState<Set<string>>(new Set([days[0].id]));
+  const [activeDayIds, setActiveDayIds] = useState<Set<string>>(new Set([days[0]?.id || "1"]));
   const [selectedDayId, setSelectedDayId] = useState<string | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<(Place & { dayId: string }) | null>(null);
   const [showRoutes, setShowRoutes] = useState(false);
   const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set());
   const [mapInstance, setMapInstance] = useState<any>(null);
   
-  const [onboardingDone, setOnboardingDone] = useState(() => {
-    return typeof window !== 'undefined' ? localStorage.getItem('nyc-onboarding-seen') === 'true' : true;
-  });
+  const [onboardingDone, setOnboardingDone] = useState(false);
+  useEffect(() => {
+    const checkOnboarding = () => {
+      if (localStorage.getItem('nyc-onboarding-seen-v4')) {
+        setOnboardingDone(true);
+      }
+    };
+    checkOnboarding();
+  }, []);
 
   const userLocation = useGeolocation();
   const progress = useProgress();
@@ -234,6 +242,7 @@ function Index() {
           <>
             <MapView
               theme={theme}
+              days={days}
               activeDayIds={activeDayIds}
               selectedDayId={selectedDayId}
               selectedPlaceId={selectedPlace?.id ?? null}
@@ -264,7 +273,10 @@ function Index() {
           <div className="h-full w-full overflow-y-auto thin-scroll pt-24 px-4 pb-12">
              <div className="mx-auto max-w-4xl">
                <Timeline 
-                 onSelectDay={(id) => focusDay(id)} 
+                 days={days}
+                 onReorderPlaces={reorderPlaces}
+                 onResetOrder={resetOrder}
+                 onSelectDay={(id) => focusDay(id)}
                  onSelectPlace={selectPlace}
                  progress={progress} 
                  selectedDayId={selectedPlace?.dayId || selectedDayId} 

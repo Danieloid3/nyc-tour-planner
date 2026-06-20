@@ -15,7 +15,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const seen = localStorage.getItem('nyc-onboarding-seen');
+    const seen = localStorage.getItem('nyc-onboarding-seen-v4');
     if (!seen) {
       setTimeout(() => setIsVisible(true), 500);
     }
@@ -36,7 +36,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
-      localStorage.setItem('nyc-onboarding-seen', 'true');
+      localStorage.setItem('nyc-onboarding-seen-v4', 'true');
       setIsVisible(false);
       onComplete?.();
     }, 400); // Wait for fade out animation
@@ -54,32 +54,38 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
     {
       icon: <Heart className="h-12 w-12 text-red-500 animate-pulse" />,
       bg: "bg-red-500/10",
-      title: "¡Bienvenidos a Nueva York!",
-      description: "Esta guía fue hecha especialmente para ustedes. Aquí tienen todo su viaje organizado, sin estrés y de forma muy fácil."
+      title: "¡Hola papás!",
+      description: "Les he preparado esta guía con muchísimo amor para que su viaje a Nueva York sea inolvidable y sin preocupaciones."
     },
     {
       icon: <List className="h-12 w-12 text-blue-500" />,
       bg: "bg-blue-500/15",
-      title: "1. Su Itinerario",
-      description: "En la pantalla principal verán la lista de días. Solo toquen el día de hoy y verán todos los lugares que visitarán."
+      title: "1. Su plan de cada día",
+      description: "Aquí está todo organizadito. Solo tienen que tocar el día de hoy para ver qué aventuras les esperan."
     },
     {
       icon: <MapPin className="h-12 w-12 text-emerald-500" />,
       bg: "bg-emerald-500/15",
-      title: "2. Nunca se perderán",
-      description: "En el Mapa, el punto azul son ustedes. Si mueven el mapa y se pierden, toquen el botón de la esquina para volver a su ubicación."
+      title: "2. Su guía personal",
+      description: "En el mapa, el punto azul son ustedes. Si se sienten perdidos, toquen el botón de la esquina y el mapa los centrará de nuevo."
     },
     {
       icon: <Navigation className="h-12 w-12 text-amber-500" />,
       bg: "bg-amber-500/15",
-      title: "3. ¿Cómo llegar?",
-      description: "Al tocar cualquier lugar, verán un botón que dice 'Llévame hasta aquí'. Los guiará paso a paso caminando o en metro."
+      title: "3. ¿Cómo ir al destino?",
+      description: "Toquen cualquier lugar y pulsen el botón 'Llévame hasta aquí'. Les mostrará el camino exacto para llegar caminando o en metro."
+    },
+    {
+      icon: <List className="h-12 w-12 text-teal-500" />,
+      bg: "bg-teal-500/15",
+      title: "4. A su propio ritmo",
+      description: "¿Quieren cambiar de planes? No hay problema. Mantengan presionado cualquier lugar en la lista y arrástrenlo para cambiar el orden."
     },
     {
       icon: <CheckCircle2 className="h-12 w-12 text-purple-500" />,
       bg: "bg-purple-500/15",
-      title: "¡A disfrutar!",
-      description: "Marquen con un ✔️ los lugares que ya visitaron. Relájense, sigan la ruta y tómense muchas fotos hermosas. ¡Buen viaje!"
+      title: "5. Marquen su progreso",
+      description: "Toquen el círculo junto a cada lugar que visiten para marcarlo como completado. ¡Relájense, cómanse algo rico y tómense muchas fotos hermosas!"
     }
   ];
 

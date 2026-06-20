@@ -1,10 +1,11 @@
 import { useEffect, useState, type ComponentType } from "react";
-import type { Place } from "@/data/itinerary";
+import type { Place, DayPlan } from "@/data/itinerary";
 import type { Theme } from "@/hooks/use-theme";
 import type { GeolocationState } from "@/hooks/use-geolocation";
 
 interface Props {
   theme: Theme;
+  days: DayPlan[];
   activeDayIds: Set<string>;
   selectedDayId: string | null;
   selectedPlaceId: string | null;
