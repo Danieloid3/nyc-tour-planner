@@ -99,6 +99,7 @@ export default function TravelMap({
   const userMarkerRef = useRef<L.CircleMarker | null>(null);
   const userAccuracyRef = useRef<L.Circle | null>(null);
   const subwayPolylineRef = useRef<L.Polyline | null>(null);
+  const subwayCloseControlRef = useRef<L.Control | null>(null);
   const onSelectRef = useRef(onSelectPlace);
   onSelectRef.current = onSelectPlace;
 
@@ -138,6 +139,45 @@ export default function TravelMap({
     // Add subway stations (from module-level cache)
     const subwayLayerRef = L.layerGroup();
     const allSubwayMarkers: L.Marker[] = [];
+
+    const clearSubwayLine = () => {
+      if (subwayPolylineRef.current) {
+        map.removeLayer(subwayPolylineRef.current);
+        subwayPolylineRef.current = null;
+      }
+      if (subwayCloseControlRef.current) {
+        map.removeControl(subwayCloseControlRef.current);
+        subwayCloseControlRef.current = null;
+      }
+    };
+
+    const CloseRouteControl = L.Control.extend({
+      options: { position: 'topright' },
+      onAdd: function () {
+        const btn = L.DomUtil.create('button', 'custom-close-subway-btn');
+        btn.innerHTML = '✕ Cerrar ruta de metro';
+        btn.style.backgroundColor = 'var(--card, #fff)';
+        btn.style.color = 'var(--foreground, #000)';
+        btn.style.padding = '8px 12px';
+        btn.style.fontSize = '13px';
+        btn.style.fontWeight = '700';
+        btn.style.borderRadius = '20px';
+        btn.style.border = '2px solid var(--border, #e5e7eb)';
+        btn.style.cursor = 'pointer';
+        btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.15)';
+        btn.style.marginTop = '12px';
+        btn.style.marginRight = '12px';
+        
+        L.DomEvent.on(btn, 'click', function (e) {
+          L.DomEvent.stopPropagation(e);
+          clearSubwayLine();
+        });
+        // Prevent map clicks when clicking the button
+        L.DomEvent.disableClickPropagation(btn);
+        
+        return btn;
+      }
+    });
 
     const updateSubwayVisibility = () => {
       const m = mapRef.current;
@@ -230,10 +270,7 @@ export default function TravelMap({
             (marker as any).feature = feature;
             
             marker.on('click', () => {
-              if (subwayPolylineRef.current) {
-                map.removeLayer(subwayPolylineRef.current);
-                subwayPolylineRef.current = null;
-              }
+              clearSubwayLine();
               
               // We'll match against the specific primary line (e.g. '1', 'A')
               const sameLineMarkers = allSubwayMarkers.filter(m => {
@@ -273,6 +310,9 @@ export default function TravelMap({
                   dashArray: '1, 10',
                   lineCap: 'round'
                 }).addTo(map);
+
+                subwayCloseControlRef.current = new CloseRouteControl();
+                map.addControl(subwayCloseControlRef.current);
               }
             });
             
@@ -285,16 +325,6 @@ export default function TravelMap({
       .catch(e => console.error('Error loading subways', e));
 
     map.on('moveend', updateSubwayVisibility);
-
-    const clearSubwayLine = () => {
-      if (subwayPolylineRef.current) {
-        map.removeLayer(subwayPolylineRef.current);
-        subwayPolylineRef.current = null;
-      }
-    };
-
-    map.on('popupclose', clearSubwayLine);
-    map.on('click', clearSubwayLine);
 
     map.on('zoomend', () => {
       const z = map.getZoom();
