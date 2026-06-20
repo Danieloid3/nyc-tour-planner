@@ -7,7 +7,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 
-export default function Onboarding({ onComplete }: { onComplete?: () => void }) {
+export default function Onboarding({ forceShow, onComplete }: { forceShow?: boolean; onComplete?: () => void }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [api, setApi] = useState<CarouselApi>();
@@ -15,11 +15,17 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const seen = localStorage.getItem('nyc-onboarding-seen-v4');
+    if (forceShow) {
+      setIsClosing(false);
+      setIsVisible(true);
+      if (api) api.scrollTo(0);
+      return;
+    }
+    const seen = localStorage.getItem('nyc-onboarding-seen-v5');
     if (!seen) {
       setTimeout(() => setIsVisible(true), 500);
     }
-  }, []);
+  }, [forceShow, api]);
 
   useEffect(() => {
     if (!api) return;
@@ -36,7 +42,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
-      localStorage.setItem('nyc-onboarding-seen-v4', 'true');
+      localStorage.setItem('nyc-onboarding-seen-v5', 'true');
       setIsVisible(false);
       onComplete?.();
     }, 400); // Wait for fade out animation
@@ -54,7 +60,7 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
     {
       icon: <Heart className="h-12 w-12 text-red-500 animate-pulse" />,
       bg: "bg-red-500/10",
-      title: "¡Hola papás!",
+      title: "Bienvenidos a Nueva York",
       description: "Les he preparado esta guía con muchísimo amor para que su viaje a Nueva York sea inolvidable y sin preocupaciones."
     },
     {
@@ -126,22 +132,32 @@ export default function Onboarding({ onComplete }: { onComplete?: () => void }) 
             ))}
           </div>
 
-          <button
-            onClick={nextSlide}
-            className="flex h-16 w-full items-center justify-center gap-2 rounded-2xl bg-foreground text-xl font-bold text-background shadow-lg transition hover:opacity-90 active:scale-95"
-          >
-            {current === count ? (
-              <>
-                <CheckCircle2 className="h-6 w-6" />
-                ¡Empezar el viaje!
-              </>
-            ) : (
-              <>
-                Siguiente
-                <ArrowRight className="h-6 w-6 ml-2" />
-              </>
+          <div className="flex w-full gap-3">
+            {current > 1 && (
+              <button
+                onClick={() => api?.scrollPrev()}
+                className="flex h-16 w-1/3 items-center justify-center rounded-2xl bg-secondary text-foreground font-bold shadow-sm transition hover:bg-secondary/80 active:scale-95"
+              >
+                Atrás
+              </button>
             )}
-          </button>
+            <button
+              onClick={nextSlide}
+              className={`flex h-16 ${current > 1 ? 'w-2/3' : 'w-full'} items-center justify-center gap-2 rounded-2xl bg-foreground text-xl font-bold text-background shadow-lg transition hover:opacity-90 active:scale-95`}
+            >
+              {current === count ? (
+                <>
+                  <CheckCircle2 className="h-6 w-6" />
+                  ¡Empezar el viaje!
+                </>
+              ) : (
+                <>
+                  Siguiente
+                  <ArrowRight className="h-6 w-6 ml-2" />
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

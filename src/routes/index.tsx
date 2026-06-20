@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
-import { Map as MapIcon, ListOrdered, Moon, Sun, Compass, SlidersHorizontal } from "lucide-react";
+import { Sun, Moon, SlidersHorizontal, Map as MapIcon, ListOrdered, CheckCircle2, ChevronRight, HelpCircle } from "lucide-react";
 import { allPlaces, type Place } from "@/data/itinerary";
 import { useItinerary } from "@/hooks/use-itinerary";
 import { useTheme } from "@/hooks/use-theme";
@@ -51,9 +51,10 @@ function Index() {
   const [mapInstance, setMapInstance] = useState<any>(null);
   
   const [onboardingDone, setOnboardingDone] = useState(false);
+  const [forceOnboarding, setForceOnboarding] = useState(false);
   useEffect(() => {
     const checkOnboarding = () => {
-      if (localStorage.getItem('nyc-onboarding-seen-v4')) {
+      if (localStorage.getItem('nyc-onboarding-seen-v5')) {
         setOnboardingDone(true);
       }
     };
@@ -158,7 +159,10 @@ function Index() {
 
   return (
     <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-background">
-      <Onboarding onComplete={() => setOnboardingDone(true)} />
+      <Onboarding forceShow={forceOnboarding} onComplete={() => {
+        setOnboardingDone(true);
+        setForceOnboarding(false);
+      }} />
       {/* Floating Top Bar */}
       {onboardingDone && (
         <header className="absolute left-4 right-4 top-4 z-[1000] flex items-center justify-between gap-3 pointer-events-none">
@@ -174,8 +178,7 @@ function Index() {
           >
             <img src="/pwa-192x192.png" className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl shadow object-cover" alt="Wander Logo" />
             <div className="pr-1 leading-tight">
-              <h1 className="text-xs sm:text-sm font-black tracking-tight text-foreground">Wander</h1>
-              <p className="hidden text-[10px] font-semibold text-muted-foreground sm:block">12 días de viaje</p>
+              <h1 className="text-sm font-black tracking-tight text-foreground">Wander</h1>
             </div>
           </button>
 
@@ -223,6 +226,14 @@ function Index() {
             <div className="flex items-center gap-1.5 sm:gap-2">
 
               <WeatherWidget />
+
+              <button
+                onClick={() => setForceOnboarding(true)}
+                className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-xl sm:rounded-2xl border border-border/50 bg-card text-foreground shadow-sm transition hover:bg-card active:scale-95"
+                aria-label="Ver tutorial"
+              >
+                <HelpCircle className="h-4 w-4" />
+              </button>
 
               <button
                 onClick={toggle}
