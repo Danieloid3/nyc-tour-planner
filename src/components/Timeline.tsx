@@ -6,7 +6,7 @@ import { CATEGORY_META } from "@/lib/categories";
 import { dayTotalDistance, formatDistance, walkingTime, haversine } from "@/lib/geo";
 import type { useProgress } from "@/hooks/use-progress";
 
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent, DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, DragEndEvent, DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable, defaultAnimateLayoutChanges } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -24,7 +24,7 @@ interface Props {
 const animateLayoutChanges = (args: any) => defaultAnimateLayoutChanges({ ...args, wasDragging: true });
 
 // Separate card component for both sortable item and overlay
-function PlaceItemCard({ p, dayId, distToNext, progress, onSelectPlace, isDragging, isOverlay, attributes, listeners }: any) {
+function PlaceItemCard({ p, dayId, distToNext, progress, onSelectPlace, isDragging, isOverlay }: any) {
   const PlaceIcon = CATEGORY_META[p.category as keyof typeof CATEGORY_META].icon;
   const visited = progress.isVisited(p.id);
 
@@ -38,9 +38,7 @@ function PlaceItemCard({ p, dayId, distToNext, progress, onSelectPlace, isDraggi
 
   return (
     <div 
-      className={`relative flex gap-3 transition-all duration-300 select-none cursor-grab active:cursor-grabbing ${visited && !isOverlay ? 'opacity-50' : 'opacity-100'} ${isOverlay ? 'will-change-transform bg-card/95 backdrop-blur-md rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] ring-2 ring-primary/60 p-4 -ml-4 scale-[1.03]' : ''}`}
-      {...attributes} 
-      {...listeners}
+      className={`relative flex gap-3 transition-all duration-300 ${visited && !isOverlay ? 'opacity-50' : 'opacity-100'} ${isOverlay ? 'will-change-transform bg-card/95 backdrop-blur-md rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] ring-2 ring-primary/60 p-4 -ml-4 scale-[1.03]' : ''}`}
     >
       {/* drag handle indicator */}
       <div className="flex flex-col justify-start pt-1.5">
@@ -109,7 +107,13 @@ function SortablePlaceItem({ p, dayId, next, distToNext, progress, onSelectPlace
   };
 
   return (
-    <div ref={setNodeRef} style={style} className={`relative z-[${isDragging ? 0 : 1}]`}>
+    <div 
+      ref={setNodeRef} 
+      style={style} 
+      className={`relative z-[${isDragging ? 0 : 1}] select-none cursor-grab active:cursor-grabbing touch-manipulation`}
+      {...attributes}
+      {...listeners}
+    >
       <PlaceItemCard 
         p={p} 
         dayId={dayId} 
@@ -118,8 +122,6 @@ function SortablePlaceItem({ p, dayId, next, distToNext, progress, onSelectPlace
         onSelectPlace={onSelectPlace} 
         isDragging={isDragging} 
         isOverlay={false} 
-        attributes={attributes} 
-        listeners={listeners} 
       />
     </div>
   );
@@ -192,6 +194,12 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
       activationConstraint: {
         delay: 250, // Requerir dejar presionado para mover
         tolerance: 5, // Permite un pequeño movimiento sin cancelar
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
       },
     }),
     useSensor(KeyboardSensor, {
@@ -422,8 +430,6 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
                 progress={progress} 
                 isDragging={true} 
                 isOverlay={true} 
-                attributes={{}} 
-                listeners={{}} 
               />
             ) : null}
           </DragOverlay>
