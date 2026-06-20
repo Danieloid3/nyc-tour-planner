@@ -135,7 +135,7 @@ export default function TravelMap({
     map.addLayer(clusterRef.current);
     
     // Add subway stations (from module-level cache)
-    const subwayLayerRef = L.layerGroup().addTo(map);
+    const subwayLayerRef = L.layerGroup();
 
     getSubwayGeoJson()
       .then(data => {
@@ -221,6 +221,12 @@ export default function TravelMap({
         else if (z === 14) el.classList.add('map-zoom-mid');
         else el.classList.add('map-zoom-high');
       }
+
+      if (z >= 14) {
+        if (!map.hasLayer(subwayLayerRef)) map.addLayer(subwayLayerRef);
+      } else {
+        if (map.hasLayer(subwayLayerRef)) map.removeLayer(subwayLayerRef);
+      }
     });
     
     // Trigger once to set initial classes
@@ -236,14 +242,8 @@ export default function TravelMap({
 
   // theme tiles
   useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !tileRef.current) return;
-    map.removeLayer(tileRef.current);
-    tileRef.current = L.tileLayer(TILE[theme], {
-      maxZoom: 19,
-      attribution: "&copy; OpenStreetMap, &copy; CARTO",
-    }).addTo(map);
-    tileRef.current.bringToBack();
+    if (!tileRef.current) return;
+    tileRef.current.setUrl(TILE[theme]);
   }, [theme]);
 
   // user location marker
@@ -281,11 +281,11 @@ export default function TravelMap({
     }
   }, [userLocation?.lat, userLocation?.lng, userLocation?.accuracy]);
 
-  // Stable marker adder — doesn't change between renders
-  const addMarker = useCallback((p: (typeof allPlaces)[number], target: L.LayerGroup | L.MarkerClusterGroup, opts: { dimmed: boolean; active: boolean; visited: boolean }) => {
+  // Stable marker creator
+  const createMarker = useCallback((p: (typeof allPlaces)[number], opts: { dimmed: boolean; active: boolean; visited: boolean }) => {
     const m = L.marker([p.lat, p.lng], { icon: placeIcon(p, opts), zIndexOffset: opts.active ? 1000 : 0 });
     m.on("click", () => onSelectRef.current(p));
-    target.addLayer(m as unknown as L.Layer);
+    return m;
   }, []);
 
   // Effect 1: Render markers — runs when days, active filters, selected place, or visited state changes
@@ -306,19 +306,21 @@ export default function TravelMap({
     });
 
     if (focus) {
-      visible.forEach((p) => addMarker(p, plain, {
+      const markers = visible.map((p) => createMarker(p, {
         dimmed: false,
         active: selectedPlaceId === p.id,
         visited: visitedIds.has(p.id),
       }));
+      markers.forEach(m => plain.addLayer(m));
     } else {
-      visible.forEach((p) => addMarker(p, cluster, {
+      const markers = visible.map((p) => createMarker(p, {
         dimmed: !!searchMatchIds && !searchMatchIds.has(p.id),
         active: selectedPlaceId === p.id,
         visited: visitedIds.has(p.id),
       }));
+      cluster.addLayers(markers);
     }
-  }, [activeDayIds, selectedDayId, selectedPlaceId, searchMatchIds, visitedIds, days, currentPlaces, addMarker]);
+  }, [activeDayIds, selectedDayId, selectedPlaceId, searchMatchIds, visitedIds, days, currentPlaces, createMarker]);
 
   // Effect 2: Render routes + arrows — does NOT depend on visitedIds, avoids recreating decorators on check-off
   useEffect(() => {
