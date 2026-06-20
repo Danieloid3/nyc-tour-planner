@@ -285,17 +285,6 @@ function buildSlides(): Slide[] {
             <span className="absolute inset-2 rounded-full opacity-10" style={{ background: c[0] }} />
             <Heart className="h-14 w-14 animate-pulse" style={{ color: c[0] }} />
           </div>
-          <div className="flex gap-2 mt-1">
-            {['🗽','🌆','🌉','🎭','🍕'].map((e, i) => (
-              <span
-                key={i}
-                className="text-2xl"
-                style={{ animationDelay: `${i * 150}ms`, animation: 'fadeInUp 0.5s ease both' }}
-              >
-                {e}
-              </span>
-            ))}
-          </div>
         </div>
       ),
     },
@@ -304,7 +293,7 @@ function buildSlides(): Slide[] {
       color: c[1],
       title: 'El plan de cada día',
       subtitle: 'Toquen un día para ver todos los lugares. Toquen el círculo para marcarlo como visitado ✓',
-      hint: '👆 Pruébenlo — toquen los círculos',
+      hint: 'Pruébenlo — toquen los círculos',
       visual: <PlaceListDemo color={c[1]} />,
     },
     {
@@ -359,7 +348,7 @@ function PlaceListDemo({ color }: { color: string }) {
       ))}
       {checked.every(Boolean) && (
         <div className="mt-1 flex items-center justify-center gap-2 rounded-xl bg-emerald-500/10 py-2 text-sm font-bold text-emerald-600 animate-fade-in-up border border-emerald-500/20">
-          <CheckCircle2 className="h-4 w-4" /> ¡Día completado! 🎉
+          <CheckCircle2 className="h-4 w-4" /> ¡Día completado!
         </div>
       )}
     </div>
@@ -441,13 +430,13 @@ export default function Onboarding({
         {/* Skip button */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 rounded-full px-3 py-1 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
+          className="absolute top-4 right-4 z-10 rounded-full px-3 py-1 text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
         >
           Saltar
         </button>
 
         {/* Content */}
-        <div className="px-6 pt-6 pb-4">
+        <div className="px-6 pt-10 pb-4">
           {/* Slide visual — keyed to re-mount on slide change */}
           <div
             key={slide.key}
