@@ -159,7 +159,7 @@ export default function TravelMap({
       },
       onAdd: function () {
         const btn = L.DomUtil.create('button', 'custom-close-subway-btn');
-        btn.innerHTML = '✕ Cerrar ruta';
+        btn.innerHTML = '✕ Cerrar ruta de Metro';
         btn.style.backgroundColor = this.options.bgColor;
         btn.style.color = this.options.textColor;
         btn.style.padding = '8px 16px';
