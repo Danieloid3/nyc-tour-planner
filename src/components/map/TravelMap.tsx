@@ -165,7 +165,7 @@ export default function TravelMap({
         btn.style.border = '2px solid var(--border, #e5e7eb)';
         btn.style.cursor = 'pointer';
         btn.style.boxShadow = '0 4px 10px rgba(0,0,0,0.15)';
-        btn.style.marginTop = '12px';
+        btn.style.marginTop = '80px';
         btn.style.marginRight = '12px';
         
         L.DomEvent.on(btn, 'click', function (e) {
