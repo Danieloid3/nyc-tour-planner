@@ -143,7 +143,7 @@ export default function TravelMap({
       if (!m) return;
       const z = m.getZoom();
       
-      if (z < 14) {
+      if (z < 15) {
         if (m.hasLayer(subwayLayerRef)) m.removeLayer(subwayLayerRef);
         return;
       }
@@ -207,7 +207,7 @@ export default function TravelMap({
                 </div>
                 <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" 
                    class="flex items-center justify-center gap-2 w-full py-2.5 px-3 hover:opacity-90 active:scale-95 transition-all rounded-xl text-[14px] font-bold shadow-md" style="text-decoration:none; background-color:${primaryColor}; color:${primaryTextColor};">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                   Llevarme hasta aquí
                 </a>
               </div>
@@ -244,8 +244,8 @@ export default function TravelMap({
         else el.classList.remove('show-labels');
         
         el.classList.remove('map-zoom-low', 'map-zoom-mid', 'map-zoom-high');
-        if (z <= 13) el.classList.add('map-zoom-low');
-        else if (z === 14) el.classList.add('map-zoom-mid');
+        if (z <= 14) el.classList.add('map-zoom-low');
+        else if (z === 15) el.classList.add('map-zoom-mid');
         else el.classList.add('map-zoom-high');
       }
       updateSubwayVisibility();
