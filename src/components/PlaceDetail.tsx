@@ -160,8 +160,9 @@ export function PlaceDetail({ place, onClose, onFocusDay, userLocation, progress
                             <img 
                               src={img.thumb} 
                               alt={`${place.name} - ${i+1}`} 
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none" 
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none will-change-transform" 
                               loading="lazy"
+                              decoding="async"
                             />
                           </div>
                         </CarouselItem>

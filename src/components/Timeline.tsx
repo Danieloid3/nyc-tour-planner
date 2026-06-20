@@ -5,7 +5,7 @@ import { CATEGORY_META } from "@/lib/categories";
 import { dayTotalDistance, formatDistance, walkingTime, haversine } from "@/lib/geo";
 import type { useProgress } from "@/hooks/use-progress";
 
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent, DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable, defaultAnimateLayoutChanges } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -22,7 +22,67 @@ interface Props {
 
 const animateLayoutChanges = (args: any) => defaultAnimateLayoutChanges({ ...args, wasDragging: true });
 
-// Inner component for sortable item
+// Separate card component for both sortable item and overlay
+function PlaceItemCard({ p, dayId, distToNext, progress, onSelectPlace, isDragging, isOverlay, attributes, listeners }: any) {
+  const PlaceIcon = CATEGORY_META[p.category as keyof typeof CATEGORY_META].icon;
+  const visited = progress.isVisited(p.id);
+
+  if (isDragging && !isOverlay) {
+    return (
+      <div className="w-full py-1">
+        <div className="h-[88px] w-full rounded-2xl border-2 border-dashed border-primary/50 bg-primary/5 animate-pulse" />
+      </div>
+    );
+  }
+
+  return (
+    <div className={`relative flex gap-3 transition-all duration-300 ${visited && !isOverlay ? 'opacity-50' : 'opacity-100'} ${isOverlay ? 'bg-card/95 backdrop-blur-md rounded-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] ring-2 ring-primary/60 p-4 -ml-4 scale-[1.03] rotate-2' : ''}`}>
+      {/* drag handle */}
+      <div className="flex flex-col justify-start pt-1.5" {...attributes} {...listeners} style={{ touchAction: 'none' }}>
+        <GripVertical className={`h-6 w-6 cursor-grab active:cursor-grabbing transition-colors ${isOverlay ? 'text-primary' : 'text-muted-foreground/30 hover:text-foreground'}`} />
+      </div>
+
+      {/* Checkbox column */}
+      <div className="flex flex-col items-center pt-0.5">
+        <button 
+          onClick={(e) => { e.stopPropagation(); progress.togglePlace(p.id); }}
+          className="group/check transition-transform active:scale-95"
+        >
+          {visited ? (
+            <CheckCircle2 className="h-6 w-6 text-primary fill-primary/20" />
+          ) : (
+            <Circle className="h-6 w-6 text-muted-foreground group-hover/check:text-primary transition-colors" />
+          )}
+        </button>
+        {distToNext !== null && !isOverlay && (
+          <div className="flex-1 w-0.5 border-l-2 border-dashed border-border my-1 min-h-[1.5rem]" />
+        )}
+      </div>
+      
+      {/* Content column */}
+      <div 
+        className="flex-1 pb-5 cursor-pointer"
+        onClick={() => onSelectPlace?.({ ...p, dayId })}
+      >
+        <h4 className={`text-[15px] font-bold leading-tight ${visited && !isOverlay ? 'line-through text-muted-foreground' : 'text-foreground hover:text-primary transition-colors'}`}>
+          {p.order}. {p.name}
+        </h4>
+        <p className="text-[13px] text-muted-foreground flex items-center gap-1.5 mt-1 font-medium">
+          <PlaceIcon className="h-3.5 w-3.5" /> {CATEGORY_LABELS[p.category as keyof typeof CATEGORY_LABELS]}
+        </p>
+
+        {/* Walking distance below */}
+        {distToNext !== null && !isOverlay && (
+          <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-secondary/80 px-3 py-1 text-[11px] font-bold text-secondary-foreground">
+            <Clock className="h-3 w-3" />
+            {formatDistance(distToNext)} · {walkingTime(distToNext)}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function SortablePlaceItem({ p, dayId, next, distToNext, progress, onSelectPlace }: any) {
   const {
     attributes,
@@ -35,69 +95,27 @@ function SortablePlaceItem({ p, dayId, next, distToNext, progress, onSelectPlace
     id: p.id, 
     data: { dayId },
     animateLayoutChanges,
-    transition: {
-      duration: 400,
-      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-    }
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition: transition || (isDragging ? 'none' : 'transform 400ms cubic-bezier(0.25, 1, 0.5, 1)'),
-    zIndex: isDragging ? 50 : 1,
-    position: isDragging ? 'relative' as const : 'static' as const,
+    transition: transition || 'transform 200ms cubic-bezier(0.2, 0, 0, 1)',
+    zIndex: isDragging ? 0 : 1,
   };
 
-  const PlaceIcon = CATEGORY_META[p.category as keyof typeof CATEGORY_META].icon;
-  const visited = progress.isVisited(p.id);
-
   return (
-    <div ref={setNodeRef} style={style} className={`relative z-[${isDragging ? 50 : 1}]`}>
-      <div className={`relative flex gap-3 transition-all duration-300 ${visited ? 'opacity-50' : 'opacity-100'} ${isDragging ? 'bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl ring-2 ring-primary/40 p-3 -ml-3 scale-[1.02] rotate-1' : ''}`}>
-        
-        {/* drag handle */}
-        <div className="flex flex-col justify-start pt-1.5" {...attributes} {...listeners} style={{ touchAction: 'none' }}>
-          <GripVertical className={`h-5 w-5 cursor-grab active:cursor-grabbing transition-colors ${isDragging ? 'text-primary' : 'text-muted-foreground/30 hover:text-foreground'}`} />
-        </div>
-
-        {/* Checkbox column (Left) */}
-        <div className="flex flex-col items-center pt-0.5">
-          <button 
-            onClick={() => progress.togglePlace(p.id)}
-            className="group/check transition-transform active:scale-95"
-          >
-            {visited ? (
-              <CheckCircle2 className="h-6 w-6 text-primary fill-primary/20" />
-            ) : (
-            <Circle className="h-6 w-6 text-muted-foreground group-hover/check:text-primary transition-colors" />
-          )}
-        </button>
-        {distToNext !== null && !isDragging && (
-          <div className="flex-1 w-0.5 border-l-2 border-dashed border-border my-1 min-h-[1.5rem]" />
-        )}
-      </div>
-      
-      {/* Content column (Right) */}
-      <div 
-        className="flex-1 pb-5 cursor-pointer"
-        onClick={() => onSelectPlace?.({ ...p, dayId })}
-      >
-        <h4 className={`text-[15px] font-bold leading-tight ${visited ? 'line-through text-muted-foreground' : 'text-foreground hover:text-primary transition-colors'}`}>
-          {p.order}. {p.name}
-        </h4>
-        <p className="text-[13px] text-muted-foreground flex items-center gap-1.5 mt-1 font-medium">
-          <PlaceIcon className="h-3.5 w-3.5" /> {CATEGORY_LABELS[p.category as keyof typeof CATEGORY_LABELS]}
-        </p>
-
-        {/* Walking distance below */}
-        {distToNext !== null && !isDragging && (
-          <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-secondary/80 px-3 py-1 text-[11px] font-bold text-secondary-foreground">
-            <Clock className="h-3 w-3" />
-            {formatDistance(distToNext)} · {walkingTime(distToNext)}
-          </div>
-        )}
-      </div>
-    </div>
+    <div ref={setNodeRef} style={style} className={`relative z-[${isDragging ? 0 : 1}]`}>
+      <PlaceItemCard 
+        p={p} 
+        dayId={dayId} 
+        distToNext={distToNext} 
+        progress={progress} 
+        onSelectPlace={onSelectPlace} 
+        isDragging={isDragging} 
+        isOverlay={false} 
+        attributes={attributes} 
+        listeners={listeners} 
+      />
     </div>
   );
 }
@@ -108,6 +126,8 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
     if (selectedDayId) init.add(selectedDayId);
     return init;
   });
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const activePlace = allPlaces.find(p => p.id === activeId);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -120,7 +140,12 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
     })
   );
 
+  const handleDragStart = (event: any) => {
+    setActiveId(event.active.id);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
+    setActiveId(null);
     const { active, over } = event;
     if (over && active.id !== over.id) {
       const activeData = active.data.current;
@@ -128,6 +153,10 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
         onReorderPlaces?.(activeData.dayId, active.id as string, over.id as string);
       }
     }
+  };
+
+  const handleDragCancel = () => {
+    setActiveId(null);
   };
 
   // Auto-scroll on mount if returning from map
@@ -182,7 +211,7 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
           </div>
         </div>
 
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={handleDragCancel}>
           <div className="relative space-y-4 before:absolute before:left-[19px] before:top-2 before:h-[calc(100%-1rem)] before:w-0.5 before:bg-border sm:before:left-[27px]">
             {days.map((t, i) => {
               const dist = dayTotalDistance([...t.places]); // Already sorted by useItinerary
@@ -317,6 +346,22 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
               );
             })}
           </div>
+          <DragOverlay dropAnimation={{
+            sideEffects: defaultDropAnimationSideEffects({ styles: { active: { opacity: '0.4' } } }),
+          }}>
+            {activePlace ? (
+              <PlaceItemCard 
+                p={activePlace} 
+                dayId={null} 
+                distToNext={null} 
+                progress={progress} 
+                isDragging={true} 
+                isOverlay={true} 
+                attributes={{}} 
+                listeners={{}} 
+              />
+            ) : null}
+          </DragOverlay>
         </DndContext>
 
         {/* Reset Progress Button */}
