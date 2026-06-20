@@ -6,7 +6,7 @@ import { CATEGORY_META } from "@/lib/categories";
 import { dayTotalDistance, formatDistance, walkingTime, haversine } from "@/lib/geo";
 import type { useProgress } from "@/hooks/use-progress";
 
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, TouchSensor, useSensor, useSensors, DragEndEvent, DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors, DragEndEvent, DragOverlay, defaultDropAnimationSideEffects } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable, defaultAnimateLayoutChanges } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
@@ -110,7 +110,7 @@ function SortablePlaceItem({ p, dayId, next, distToNext, progress, onSelectPlace
     <div 
       ref={setNodeRef} 
       style={style} 
-      className={`relative z-[${isDragging ? 0 : 1}] select-none cursor-grab active:cursor-grabbing touch-manipulation`}
+      className={`relative z-[${isDragging ? 0 : 1}] select-none cursor-grab active:cursor-grabbing`}
       {...attributes}
       {...listeners}
     >
@@ -190,15 +190,15 @@ export function Timeline({ days, onReorderPlaces, onResetOrder, onSelectDay, onS
   const activePlace = allPlaces.find(p => p.id === activeId);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
-        delay: 250, // Requerir dejar presionado para mover
-        tolerance: 5, // Permite un pequeño movimiento sin cancelar
+        delay: 250, // Requerir dejar presionado para mover en PC
+        tolerance: 5,
       },
     }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 250,
+        delay: 250, // Requerir dejar presionado para mover en movil
         tolerance: 5,
       },
     }),
